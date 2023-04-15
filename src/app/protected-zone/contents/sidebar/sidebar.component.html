@@ -1,0 +1,14 @@
+<nav [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }" class="sidebar">
+    <div class="list-group">
+        <div class="nested-menu" *ngFor="let item of menuTabs">
+            <a class="list-group-item fg">
+                <i class="fa {{item.icon}}"></i>&nbsp;
+                <span>{{item.name}}</span>
+            </a>
+        </div>
+    </div>
+    <div (click)="toggleCollapsed()" [ngClass]="{ collapsed: collapsed }" class="toggle-button">
+        <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
+        <span>{{ 'Collapse Sidebar' }}</span>
+    </div>
+</nav>

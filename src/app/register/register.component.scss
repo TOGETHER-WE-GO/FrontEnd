@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+:host {
+  display: block;
+}
+
+.register-page {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+ 
+
+  .test{
+    background-image: url("../../assets/travel.jpg");
+  }
+  .app-name{
+    font-family: 'Pacifico', cursive;
+  }
+
+  img{
+    border-radius: 20px;
+  }
+}

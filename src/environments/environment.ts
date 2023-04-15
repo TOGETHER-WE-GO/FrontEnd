@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://localhost:5001',
+  authorityUrl: 'http://localhost:5001',
+  clientId: 'together_we_go_angular_client',
+  clientUrl: 'http://localhost:4200',
+  scope: 'openid profile email roles together_we_go_api.read together_we_go_api.write'
 };
 
 /*

@@ -1,0 +1,52 @@
+<p-panel #pnl>
+  <div
+    class="container-fluid bg-trasparent my-4 p-3"
+    style="position: relative"
+  >
+    <div class="row row-cols-3 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+      <div class="col-3" *ngFor="let hero of heroes">
+        <div class="card h-80 w-80 shadow-sm">
+          <img src="{{ getCardImage(hero) }}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">{{ hero.name }}</h5>
+            <h6 class="card-desc">
+              {{ hero.shortDescription }}
+            </h6>
+            <div class="score">
+              <i class="fa fa-star" aria-hidden="true">{{ hero.rating }}</i>
+              <i class="fa fa-link" aria-hidden="true">{{ hero.tagCount }}</i>
+              <i class="fa fa-eye" aria-hidden="true">{{ hero.viewScore }}</i>
+            </div>
+            <div class="clearfix mb-3">
+              <span
+                *ngFor="let type of hero.types"
+                class="float-start badge rounded-pill bg-primary"
+              >
+                {{ type.name }}
+              </span>
+            </div>
+            <div class="text-center my-4">
+              <a href="/contents/explores-detail/{{hero.id}}" class="btn btn-warning"
+                >DETAIL
+                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+    <p-progressSpinner
+      [style]="{
+        width: '100px',
+        height: '100px',
+        position: 'absolute',
+        top: '25%',
+        left: '50%'
+      }"
+      strokeWidth="2"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

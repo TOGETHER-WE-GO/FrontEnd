@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PlaceOverall, Rating } from '../models';
 import { BaseService } from './base.service';
@@ -19,10 +19,17 @@ export class PlaceService extends BaseService {
     );
   }
 
-  search(keyword: string) {
+  search(searchKey: string, placeType: string[], page:number, pageSize: number) {
+    let params = new HttpParams()
+            .set('searchKey', searchKey)
+            .set('page', page)
+            .set('pageSize', pageSize)
+            .set('placeType', JSON.stringify(placeType))
+            
     return this.http
-      .get<PlaceOverall[]>(`${environment.exploreurl}/api/places?search=Quan`, {
+      .get<PlaceOverall[]>(`${environment.exploreurl}/api/places`, {
         headers: this._sharedHeaders,
+        params
       })
       .pipe(
         map((response: PlaceOverall[]) => {
@@ -46,23 +53,15 @@ export class PlaceService extends BaseService {
   }
 
   updateUserRating(entity: Rating) {
-    let xhr = new XMLHttpRequest()
-    xhr.open("POST",`${environment.exploreurl}/api/places/view`,false);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(entity));
-
-    if (xhr.status === 200) {
-      console.log('Request succeeded:', xhr.responseText);
+    let url = `${environment.exploreurl}/api/places/view`
+    const blob = new Blob([JSON.stringify(entity)], { type: 'application/json' });
+    if (navigator.sendBeacon) {
+      const success = navigator.sendBeacon(url, blob);
+      if (!success) {
+        console.error('Beacon transmission failed.');
+      }
     } else {
-      console.error('Request failed:', xhr.statusText);
+      console.error('sendBeacon is not supported in this browser.');
     }
-
-    // return this.http
-    //   .post(
-    //     `${environment.exploreurl}/api/places/view`,
-    //     JSON.stringify(entity),
-    //     { headers: this._sharedHeaders }
-    //   )
-    //   .pipe(catchError(this.handleError));
   }
 }

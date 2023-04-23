@@ -5,13 +5,13 @@ import { interval } from 'rxjs';
   providedIn: 'root'
 })
 export class TimeTrackingService {
-  private timeSpent = 0;
+  private view = 0;
   private intervalSubscription: any;
 
   startTracking() {
     this.intervalSubscription = interval(5000).subscribe(() => {
-      this.timeSpent += 5;
-      console.log(this.timeSpent)
+      this.view += 1;
+      console.log(this.view)
     });
   }
 
@@ -20,6 +20,6 @@ export class TimeTrackingService {
   }
 
   getTimeSpent() {
-    return this.timeSpent;
+    return this.view;
   }
 }

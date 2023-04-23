@@ -22,6 +22,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginModule),
   },
+  {
+    path: 'auth-callback',
+    loadChildren: () =>
+      import('./auth-callback/auth-callback.module').then(
+        (m) => m.AuthCallbackModule
+      ),
+  },
 ];
 
 @NgModule({

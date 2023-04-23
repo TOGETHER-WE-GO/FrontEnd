@@ -6,7 +6,7 @@ export interface PlaceOverall{
     images: string[],
     shortDescription: string,
     types: PlaceType[],
-    rating: number,
-    tagCount: number,
-    viewScore: number
+    avgRating: number,
+    avgView: number,
+    avgRefer: number,
 }

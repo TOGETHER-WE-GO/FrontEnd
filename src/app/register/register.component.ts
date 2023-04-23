@@ -33,10 +33,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
           if (response.status === 200) {
             this.router.navigateByUrl('/login');
           }
+          this.blockedPanel = false;
         },
         (error) => {
           setTimeout(() => {
-
+            this.blockedPanel = false;
           }, 1000);
         }
       )

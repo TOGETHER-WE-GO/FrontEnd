@@ -1,0 +1,17 @@
+h5{
+    font-weight: bold;
+}
+
+// li{
+//     -webkit-column-count: 4;
+//     -moz-column-count: 4;
+//     -o-column-count: 4;
+//      column-count: 4; 
+//    } 
+
+   ul{
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    column-gap: 30px;   
+}

@@ -30,8 +30,7 @@
           </aside>
           <main class="col-md-6">
             <article>
-              <a href="#" class="text-primary btn-link">Clothes</a>
-              <h3 class="title">Great product name goes here</h3>
+              <h3 class="title">{{ placeDetail.name }}</h3>
               <div>
                 <ul class="rating-stars">
                   <li class="stars-active">
@@ -56,12 +55,16 @@
               <hr />
 
               <div class="mb-3">
-                <h6>Short description</h6>
-                <ul class="list-dots mb-0">
-                  <li>Made in Russia</li>
-                  <li>Wolf leather</li>
-                  <li>Rubber material bottom</li>
-                  <li>Dark blue color</li>
+                <h5>Short description</h5>
+                <h6>{{ placeDetail.shortDescription }}</h6>
+              </div>
+
+              <div *ngIf="isRestaurant" class="res-services">
+                <h5>Facilities & Services</h5>
+                <ul>
+                  <li *ngFor="let type of placeDetail.types">
+                    {{ type.name }}
+                  </li>
                 </ul>
               </div>
 
@@ -107,7 +110,7 @@
               <!-- price-detail-wrap .// -->
 
               <div class="mb-4">
-                <a class="btn btn-primary mr-1" (click)="Test()">Buy now</a>
+                <a class="btn btn-primary mr-1">Buy now</a>
                 <a class="btn btn-light">Add to card</a>
               </div>
             </article>

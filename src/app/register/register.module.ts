@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { PanelModule } from 'primeng/panel';
     FormsModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    PanelModule
+    PanelModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule
   ]
 })
 export class RegisterModule { }

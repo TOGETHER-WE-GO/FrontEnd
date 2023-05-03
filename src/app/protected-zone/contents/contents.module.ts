@@ -11,6 +11,10 @@ import {MatCardModule} from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'; 
 
 @NgModule({
   declarations: [
@@ -28,6 +32,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatButtonModule,
     FlexLayoutModule,
+    CarouselModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    NgbRatingModule
   ]
 })
 export class ContentsModule { }

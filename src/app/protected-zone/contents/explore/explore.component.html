@@ -1,3 +1,46 @@
+<!-- Search form -->
+<form
+  class="mx-1 mx-md-4"
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate
+>
+  <div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+      <div class="searchbar">
+        <input
+          class="search_input"
+          type="text"
+          name="searchKey"
+          [(ngModel)]="form.searchKey"
+          placeholder="Search..."
+          #searchKey="ngModel"
+        />
+        <button type="submit" class="search_icon">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- checkbox -->
+  <div class="checkbox-type">
+    <div *ngFor="let d of placeType">
+      <input type="checkbox" id="{{d.id}}" name="chk" value="all"  [checked]="d.check" (change)="d.check = !d.check"  />
+      <label for="{{d.id}}">{{d.name}}</label>
+    </div>
+  </div>
+</form>
+
+<mat-paginator [length]="totalRecords"
+              [pageSize]="9"
+              aria-label="Select page"
+              (page)="pageChanged($event)"
+              >
+</mat-paginator>
+
+<!-- content -->
 <div class="content">
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div
@@ -10,26 +53,30 @@
         <mat-card-header>
           <mat-card-title>{{ place.name }}</mat-card-title>
         </mat-card-header>
-        <img mat-card-image src="{{ getCardImage(place) }}" />
+        <img src="{{ getCardImage(place) }}" />
         <mat-card-content>
           <p>
-            {{ place.shortDescription }}
+            {{ place.description }}
           </p>
         </mat-card-content>
-		<div class="clearfix mb-3">
-			<span
-			  *ngFor="let type of place.types.slice(0, 3)"
-			  class="float-start badge rounded-pill btn-secondary"
-			  style="margin-right: 7px;"
-			>
-			  {{ type.name }}
-			</span>
-		  </div>
-		<div class="score">
-			<i class="fa fa-star" aria-hidden="true">{{ place.avgRating | number: '1.0-2'}}</i>
-			<i class="fa fa-link" aria-hidden="true">{{ place.avgRefer }}</i>
-			<i class="fa fa-eye" aria-hidden="true">{{ place.avgView }}</i>
-		  </div>
+
+        <div class="clearfix mb-3" *ngIf="checkPlaceType(place)">
+          <strong>Services: </strong>
+          <span
+            *ngFor="let type of place.services"
+            class="float-start badge rounded-pill btn-secondary"
+            style="margin-right: 7px"
+          >
+            {{ type.name }}
+          </span>
+        </div>
+        <div class="score">
+          <i class="fa fa-star" aria-hidden="true">
+            {{ place.avgRating | number : "1.0-2" }}</i
+          >
+          <i class="fa fa-link" aria-hidden="true"> {{ place.avgTag }}</i>
+          <i class="fa fa-eye" aria-hidden="true"> {{ place.avgView }}</i>
+        </div>
         <mat-card-actions>
           <a
             href="/contents/explores-detail/{{ place.id }}"

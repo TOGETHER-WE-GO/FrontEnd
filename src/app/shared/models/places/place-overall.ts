@@ -1,12 +1,16 @@
-import { PlaceType } from "./place-type";
+import { PlaceFeatureType } from "./place-type";
 
 export interface PlaceOverall{
     id: number;
     name: string,
-    images: string[],
-    shortDescription: string,
-    types: PlaceType[],
+    images: string[] | null,
+    description: string,
+    types: PlaceFeatureType[] | null,
+    subTypes: PlaceFeatureType[] | null,
+    services: PlaceFeatureType[] | null,
     avgRating: number,
     avgView: number,
-    avgRefer: number,
+    avgTag: number,
+    location:string,
+    distance: number
 }

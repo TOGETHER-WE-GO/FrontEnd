@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ProfilesComponent } from './profiles/profiles.component';
 import { ProtectedZoneComponent } from './protected-zone.component';
 
 const routes: Routes = [
@@ -15,6 +16,14 @@ const routes: Routes = [
           functionCode: 'DASHBOARD',
         },
       },
+      {
+        path: 'profiles/:id',
+        component: ProfilesComponent,
+        // data: {
+        //     functionCode: 'CONTENT_KNOWLEDGEBASE'
+        // },
+        // canActivate: [AuthGuard]
+    },
     ],
   },
 ];

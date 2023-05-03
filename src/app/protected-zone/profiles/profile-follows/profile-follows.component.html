@@ -1,0 +1,26 @@
+<div class="header">
+  <div *ngIf="isFollower; else following">Followers</div>
+  <ng-template #following> Following </ng-template>
+</div>
+
+<table class="table">
+  <tbody>
+    <tr *ngFor="let follow of userFollows">
+      <th>
+        <img class="uh-image-inner" src="{{ follow.avatar }}" alt="" />
+        {{ follow.userName }}
+      </th>
+      <th style ="display: flex;
+      justify-content: flex-end;">
+        <div *ngIf="isFollower; else following">
+          <button type="button" class="btn" (click)="handleFollow()">
+            Remove
+          </button>
+        </div>
+        <ng-template #following>  <button type="button" class="btn" (click)="handleFollow()">
+          Follow
+        </button> </ng-template>
+      </th>
+    </tr>
+  </tbody>
+</table>

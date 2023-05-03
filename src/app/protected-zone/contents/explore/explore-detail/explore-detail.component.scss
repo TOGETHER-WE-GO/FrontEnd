@@ -1,17 +1,155 @@
-h5{
-    font-weight: bold;
+
+h5 {
+  font-weight: bold;
 }
 
 // li{
 //     -webkit-column-count: 4;
 //     -moz-column-count: 4;
 //     -o-column-count: 4;
-//      column-count: 4; 
-//    } 
+//      column-count: 4;
+//    }
 
-   ul{
-    columns: 3;
-    -webkit-columns: 3;
-    -moz-columns: 3;
-    column-gap: 30px;   
+ul {
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  column-gap: 30px;
+}
+
+.img-big-wrap {
+  width: 100%;
+  height: 80%;
+}
+
+img {
+  object-fit: contain;
+}
+
+.item-thumb {
+  width: 33%;
+  height: 30%;
+  padding: 4px;
+}
+
+// slider
+
+.re-container {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+.slider-cards {
+  width: calc(100% - 80px);
+  overflow: hidden;
+}
+
+.overflow {
+  position: relative;
+  transition: left 0.5s ease-in-out;
+}
+
+.slider-card {
+  height: 300px;
+  width: 80%;
+  background-color: #e0e1e2;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+}
+
+.no-right-margin {
+  margin-right: 0px;
+}
+
+.slider-card span {
+  font-size: 48px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.left,
+.right {
+  height: 30px;
+  width: 30px;
+  background-color: #0072bc;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.left.disabled,
+.right.disabled {
+  background-color: #ccc;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+
+// rating & review 
+.review{
+  font-size: xx-large;
+}
+
+// recommend card
+
+.mat-card{
+  background-color: white;
+}
+
+.content {
+  padding: 16px;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+
+.mat-card-image {
+  width: 90%;
+  height: 10%;
+  object-fit: fill;
+  // transform: translateX(50%);
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+
+.box .btn {
+  font-size: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 5px 50px 5px 50px;
+}
+
+.mat-card-actions{
+  display:flex;justify-content:center;align-items:center;
+}
+
+.mat-card-title{
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Maximum number of lines to be displayed */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bolder;
+}
+
+.score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 30px;
+  padding-left: 30px;
 }

@@ -1,30 +1,30 @@
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-content padding-y bg">
-  <div class="container">
+
+<div class="container">
+  <section class="place-detail">
     <article class="card">
       <div class="card-body">
         <div class="row">
           <aside class="col-md-6">
             <article class="gallery-wrap">
-              <div class="card img-big-wrap">
-                <a href="#"> <img src="assets/images/items/3.jpg" /></a>
+              <div class="card">
+                <a href="#">
+                  <img
+                    class="img-big-wrap"
+                    src="{{ getCardImage(placeDetail) }}"
+                /></a>
               </div>
+              <br />
               <!-- card img-big-wrap.// -->
-              <div class="thumbs-wrap">
-                <a href="#" class="item-thumb">
-                  <img src="assets/images/items/3.jpg"
-                /></a>
-                <a href="#" class="item-thumb">
-                  <img src="assets/images/items/3.jpg"
-                /></a>
-                <a href="#" class="item-thumb">
-                  <img src="assets/images/items/3.jpg"
-                /></a>
-                <a href="#" class="item-thumb">
-                  <img src="assets/images/items/3.jpg"
-                /></a>
-              </div>
-              <!-- thumbs-wrap .// -->
+
+              <!-- image thumb -->
+              <owl-carousel-o [options]="customOptions">
+                <ng-template
+                  carouselSlide
+                  *ngFor="let image of placeDetail.images?.slice(1)"
+                  ><img class="item-thumb" src="{{ image }}"
+                /></ng-template>
+              </owl-carousel-o>
             </article>
             <!-- gallery-wrap .end// -->
           </aside>
@@ -55,64 +55,32 @@
               <hr />
 
               <div class="mb-3">
-                <h5>Short description</h5>
-                <h6>{{ placeDetail.shortDescription }}</h6>
+                <h5>Description</h5>
+                <h6 [innerHTML]="placeDetail.description"></h6>
               </div>
 
-              <div *ngIf="isRestaurant" class="res-services">
+              <div *ngIf="checkPlaceType(placeDetail)" class="res-services">
                 <h5>Facilities & Services</h5>
                 <ul>
-                  <li *ngFor="let type of placeDetail.types">
+                  <li *ngFor="let type of placeDetail.services">
                     {{ type.name }}
                   </li>
                 </ul>
               </div>
 
-              <div class="form-group">
-                <label class="text-muted">Available sizes</label>
-                <div>
-                  <label class="js-check btn btn-check active mr-1">
-                    <input
-                      type="radio"
-                      name="option_size"
-                      value="option1"
-                      checked=""
-                    />
-                    <span>Small</span>
-                  </label>
-                  <label class="js-check btn btn-check mr-1">
-                    <input type="radio" name="option_size" value="option1" />
-                    <span>Medium</span>
-                  </label>
-                  <label class="js-check btn btn-check mr-1">
-                    <input type="radio" name="option_size" value="option1" />
-                    <span>Large</span>
-                  </label>
-                  <label class="js-check btn btn-check disabled">
-                    <input
-                      type="radio"
-                      name="option_size"
-                      disabled=""
-                      value="option1"
-                    />
-                    <span>Babies</span>
-                  </label>
-                </div>
+              <div *ngIf="!checkPlaceType(placeDetail)" class="res-subtypes">
+                <h5>Hightlight</h5>
+                <ul>
+                  <li *ngFor="let type of placeDetail.types.concat(placeDetail.subTypes)">
+                    {{ type.name }}
+                  </li>
+                </ul>
               </div>
 
-              <div class="mb-3">
-                <var class="price h4">$230.00</var> <br />
-                <span class="monthly"
-                  >$32.00 / monthly
-                  <a href="#" class="btn-link">installment </a></span
-                >
-              </div>
+              <h5>Rate this place: </h5>
+              <ngb-rating (rateChange) = 'onRateChange($event)' [max]="5" [(rate)]="review" [readonly]="false" class = 'review'></ngb-rating>
+
               <!-- price-detail-wrap .// -->
-
-              <div class="mb-4">
-                <a class="btn btn-primary mr-1">Buy now</a>
-                <a class="btn btn-light">Add to card</a>
-              </div>
             </article>
             <!-- product-info-aside .// -->
           </main>
@@ -170,6 +138,61 @@
       </div>
       <!-- card-body.// -->
     </article>
-  </div>
-</section>
-<!-- ========================= SECTION CONTENT END// ========================= -->
+  </section>
+  <!-- recommendation -->
+  <section>
+    <owl-carousel-o [options]="customOptions">
+      <ng-template carouselSlide *ngFor="let place of placeRecommend">
+        <mat-card class="mat-elevation-z4">
+          <mat-card-header>
+            <mat-card-title>{{ place.name }}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="{{ getCardImage(place) }}" />
+
+          <mat-card-content>
+            <strong> Location: </strong>
+            <span>{{ place.location }}</span>
+            <p>{{ place.distance | number : "1.0-2" }}km from current place</p>
+
+            <div class="clearfix mb-3" *ngIf="checkPlaceType(place)">
+              <strong> Services: </strong>
+              <span
+                *ngFor="let type of place.services"
+                class="float-start badge rounded-pill btn-secondary"
+                style="margin-right: 7px"
+              >
+                {{ type.name }}
+              </span>
+            </div>
+
+            <div class="clearfix mb-3" *ngIf="!checkPlaceType(place)">
+              <strong> Highlight: </strong>
+              <span
+                *ngFor="let type of place.types.concat(place.subTypes)"
+                class="float-start badge rounded-pill btn-secondary"
+                style="margin-right: 7px"
+              >
+                {{ type.name }}
+              </span>
+            </div>
+          </mat-card-content>
+
+          <div class="score">
+            <i class="fa fa-star" aria-hidden="true">
+              {{ place.avgRating | number : "1.0-2" }}</i
+            >
+            <i class="fa fa-link" aria-hidden="true"> {{ place.avgTag }}</i>
+            <i class="fa fa-eye" aria-hidden="true"> {{ place.avgView }}</i>
+          </div>
+          <mat-card-actions>
+            <a
+              href="/contents/explores-detail/{{ place.id }}"
+              class="btn btn-warning"
+              >DETAIL <i class="fa fa-arrow-circle-right" aria-hidden="true"></i
+            ></a>
+          </mat-card-actions>
+        </mat-card>
+      </ng-template>
+    </owl-carousel-o>
+  </section>
+</div>

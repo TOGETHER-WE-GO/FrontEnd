@@ -7,10 +7,17 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProfilesComponent } from './profiles/profiles.component';
+import { ProfileFollowsComponent } from './profiles/profile-follows/profile-follows.component';
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { RecommendbarComponent } from './components/recommendbar/recommendbar.component';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
-    SidebarComponent
+    SidebarComponent,
+    ProfilesComponent,
+    ProfileFollowsComponent,
+    RecommendbarComponent
   ],
   imports: [
     CommonModule,
@@ -19,6 +26,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatDividerModule,
     MatToolbarModule,
+    ModalModule.forRoot()
+  ],
+  providers:[
+    BsModalService
   ]
 })
 export class ProtectedZoneModule { }

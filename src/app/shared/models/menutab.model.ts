@@ -3,4 +3,5 @@ export interface MenuTab {
     url: string;
     sortOrder: number;
     icon: string;
+    children: MenuTab[];
 }

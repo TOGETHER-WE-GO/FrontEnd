@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlaceOverall, Rating } from '../models';
+import { Pagination, PlaceFeatureType, PlaceOverall, UpdateUserInteraction } from '../models';
 import { BaseService } from './base.service';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs';
@@ -27,12 +27,25 @@ export class PlaceService extends BaseService {
             .set('placeType', JSON.stringify(placeType))
             
     return this.http
-      .get<PlaceOverall[]>(`${environment.exploreurl}/api/places`, {
+      .get<Pagination<PlaceOverall>>(`${environment.exploreurl}/api/places`, {
         headers: this._sharedHeaders,
         params
       })
       .pipe(
-        map((response: PlaceOverall[]) => {
+        map((response: Pagination<PlaceOverall>) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getPlaceTypes() {
+    return this.http
+      .get<PlaceFeatureType[]>(`${environment.exploreurl}/api/places/place-type`, {
+        headers: this._sharedHeaders,
+      })
+      .pipe(
+        map((response: PlaceFeatureType[]) => {
           return response;
         }),
         catchError(this.handleError)
@@ -50,18 +63,5 @@ export class PlaceService extends BaseService {
         }),
         catchError(this.handleError)
       );
-  }
-
-  updateUserRating(entity: Rating) {
-    let url = `${environment.exploreurl}/api/places/view`
-    const blob = new Blob([JSON.stringify(entity)], { type: 'application/json' });
-    if (navigator.sendBeacon) {
-      const success = navigator.sendBeacon(url, blob);
-      if (!success) {
-        console.error('Beacon transmission failed.');
-      }
-    } else {
-      console.error('sendBeacon is not supported in this browser.');
-    }
   }
 }

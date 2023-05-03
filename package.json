@@ -29,6 +29,7 @@
     "jwt-decode": "^3.1.2",
     "ng2-charts": "2.3.0",
     "ngx-bootstrap": "^5.6.1",
+    "ngx-owl-carousel-o": "^14.0.1",
     "ngx-pagination": "^6.0.3",
     "ngx-spinner": "^9.0.2",
     "oidc-client": "^1.9.1",

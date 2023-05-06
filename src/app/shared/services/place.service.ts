@@ -41,7 +41,7 @@ export class PlaceService extends BaseService {
 
   getPlaceTypes() {
     return this.http
-      .get<PlaceFeatureType[]>(`${environment.exploreurl}/api/places/place-type`, {
+      .get<PlaceFeatureType[]>(`${environment.exploreurl}/api/places/place-types`, {
         headers: this._sharedHeaders,
       })
       .pipe(

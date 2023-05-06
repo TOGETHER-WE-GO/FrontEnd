@@ -11,13 +11,17 @@ import { ProfilesComponent } from './profiles/profiles.component';
 import { ProfileFollowsComponent } from './profiles/profile-follows/profile-follows.component';
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { RecommendbarComponent } from './components/recommendbar/recommendbar.component';
+import { HomeComponent } from './home/home.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
     SidebarComponent,
     ProfilesComponent,
     ProfileFollowsComponent,
-    RecommendbarComponent
+    RecommendbarComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,9 @@ import { RecommendbarComponent } from './components/recommendbar/recommendbar.co
     MatIconModule,
     MatDividerModule,
     MatToolbarModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    CarouselModule,
+    MatCardModule
   ],
   providers:[
     BsModalService

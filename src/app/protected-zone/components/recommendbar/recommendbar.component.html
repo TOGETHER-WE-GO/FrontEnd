@@ -1,1 +1,29 @@
-<p>recommendbar works!</p>
+<nav class="sidebar">
+    <h4>Suggested</h4>
+    <owl-carousel-o [options]="customOptions">
+        <ng-template carouselSlide *ngFor="let place of suggestedPlace.slice(0, suggestedPlace.length)">
+          <mat-card class="mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-title>{{ place.name }}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="{{ getCardImage(place) }}" />
+  
+       
+            <div class="score">
+              <i class="fa fa-star" aria-hidden="true">
+                {{ place.avgRating | number : "1.0-2" }}</i
+              >
+              <i class="fa fa-link" aria-hidden="true"> {{ place.avgTag }}</i>
+              <i class="fa fa-eye" aria-hidden="true"> {{ place.avgView }}</i>
+            </div>
+            <mat-card-actions>
+              <a
+                href="/contents/explores-detail/{{ place.id }}"
+                class="btn btn-warning"
+                >DETAIL <i class="fa fa-arrow-circle-right" aria-hidden="true"></i
+              ></a>
+            </mat-card-actions>
+          </mat-card>
+        </ng-template>
+      </owl-carousel-o>
+</nav>

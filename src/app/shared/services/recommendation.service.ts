@@ -20,15 +20,30 @@ export class RecommendationService extends BaseService {
   }
 
   recommendPlaceByContent(id: number, placeType: string[]) {
-    let params = new HttpParams()
-      .set('placeType', JSON.stringify(placeType));
+    let params = new HttpParams().set('placeType', JSON.stringify(placeType));
 
     return this.http
       .get<PlaceOverall[]>(
         `${environment.exploreurl}/api/recommendation/places/${id}`,
         {
           headers: this._sharedHeaders,
-          params
+          params,
+        }
+      )
+      .pipe(
+        map((response: PlaceOverall[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  recommendPlacesForUser(userId: string) {
+    return this.http
+      .get<PlaceOverall[]>(
+        `${environment.exploreurl}/api/recommendation/users/${userId}/places`,
+        {
+          headers: this._sharedHeaders,
         }
       )
       .pipe(

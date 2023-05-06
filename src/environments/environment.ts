@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:5001',
-  exploreurl: 'https://localhost:7163',
+  exploreurl: 'http://localhost:5072',
   authorityUrl: 'http://localhost:5001',
   clientId: 'together_we_go_angular_client',
   clientUrl: 'http://localhost:4200',

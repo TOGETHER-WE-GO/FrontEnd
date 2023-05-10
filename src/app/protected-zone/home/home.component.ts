@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SignalRService, TokenStorageService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private signalrService: SignalRService, private tokenService: TokenStorageService) {
+
+   }
 
   ngOnInit(): void {
+    
   }
 
 }

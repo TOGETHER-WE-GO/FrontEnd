@@ -1,20 +1,42 @@
+import { HTTP_INTERCEPTORS, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+} from '@angular/common/http';
+
+import { TokenStorageService } from '../services/token-storage.service';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services';
-@Injectable({
-  providedIn: 'root'
-})
+
+const TOKEN_HEADER_KEY = 'Authorization'; // for .Net back-end
+// const TOKEN_HEADER_KEY = 'x-access-token';   // for Node.js Express back-end
+
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(private token: TokenStorageService) {}
 
-  constructor(private authService: AuthService) { }
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    let authReq = req;
+    const token = this.token.getToken();
+    if (token != null) {
+      // for .Net back-end
+      authReq = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `${this.authService.authorizationHeaderValue}`
-      }
-    });
-    return next.handle(request);
+      // for Node.js Express back-end
+      // authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, token) });
+    }
+    return next.handle(authReq);
   }
 }
+
+export const authInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];

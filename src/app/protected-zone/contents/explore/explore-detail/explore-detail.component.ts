@@ -38,7 +38,7 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
   review: number;
   loginUserId: string;
 
-  // image thumbs
+  // carousel config
   customOptions: any = {
     loop: false,
     mouseDrag: true,

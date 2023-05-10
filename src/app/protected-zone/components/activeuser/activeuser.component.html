@@ -1,0 +1,19 @@
+<owl-carousel-o [options]="customOptions">
+  <ng-template carouselSlide>
+    <mat-card >
+      <img
+        class="online-icon"
+        src="../../../../assets/fotor_2023-5-10_23_18_29.png"
+      />
+    </mat-card>
+  </ng-template>
+  <ng-template carouselSlide *ngFor="let following of followings">
+    <mat-card class="mat-elevation-z4">
+      <a href="/profiles/{{ following.userId }}" class="uh-image">
+        <img class="uh-image-inner" src="{{ following.avatar }}" alt="" />
+        <div class="gradient"></div>
+      </a>
+      <mat-card-title>{{ following.userName }}</mat-card-title>
+    </mat-card>
+  </ng-template>
+</owl-carousel-o>

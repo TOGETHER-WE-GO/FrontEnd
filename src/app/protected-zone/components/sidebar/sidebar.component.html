@@ -5,12 +5,13 @@
   <div class="profile">
     <p class="text-center h4 fw-bold app-name">Together We Go</p>
     <br />
-    <a href="/profiles/{{loginUser.nameid}}" class="uh-image">
-      <img
-        class="uh-image-inner"
-        src="{{loginUser.Avatar}}"
-        alt=""
-      />
+    <a
+      href="javascript:void(0)"
+      routerLink="/profiles/{{ loginUser.nameid }}"
+      [routerLinkActive]="['router-link-active']"
+      class="uh-image"
+    >
+      <img class="uh-image-inner" src="{{ loginUser.Avatar }}" alt="" />
       <div class="gradient"></div>
     </a>
   </div>
@@ -52,6 +53,13 @@
           </li>
         </ul>
       </li>
+    </div>
+  </div>
+
+  <div class="nested-menu">
+    <div class="list-group-item" (click)="onLoggedout()">
+      <i class="fa fa-sign-out"></i>&nbsp;
+      <span> Logout</span>
     </div>
   </div>
 

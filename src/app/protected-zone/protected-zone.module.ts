@@ -14,6 +14,8 @@ import { RecommendbarComponent } from './components/recommendbar/recommendbar.co
 import { HomeComponent } from './home/home.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {MatCardModule} from '@angular/material/card';
+import { authInterceptorProviders } from '../shared/interceptors/auth.interceptor';
+import { ActiveuserComponent } from './components/activeuser/activeuser.component'
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
@@ -21,7 +23,8 @@ import {MatCardModule} from '@angular/material/card';
     ProfilesComponent,
     ProfileFollowsComponent,
     RecommendbarComponent,
-    HomeComponent
+    HomeComponent,
+    ActiveuserComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import {MatCardModule} from '@angular/material/card';
     MatCardModule
   ],
   providers:[
-    BsModalService
+    BsModalService,
+    authInterceptorProviders
   ]
 })
 export class ProtectedZoneModule { }

@@ -129,6 +129,6 @@ export class SidebarComponent implements OnInit {
   }
 
   onLoggedout() {
-    localStorage.removeItem('isLoggedin');
+    localStorage.removeItem('auth-token');
   }
 }

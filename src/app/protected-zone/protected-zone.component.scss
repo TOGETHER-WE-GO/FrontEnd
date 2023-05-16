@@ -14,14 +14,11 @@
     overflow-y: scroll;
     position: relative;
     overflow: hidden;
-}
-
-.background{
-    background-color: rgb(217 204 204 / 28%)
+    padding: 0px;
 }
 
 .collapsed {
-    margin-left: 60px;
+    margin-left: 235px;
 }
 
 @media screen and (max-width: 992px) {

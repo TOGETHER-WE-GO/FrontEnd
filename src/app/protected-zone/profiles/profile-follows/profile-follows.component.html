@@ -10,16 +10,12 @@
         <img class="uh-image-inner" src="{{ follow.avatar }}" alt="" />
         {{ follow.userName }}
       </th>
-      <th style ="display: flex;
-      justify-content: flex-end;">
-        <div *ngIf="isFollower; else following">
-          <button type="button" class="btn" (click)="handleFollow()">
+      <th style="display: flex; justify-content: flex-end">
+        <div>
+          <button type="button" class="btn" (click)="handelRemove()" *ngIf="loginedUserId === userId">
             Remove
           </button>
         </div>
-        <ng-template #following>  <button type="button" class="btn" (click)="handleFollow()">
-          Follow
-        </button> </ng-template>
       </th>
     </tr>
   </tbody>

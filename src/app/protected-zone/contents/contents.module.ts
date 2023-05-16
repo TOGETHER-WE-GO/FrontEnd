@@ -14,12 +14,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'; 
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
+import { ExploreFriendComponent } from './explore-friend/explore-friend.component'; 
 
 @NgModule({
   declarations: [
     ExploreComponent,
-    ExploreDetailComponent
+    ExploreDetailComponent,
+    ExploreFriendComponent
   ],
   imports: [
     CommonModule,

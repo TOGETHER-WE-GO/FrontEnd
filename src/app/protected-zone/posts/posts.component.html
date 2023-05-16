@@ -1,0 +1,35 @@
+<form #myForm="ngForm">
+  <mat-tab-group>
+    <mat-tab label="Tab 1">
+      <ng-template matTabContent>
+        <div [formGroup]="formGroup1" class="formGroup1">
+          <div class="image-part">
+            <input
+              (change)="onFileSelected($event)"
+              type="file"
+              #fileInput
+              formControlName="file"
+              style="display: none"
+            />
+            <button
+            [hidden]="imageUrl && imageUrl !==''"
+              class="btn btn-primary button-select"
+              (click)="handleFileInput()"
+            >
+              Select from computer
+            </button>
+            <img [hidden]="!imageUrl || imageUrl ===''" src ="{{imageUrl}}">
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Tab 2">
+      <ng-template matTabContent>
+        <div [formGroup]="formGroup2">
+          <input type="text" formControlName="field2" placeholder="Field 2" />
+        </div>
+      </ng-template>
+    </mat-tab>
+    <!-- Add more tabs as needed -->
+  </mat-tab-group>
+</form>

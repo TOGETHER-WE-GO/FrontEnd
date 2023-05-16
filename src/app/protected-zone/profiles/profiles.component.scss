@@ -61,6 +61,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 15px;
 }
 .uh-image {
   width: 11rem;
@@ -71,6 +72,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
 }
 .uh-image-inner {
   width: 10.5rem;
@@ -78,7 +80,7 @@
   border: 0.3em solid var(--grey);
   object-fit: cover;
   border-radius: 50%;
-  z-index: 2;
+  z-index: 1;
 }
 .gradient {
   width: 100%;
@@ -124,7 +126,8 @@
   height: 1.8rem;
 }
 .btn {
-  margin: 1em;
+  margin-left: 1em;
+  // margin-right: 0.5rem;
   border-radius: 3px;
   border: 1px solid var(--grey);
   background-color: var(--light);

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserFollow } from 'src/app/shared/models';
-import { UserService } from '../../../shared/services';
+import { UserService, TokenStorageService } from '../../../shared/services';
 @Component({
   selector: 'app-follows',
   templateUrl: './profile-follows.component.html',
@@ -9,6 +9,7 @@ import { UserService } from '../../../shared/services';
 })
 export class ProfileFollowsComponent implements OnInit, OnDestroy {
   public userFollows: UserFollow[];
+  public loginedUserId: string;
   public userId: string | null = null;
   public isFollower: number;
   private subscription = new Subscription();
@@ -42,5 +43,7 @@ export class ProfileFollowsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleFollow() {}
+  handelRemove() {
+    
+  }
 }

@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UserFollow } from '../models';
+import { Notifications, UserFollow } from '../models';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class SignalRService {
   public hubConnection: signalR.HubConnection;
   private _sharedHeaders = new HttpHeaders();
   followingsObservable = new BehaviorSubject({type: '', data: null});
+  notification$ = new BehaviorSubject({type: '', data: null});
 
   constructor(private tokenService: TokenStorageService) {
     const connectionId = localStorage.getItem('signalrConnectionId');
@@ -62,6 +63,12 @@ export class SignalRService {
   public registerUserDisconnectedHandler = () => {
     this.hubConnection.on('OnLogout', (data: UserFollow) => {
       this.followingsObservable.next({type: 'OnLogout', data: data});
+    });
+  };
+
+  public registerUserEventHandler = () => {
+    this.hubConnection.on('OnEvent', (data: Notifications) => {
+      this.notification$.next({type: 'OnEvent', data: data});
     });
   };
 

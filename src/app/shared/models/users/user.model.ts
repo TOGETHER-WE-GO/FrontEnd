@@ -8,4 +8,7 @@ export class User {
     dob: Date;
     avatar: string;
     bioIntro: string;
+    follower: number;
+    following: number;
+    post: number;
 }

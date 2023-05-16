@@ -1,4 +1,4 @@
 export interface FollowRequest{
-    senderId: string;
-    receiverId: string;
+    sourceId: string;
+    targetId: string;
 }

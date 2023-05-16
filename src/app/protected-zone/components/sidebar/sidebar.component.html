@@ -25,15 +25,16 @@
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
         <span>{{ item.name }}</span>
+        <span class="notification-count-unread" *ngIf="item.name == 'Notification'">{{unReadNotification}}</span>
       </a>
       <a
-        [routerLinkActive]="['router-link-active']"
-        routerLink="{{ item.url }}"
+        (click)="onMenuClick(item)"
         *ngIf="item.children.length == 0"
         class="list-group-item"
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
         <span>{{ item.name }}</span>
+        <span class="notification-count-unread" *ngIf="item.name == 'Notification'">{{unReadNotification}}</span>
       </a>
       <li
         *ngIf="item.children.length > 0"
@@ -71,5 +72,28 @@
     <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i
     >&nbsp;
     <span>{{ "Collapse Sidebar" }}</span>
+  </div>
+</nav>
+
+<nav
+  [ngClass]="{
+    sidebarPushRight: isActive,
+    'hide-transition': !isClickNoti,
+    'visible-transition': isClickNoti
+  }"
+  class="sidebar"
+  style="z-index: 2 !important; height: 100%; width: 400px; padding-left: 80px"
+>
+  <p class="text-center h4 fw-bold app-name" style="margin-top: 10%">
+    Notification
+  </p>
+  <br />
+  <div class="notification-item" *ngFor="let item of userNotifications" (click) = "checkRead(item)">
+    <img class="noti-avatar" src="{{ item.fromAvatar }}" />&nbsp;
+    <span [innerHTML]="formatNotificationContent(item)"></span>
+    <span class="notification-read" *ngIf="!item.isRead"></span>
+    <p class="notification-time">
+      {{ item.createdDate | date : "medium" }}
+    </p>
   </div>
 </nav>

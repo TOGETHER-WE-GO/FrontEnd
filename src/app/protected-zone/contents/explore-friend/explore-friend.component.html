@@ -1,0 +1,65 @@
+<div class="container-test">
+  <!-- Search form -->
+  <form
+    class="mx-1 mx-md-4"
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+    <div class="container h-100">
+      <div class="d-flex justify-content-center h-100">
+        <div class="searchbar">
+          <input
+            class="search_input"
+            type="text"
+            name="searchKey"
+            [(ngModel)]="form.searchKey"
+            placeholder="Search..."
+            #searchKey="ngModel"
+          />
+          <button type="submit" class="search_icon">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <mat-paginator
+    class="mr-5"
+    [length]="totalRecords"
+    [pageSize]="9"
+    aria-label="Select page"
+    (page)="pageChanged($event)"
+  >
+  </mat-paginator>
+
+  <div class="row text-center mb-5 px-5 pt-5">
+    <!-- Team item -->
+    <div class="col-xl-3 col-sm-6 mb-5 content-card" *ngFor="let item of users" (click)="navigateToProfile(item.id)">
+      <div class="bg-white rounded shadow-sm py-5 box-size">
+        <img
+          src="{{ item.avatar }}"
+          alt=""
+          width="100"
+          class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm"
+        />
+        <h5 class="mb-0">{{ item.firstName }} {{ item.lastName }}&nbsp;</h5>
+        <span class="small text-uppercase text-muted"
+          >{{ item.userName }}&nbsp;</span
+        >
+        <div class="user-links">
+          <a><span>2.1k</span> Posts</a>
+          <a
+            ><span>{{ item?.follower }}</span> Followers</a
+          >
+          <a
+            ><span>{{ item?.following }}</span> Following</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- End -->
+  </div>
+</div>

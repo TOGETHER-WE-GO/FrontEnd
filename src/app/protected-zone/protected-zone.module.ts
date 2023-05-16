@@ -14,8 +14,12 @@ import { RecommendbarComponent } from './components/recommendbar/recommendbar.co
 import { HomeComponent } from './home/home.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {MatCardModule} from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs'; 
 import { authInterceptorProviders } from '../shared/interceptors/auth.interceptor';
-import { ActiveuserComponent } from './components/activeuser/activeuser.component'
+import { ActiveuserComponent } from './components/activeuser/activeuser.component';
+import { ProfileEditComponent } from './profiles/profile-edit/profile-edit.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PostsComponent } from './posts/posts.component';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
@@ -24,7 +28,9 @@ import { ActiveuserComponent } from './components/activeuser/activeuser.componen
     ProfileFollowsComponent,
     RecommendbarComponent,
     HomeComponent,
-    ActiveuserComponent
+    ActiveuserComponent,
+    ProfileEditComponent,
+    PostsComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +41,10 @@ import { ActiveuserComponent } from './components/activeuser/activeuser.componen
     MatToolbarModule,
     ModalModule.forRoot(),
     CarouselModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTabsModule 
   ],
   providers:[
     BsModalService,

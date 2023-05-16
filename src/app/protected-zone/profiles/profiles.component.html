@@ -44,16 +44,29 @@ Enjoy the code <3
             </g>
           </svg>
         </h3>
-        <div *ngIf="loginUserId === userProfile?.id; else followTemplate">
-          <button type="button" class="btn" (click)="handleEditProfile()">
+
+        <!-- user-user interaction -->
+        <div *ngIf="loginUserId === userProfile?.id">
+          <button type="button" class="btn" (click)="openEditModal()">
             Edit Profile
           </button>
         </div>
-        <ng-template #followTemplate
-          ><button type="button" class="btn" (click)="handelFollowAndRemove()">
-            {{isFollowing ? "Remove" : "Folow"}}
-          </button></ng-template
-        >
+
+        <div *ngIf="loginUserId !== userProfile?.id">
+          <button type="button" class="btn" (click)="handelFollowOrRemove()">
+            {{ isFollowing || isSendingFollowRequest ? "Remove" : "Follow" }}
+          </button>
+        </div>
+
+        <div *ngIf="loginUserId !== userProfile?.id && isReceivingFollowRequest">
+          <button type="button" class="btn" (click)="handelAcceptOrRejectRequest(0)">
+            Accept Request
+          </button>
+          <button type="button" class="btn" (click)="handelAcceptOrRejectRequest(1)">
+            Reject Request
+          </button>
+        </div>
+
       </div>
 
       <div class="user-links">
@@ -67,7 +80,7 @@ Enjoy the code <3
       </div>
       <br />
       <div class="user-bio">
-        <p>This is the user biography 😄<br />It also has another line.</p>
+        <p>{{ userProfile.bioIntro }}</p>
       </div>
     </div>
   </div>
@@ -100,7 +113,7 @@ Enjoy the code <3
         alt=""
       />
     </div>
-   
+
     <div id="img3" class="image-wrapper">
       <div id="iov3" class="img-overlay-wrapper">
         <div class="img-btns">

@@ -20,6 +20,12 @@ import { ActiveuserComponent } from './components/activeuser/activeuser.componen
 import { ProfileEditComponent } from './profiles/profile-edit/profile-edit.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PostsComponent } from './posts/posts.component';
+import { NewsfeedDetailComponent } from './home/newsfeed-detail/newsfeed-detail.component';
+import { UtcToLocalTimePipe } from '../shared/pipes/utcToLocalTimePipe.pipe';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { TripPlanComponent } from './trip-plan/trip-plan.component';
+import { TripPlanDetailComponent } from './trip-plan/trip-plan-detail/trip-plan-detail.component';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
@@ -30,7 +36,11 @@ import { PostsComponent } from './posts/posts.component';
     HomeComponent,
     ActiveuserComponent,
     ProfileEditComponent,
-    PostsComponent
+    PostsComponent,
+    NewsfeedDetailComponent,
+    UtcToLocalTimePipe,
+    TripPlanComponent,
+    TripPlanDetailComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +54,9 @@ import { PostsComponent } from './posts/posts.component';
     MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTabsModule 
+    MatTabsModule,
+    ImageCropperModule,
+    FlexLayoutModule
   ],
   providers:[
     BsModalService,

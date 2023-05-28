@@ -8,6 +8,7 @@ export const environment = {
   exploreurl: 'http://localhost:5072',
   authorityUrl: 'http://localhost:5001',
   notificationUrl: 'https://localhost:5044',
+  postUrl: 'http://localhost:5201',
   clientId: 'together_we_go_angular_client',
   clientUrl: 'http://localhost:4200',
   scope: 'openid profile email roles together_we_go_api.read together_we_go_api.write'

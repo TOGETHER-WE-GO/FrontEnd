@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { PlaceService } from 'src/app/shared/services/place.service';
 import { Pagination, PlaceFeatureType, PlaceOverall } from '../../../shared/models/index';
@@ -11,7 +12,7 @@ import { Pagination, PlaceFeatureType, PlaceOverall } from '../../../shared/mode
 export class ExploreComponent implements OnInit, OnDestroy {
   // paging
   public pageIndex = 1;
-  public pageSize = 9;
+  public pageSize = 12;
   public totalRecords: number;
 
   places: PlaceOverall[];
@@ -27,6 +28,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   cardData: any;
 
+  @ViewChild('pagination') paginator: MatPaginator;
   constructor(private placeService: PlaceService) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -73,6 +75,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
       this.searchKey = this.form['searchKey'];
     else
       this.searchKey = "";
+
+    this.pageIndex = 1;
+    this.paginator.pageIndex = 0;
 
     this.fetchData();
   }

@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap");
+.primary-color {
+  color: #007bff;
+}
+
+.section-100 {
+  padding: 15px 0;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #d2d2dc;
+  border-radius: 11px;
+  -webkit-box-shadow: 0px 0px 5px 0px rgb(249, 249, 250);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1);
+  box-shadow: 0px 0px 5px 0px rgb(161, 163, 164);
+}
+
+.media {
+  margin-top: 20px;
+  img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.card-write-comment {
+  .form-label {
+    cursor: pointer;
+  }
+}
+
+.animation {
+  overflow: hidden;
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+.close {
+  margin-right: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 23px;
+  height: 23px;
+  border-radius: 23px;
+  background-color: #ef0000;
+  color: white;
+  font-size: 20px;
+  opacity: 1;
+  z-index: 10;
+}
+
+.img-thumnal{
+  padding: 5px;
+  width: 180px !important;
+  height: 150px;
+  object-fit: fill;
+}
+
+owl-carousel-o {
+  ::ng-deep{
+   .owl-stage{
+     .owl-item{
+       width: 183px !important;
+     }
+   }
+  }
+ }

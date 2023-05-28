@@ -38,6 +38,26 @@ export class RecommendationService extends BaseService {
       );
   }
 
+  recommendPlaceNearby(id: number, limit: number)
+  {
+    let params = new HttpParams().set('limit', limit);
+
+    return this.http
+      .get<PlaceOverall[]>(
+        `${environment.exploreurl}/api/recommendation/places/${id}/nearby`,
+        {
+          headers: this._sharedHeaders,
+          params,
+        }
+      )
+      .pipe(
+        map((response: PlaceOverall[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   recommendPlacesForUser(userId: string) {
     return this.http
       .get<PlaceOverall[]>(

@@ -8,6 +8,7 @@ export interface PlaceDetail{
     subTypes: PlaceFeatureType[] | null,
     services: PlaceFeatureType[] | null,
     types: PlaceFeatureType[] | null,
+    travelTypes: PlaceFeatureType[] | null,
     rating: number,
     tagCount: number,
     viewScore: number

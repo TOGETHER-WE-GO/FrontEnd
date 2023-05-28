@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UserService } from 'src/app/shared/services';
+import { TokenStorageService, UserService } from 'src/app/shared/services';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/shared/models/users/user.model';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -26,6 +26,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
+    private tokenService: TokenStorageService,
     private fb: FormBuilder,
     private bsModalRef: BsModalRef
   ) {}
@@ -58,7 +59,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.userService
           .updateUserProfile(this.userId, formValue)
           .subscribe((response) => {
-            console.log(response);
             this.userService.isChangeProfile$.next(true);
             this.bsModalRef.hide();
           })
@@ -75,6 +75,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       this.userService.uploadAvatar(this.userId, formData).subscribe(
         (response) => {
           this.userProfile.avatar = response.avatar;
+          this.tokenService.updateUserInfo(response.avatar, '');
         },
         (error) => {
           console.error('Error uploading image:', error);

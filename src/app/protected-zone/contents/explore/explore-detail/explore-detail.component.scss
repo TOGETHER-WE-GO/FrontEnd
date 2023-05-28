@@ -105,6 +105,11 @@ img {
 
 .mat-card{
   background-color: white;
+  height: 550px;
+
+  .mat-card-content{
+    height: 46%;
+  }
 }
 
 .content {
@@ -117,7 +122,7 @@ img {
 
 .mat-card-image {
   width: 90%;
-  height: 10%;
+  height: 200px;
   object-fit: fill;
   // transform: translateX(50%);
   margin: auto;
@@ -144,6 +149,11 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bolder;
+}
+
+.mat-card-label-type{
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .score {

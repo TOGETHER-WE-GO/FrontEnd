@@ -1,6 +1,10 @@
-<form #myForm="ngForm">
+<button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+  <span aria-hidden="true">&times;</span>
+</button>
+
+<form #myForm="ngForm" class="formOverall">
   <mat-tab-group>
-    <mat-tab label="Tab 1">
+    <mat-tab label="Overall">
       <ng-template matTabContent>
         <div [formGroup]="formGroup1" class="formGroup1">
           <div class="image-part">
@@ -8,28 +12,188 @@
               (change)="onFileSelected($event)"
               type="file"
               #fileInput
-              formControlName="file"
               style="display: none"
             />
             <button
-            [hidden]="imageUrl && imageUrl !==''"
+              [hidden]="imageChangedEvent"
               class="btn btn-primary button-select"
               (click)="handleFileInput()"
             >
               Select from computer
             </button>
-            <img [hidden]="!imageUrl || imageUrl ===''" src ="{{imageUrl}}">
+
+            <div [hidden]="!imageChangedEvent">
+              <div class="btn-image-edit">
+                <a href="#" (click)="resetImage()"
+                  ><i class="fa fa-refresh" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="flipHorizontal()"
+                  ><i class="fa fa-arrows-h" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="flipVertical()"
+                  ><i class="fa fa-arrows-v" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="rotateLeft()"
+                  ><i class="fa fa-undo" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="rotateRight()"
+                  ><i class="fa fa-repeat" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="zoomOut()"
+                  ><i class="fa fa-search-minus" aria-hidden="true"></i
+                ></a>
+                <a href="#" (click)="zoomIn()"
+                  ><i class="fa fa-search-plus" aria-hidden="true"></i
+                ></a>
+                <a
+                  href="#"
+                  style="font-weight: bold"
+                  (click)="onSaveDisplayImage()"
+                  >Save</a
+                >
+              </div>
+              <div class="custom-image-cropper">
+                <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [containWithinAspectRatio]="containWithinAspectRatio"
+                  [maintainAspectRatio]="true"
+                  [aspectRatio]="aspectRatio"
+                  [autoCrop]="true"
+                  [onlyScaleDown]="false"
+                  [roundCropper]="false"
+                  [canvasRotation]="canvasRotation"
+                  [transform]="transform"
+                  [alignImage]="'left'"
+                  [style.display]="showCropper ? null : 'none'"
+                  format="png"
+                  (imageCropped)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()"
+                  (cropperReady)="cropperReady($event)"
+                  (loadImageFailed)="loadImageFailed()"
+                ></image-cropper>
+              </div>
+            </div>
+          </div>
+          <div class="content-part">
+            <div class="userinfo-part">
+              <div class="uh-image">
+                <img
+                  class="uh-image-inner"
+                  src="{{ userInfo.avatar }}"
+                  alt=""
+                />
+                <div class="gradient"></div>
+              </div>
+              <span
+                ><strong>{{ userInfo.name }}</strong></span
+              >
+            </div>
+
+            <!-- <input
+              formControlName="caption"
+              type="text"
+              style="width: 300px; height: 150px; word-wrap: break-word"
+            /> -->
+            <textarea
+              formControlName="caption"
+              class="form-control mt-3"
+              placeholder="Write your caption here..."
+              #textAreaComment
+              rows="4"
+            ></textarea>
           </div>
         </div>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Tab 2">
+    <mat-tab label="Itinerary">
       <ng-template matTabContent>
-        <div [formGroup]="formGroup2">
-          <input type="text" formControlName="field2" placeholder="Field 2" />
+        <div [formGroup]="formGroup2" class="formGroup2">
+          <div formArrayName="phones">
+            <div
+              *ngFor="let phone of phoneForms.controls; let i = index"
+              [formGroupName]="i"
+              class="mb-3"
+            >
+              <div class="date-range">
+                <div class="date-group">
+                  <label class="label-date">Start Date</label>
+                  <input
+                    type="date"
+                    class="form-control input-date"
+                    formControlName="startDate"
+                  />
+                </div>
+                <div class="date-group">
+                  <label class="label-date">End Date</label>
+                  <input
+                    type="date"
+                    class="form-control input-date"
+                    formControlName="endDate"
+                  />
+                </div>
+                <i
+                  class="fa fa-trash"
+                  aria-hidden="true"
+                  (click)="deletePhone(i)"
+                ></i>
+              </div>
+
+              <input
+                type="text"
+                class="form-control mt-2 mb-2 w-10"
+                formControlName="title"
+                placeholder="Title"
+              />
+
+              <textarea
+                formControlName="description"
+                class="form-control mt-3"
+                placeholder="Write your description here..."
+                #textAreaComment
+                rows="4"
+              ></textarea>
+
+              <owl-carousel-o [options]="customOptions">
+                <ng-template carouselSlide>
+                  <i
+                    class="fa fa-plus-circle button-add"
+                    aria-hidden="true"
+                    (click)="handleThumbnailInput(i)"
+                  ></i>
+                </ng-template>
+                <input
+                  (change)="onThumbnailSelected($event)"
+                  type="file"
+                  #thumbnailInput
+                  formControlName="thumbnailInput"
+                  style="display: none"
+                />
+                <ng-template carouselSlide *ngFor="let item of thumbnails[i]">
+                  <img class="img-thumnal" src="{{ item }}" />
+                </ng-template>
+              </owl-carousel-o>
+              <hr />
+            </div>
+          </div>
+
+          <button class="btn btn-info m" (click)="addPhone()">
+            Add Itinerary
+          </button>
         </div>
       </ng-template>
     </mat-tab>
-    <!-- Add more tabs as needed -->
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <a
+          href="#"
+          style="font-weight: bolder"
+          mat-icon-button
+          (click)="submit()"
+        >
+          Submit
+        </a>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
+  <br />
 </form>

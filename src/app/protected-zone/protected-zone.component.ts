@@ -56,6 +56,7 @@ export class ProtectedZoneComponent implements OnInit, OnDestroy {
     this.signalrService.registerUserConnectedHandler();
     this.signalrService.registerUserDisconnectedHandler();
     this.signalrService.registerUserEventHandler();
+    this.signalrService.onReceiveMessage();
   }
 
   receiveCollapsed($event: any) {

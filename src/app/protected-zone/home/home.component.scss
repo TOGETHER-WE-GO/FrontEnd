@@ -1,9 +1,39 @@
 .home-container {
-    margin-right: 535px;
-    padding: 15px;
-    -ms-overflow-x: hidden;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    position: relative;
-    overflow: hidden;
+  margin-right: 10%;
+  padding: 15px;
+  -ms-overflow-x: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  overflow: hidden;
+  margin-left: 10%;
+
+  .img-display{
+    width: 100%;
+    object-fit: fill;
+  }
 }
+
+.span-more {
+  color: #686767d8;
+  cursor: pointer;
+}
+
+// .modal-lg {
+//     width: 1308px;
+// }
+
+// :host ::ng-deep .modal-lg {
+//     width: 1308px;
+//   }
+
+::ng-deep .modal-lg {
+  /* Your custom styles here */
+  width: 65%;
+  max-width: 90%;
+  height: 100%;
+}
+
+// ::ng-deep .modal-lg .modal-content {
+//   height: 85vh; /* Adjust the height to your desired value */
+// }

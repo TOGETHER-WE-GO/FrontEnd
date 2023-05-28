@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProfilesComponent } from './profiles/profiles.component';
 import { ProtectedZoneComponent } from './protected-zone.component';
+import { TripPlanComponent } from './trip-plan/trip-plan.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
         //     functionCode: 'CONTENT_KNOWLEDGEBASE'
         // },
         // canActivate: [AuthGuard]
-    },
+      },
       {
         path: 'contents',
         loadChildren: () =>
@@ -32,7 +33,11 @@ const routes: Routes = [
         //     functionCode: 'CONTENT_KNOWLEDGEBASE'
         // },
         // canActivate: [AuthGuard]
-    },
+      },
+      {
+        path: 'trip-plan',
+        component: TripPlanComponent,
+      },
     ],
   },
 ];

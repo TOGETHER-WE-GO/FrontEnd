@@ -1,11 +1,23 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { TokenStorageService, UserService } from '../../shared/services';
+import {
+  PostService,
+  SignalRService,
+  TokenStorageService,
+  UserService,
+} from '../../shared/services';
 import { FollowRequest, User, UserActivity } from '../../shared/models';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ProfileFollowsComponent } from './profile-follows/profile-follows.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { Post } from 'src/app/shared/models/posts/post.model';
+import { NewsfeedDetailComponent } from '../home/newsfeed-detail/newsfeed-detail.component';
+import {
+  AcceptFollowRequestEvent,
+  FollowRequestEvent,
+  RejectFollowRequestEvent,
+} from 'src/app/shared/_helpers/constant';
 
 @Component({
   selector: 'app-profiles',
@@ -15,6 +27,7 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 export class ProfilesComponent implements OnInit, OnDestroy {
   public userProfile: User;
   public userActivity: UserActivity;
+  public posts: Post[];
   public loginUserId: string;
   public isFollowing: boolean;
   public isReceivingFollowRequest: boolean;
@@ -26,11 +39,15 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private userId: string;
 
+  gridColumns = 4;
+
   constructor(
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private tokenStorageService: TokenStorageService
+    private postService: PostService,
+    private tokenStorageService: TokenStorageService,
+    private signalRService: SignalRService
   ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -41,6 +58,8 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id');
     this.fetchProfileData();
     this.fetchActivityData();
+    this.fetchUserPosts();
+    this.subscribeSignalEvent();
 
     this.userService.isChangeProfile$.subscribe((data) => {
       if (data)
@@ -52,6 +71,31 @@ export class ProfilesComponent implements OnInit, OnDestroy {
             })
         );
     });
+  }
+
+  subscribeSignalEvent() {
+    this.signalRService.notification$.subscribe((event) => {
+      if (event.type === 'OnEvent' && event.data) {
+        if (event.data.title == FollowRequestEvent) {
+          this.isReceivingFollowRequest = true;
+        } else if (event.data.title == RejectFollowRequestEvent) {
+          this.isSendingFollowRequest = false;
+          this.isFollowing = false;
+        } else if (event.data.title == AcceptFollowRequestEvent) {
+          this.isFollowing = true;
+        }
+      }
+    });
+  }
+
+  fetchUserPosts() {
+    this.subscription.add(
+      this.postService
+        .getUserPosts(this.userId)
+        .subscribe((response: Post[]) => {
+          this.posts = response;
+        })
+    );
   }
 
   fetchActivityData() {
@@ -99,8 +143,6 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   }
 
   public handelFollowOrRemove(): void {
-    
-
     if (!(this.isFollowing || this.isSendingFollowRequest)) {
       const followRequest: FollowRequest = {
         sourceId: this.loginUserId,
@@ -163,7 +205,11 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   openModal(isFollower: number) {
     this.bsModalRef = this.modalService.show(ProfileFollowsComponent, {
       class: 'modal-dialog-centered custome-dialog',
-      initialState: { userId: this.userId, loginedUserId: this.loginUserId, isFollower: isFollower },
+      initialState: {
+        userId: this.userId,
+        loginedUserId: this.loginUserId,
+        isFollower: isFollower,
+      },
     });
   }
 
@@ -171,6 +217,22 @@ export class ProfilesComponent implements OnInit, OnDestroy {
     this.bsModalRef = this.modalService.show(ProfileEditComponent, {
       class: 'modal-dialog modal-lg',
       initialState: { userId: this.userId, userProfile: this.userProfile },
+    });
+  }
+
+  public getCardImage(post: Post) {
+    if (post.displayImage) {
+      return post.displayImage.imageUrl;
+    } else {
+      return '../../../../assets/default.png';
+    }
+  }
+
+  onPostClick(item: Post) {
+    this.bsModalRef = this.modalService.show(NewsfeedDetailComponent, {
+      class: 'modal-lg',
+      backdrop: 'static',
+      initialState: { postId: item.id, userInfo: this.userProfile },
     });
   }
 }

@@ -1,24 +1,32 @@
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { Token } from '../models/users/token.model';
-import { TOKEN_KEY, USER_KEY } from '../_helpers/constant';
+import {
+  TOKEN_KEY,
+  USER_AVATAR,
+  USER_KEY,
+  USER_NAME,
+} from '../_helpers/constant';
 // const TOKEN_KEY = 'auth-token';
-// const USER_KEY = 'auth-user'; 
+// const USER_KEY = 'auth-user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenStorageService {
-
-  constructor() { }
+  constructor() {}
 
   signOut(): void {
     window.localStorage.clear();
   }
 
   public saveToken(token: string): void {
+    const user = jwt_decode(token) as Token;
+
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
+
+    this.updateUserInfo(user.avatar, user.name);
   }
 
   public getToken(): string {
@@ -34,12 +42,25 @@ export class TokenStorageService {
     return JSON.parse(localStorage.getItem(USER_KEY));
   }
 
-  public getUserTokenInfo(): Token {
-    try {
-      return jwt_decode(this.getToken());
-    } catch (Error) { 
-      return null;
+  public updateUserInfo(avatar: string, name: string): any {
+    if (avatar.length != 0) {
+      window.localStorage.removeItem(USER_AVATAR);
+      window.localStorage.setItem(USER_AVATAR, avatar);
+    }
+    if (name.length != 0) {
+      window.localStorage.removeItem(USER_NAME);
+      window.localStorage.setItem(USER_NAME, name);
     }
   }
 
+  public getUserTokenInfo(): Token {
+    try {
+      const user = jwt_decode(this.getToken()) as Token;
+      user.avatar = localStorage.getItem(USER_AVATAR);
+      user.name = localStorage.getItem(USER_NAME);
+      return user;
+    } catch (Error) {
+      return null;
+    }
+  }
 }

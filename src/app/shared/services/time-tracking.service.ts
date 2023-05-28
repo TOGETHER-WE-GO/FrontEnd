@@ -6,7 +6,8 @@ import { interval } from 'rxjs';
 })
 export class TimeTrackingService {
   private view = 0;
-  private intervalSubscription: any;
+  public intervalSubscription: any;
+  public isRunning: boolean = false;
 
   startTracking() {
     this.intervalSubscription = interval(5000).subscribe(() => {
@@ -21,5 +22,9 @@ export class TimeTrackingService {
 
   getTimeSpent() {
     return this.view;
+  }
+
+  resetTimeSpent(){
+    this.view = 0;
   }
 }

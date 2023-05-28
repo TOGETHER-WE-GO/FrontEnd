@@ -31,6 +31,7 @@ import { environment } from '../../../../../environments/environment';
 export class ExploreDetailComponent implements OnInit, OnDestroy {
   placeDetail: PlaceDetail;
   placeRecommend: PlaceOverall[];
+  placeRecommendNearby: PlaceOverall[];
   placeDetailId: number;
   blockedPanel = false;
   isRestaurant = true;
@@ -77,26 +78,23 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
-    this.timeTrackingService.stopTracking();
-
-    let entity: UpdateUserInteraction = {
-      userId: this.loginUserId,
-      placeId: this.placeDetail.id,
-      score: this.timeTrackingService.getTimeSpent(),
-    };
-
-    this.userService.updateUserView(entity);
-
-    this.subscription.unsubscribe();
+    this.stopTrackingUser();
   }
 
   ngOnDestroy(): void {
+    this.stopTrackingUser();
     this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.timeTrackingService.startTracking();
+    this.activatedRoute.params.subscribe((val) => {
+      this.stopTrackingUser();
+      this.initPage();
+    });
+  }
 
+  private initPage() {
+    this.startTrackingUser();
     this.loginUserId = this.tokenStorageService.getUserTokenInfo()?.nameid;
 
     this.placeDetailId = Number(
@@ -128,6 +126,40 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
           this.placeRecommend = data2;
         })
     );
+
+    this.subscription.add(
+      this.recommendService
+        .recommendPlaceNearby(this.placeDetailId, 30)
+        .subscribe((response: PlaceOverall[]) => {
+          this.placeRecommendNearby = response;
+        })
+    );
+  }
+
+  private startTrackingUser() {
+    this.timeTrackingService.startTracking();
+    this.timeTrackingService.isRunning = true;
+  }
+
+  private stopTrackingUser() {
+    if (
+      this.timeTrackingService &&
+      this.timeTrackingService.intervalSubscription &&
+      this.timeTrackingService.isRunning
+    ) {
+      this.timeTrackingService.stopTracking();
+
+      if (this.timeTrackingService.getTimeSpent() > 0) {
+        let entity: UpdateUserInteraction = {
+          userId: this.loginUserId,
+          placeId: this.placeDetail.id,
+          score: this.timeTrackingService.getTimeSpent(),
+        };
+        this.userService.updateUserView(entity);
+        this.timeTrackingService.resetTimeSpent();
+        this.timeTrackingService.isRunning = false;
+      }
+    }
   }
 
   onRateChange(event: number) {

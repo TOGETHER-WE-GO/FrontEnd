@@ -1,23 +1,186 @@
+:host {  
+  height: 100%;
+}
+
+
 .formGroup1 {
-  height: 600px;
+  margin-top: 15px;
+  height: 77vh;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 
   .image-part {
-    width: 60%;
+    width: 65%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-right: 1px solid gray;
 
-    img{
-        margin: auto;
-        width: 100%;
-        height: 100%;
+    img {
+      margin: auto;
+      width: 100%;
+      height: 100%;
     }
     .button-select {
       margin: auto;
       border-radius: 5%;
     }
+
+    .btn-image-edit{
+      margin: auto;
+      padding-top: 15px;
+      display: flex;
+      flex-direction: row;
+      width: 50%;
+      justify-content: space-between;
+    }
+    .custom-image-cropper {
+      height: 75vh;
+      width: 100%;
+      object-fit: fill;
+    }
   }
+
+  .content-part {
+    width: 35%;
+    height: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    .userinfo-part {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .uh-image {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .uh-image-inner {
+        width: 2.4rem;
+        height: 2.4rem;
+        border: 0.3em solid var(--grey);
+        object-fit: cover;
+        border-radius: 50%;
+        z-index: 1;
+      }
+      .gradient {
+        width: 100%;
+        height: 100%;
+        padding: 0.3em;
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(
+          45deg,
+          rgba(214, 41, 118, 1) 0%,
+          rgba(250, 126, 30, 1) 100%
+        );
+      }
+      .gradient-gray {
+        width: 100%;
+        height: 100%;
+        padding: 0.3em;
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(
+          45deg,
+          rgba(236, 237, 243, 1) 0%,
+          rgba(228, 229, 233, 1) 100%
+        );
+      }
+
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+.formGroup2 {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  .date-range {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .date-group {
+        width: 35%;
+        display: flex;
+        flex-direction: row;
+
+      .label-date {
+        width: 30%;
+      }
+      .input-date {
+        width: 60%;
+      }
+    }
+
+    i{
+        font-size: 25px;
+        transform: translate(-80%, 10%);
+        color: red;
+    }
+  }
+
+  .img-thumnal{
+    width: 160px;
+    height: 140px;
+  }
+
+  owl-carousel-o {
+    ::ng-deep{
+     .owl-stage{
+       .owl-item{
+         width: 170px !important;
+       }
+     }
+    }
+
+    .button-add{
+      font-size: 500%;
+      transform: translate(70%, 40%);
+      cursor: pointer;
+      height: 130px;
+    }
+   }
+
+}
+
+:host ::ng-deep .mat-ripple-element {
+  position: absolute;
+}
+
+.mat-tab-label:last-child {
+  right: 0px;
+  margin-left: 500px;
+}
+
+::ng-deep .ngx-ic-overlay {
+  height: 100vh !important; /* Adjust the height to your desired value */
+}
+
+.close {
+  margin-right: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 23px;
+  height: 23px;
+  border-radius: 23px;
+  background-color: #ef0000;
+  color: white;
+  font-size: 20px;
+  opacity: 1;
+  z-index: 10;
 }

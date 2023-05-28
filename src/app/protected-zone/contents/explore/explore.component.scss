@@ -102,6 +102,12 @@ mat-toolbar {
 
 .mat-card{
   background-color: white;
+  height: 480px;
+
+  .mat-card-content{
+    height: 50%;
+    overflow: hidden;
+  }
 }
 
 .content {

@@ -11,7 +11,7 @@
       [routerLinkActive]="['router-link-active']"
       class="uh-image"
     >
-      <img class="uh-image-inner" src="{{ loginUser.Avatar }}" alt="" />
+      <img class="uh-image-inner" src="{{ loginUser.avatar }}" alt="" />
       <div class="gradient"></div>
     </a>
   </div>
@@ -34,7 +34,7 @@
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
         <span>{{ item.name }}</span>
-        <span class="notification-count-unread" *ngIf="item.name == 'Notification'">{{unReadNotification}}</span>
+        <span class="notification-count-unread" *ngIf="item.name == 'Notification' && unReadNotification!=0">{{unReadNotification}}</span>
       </a>
       <li
         *ngIf="item.children.length > 0"
@@ -93,7 +93,7 @@
     <span [innerHTML]="formatNotificationContent(item)"></span>
     <span class="notification-read" *ngIf="!item.isRead"></span>
     <p class="notification-time">
-      {{ item.createdDate | date : "medium" }}
+      {{ item.createdDate | date : "short" : "local" }}
     </p>
   </div>
 </nav>

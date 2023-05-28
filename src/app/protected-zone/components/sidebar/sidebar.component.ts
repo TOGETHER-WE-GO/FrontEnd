@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   pushRightClass!: string;
   loginUser: any;
   isClickNoti: boolean = false;
-  unReadNotification: number;
+  unReadNotification: number = 0;
   userNotifications: Notifications[];
   public menuTabs!: MenuTab[];
   public bsModalRef: BsModalRef;
@@ -95,7 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Messages',
-        url: '/test',
+        url: '/trip-plan',
         icon: 'fa-telegram',
         sortOrder: 3,
         children: [],
@@ -127,10 +127,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.getUserNotification();
 
     this.signalRService.notification$.subscribe((event) => {
-      if (event.type === 'OnEvent') {
+      if (event.type === 'OnEvent' && event.data) {
         this.userNotifications.unshift(event.data);
         this.unReadNotification = this.unReadNotification + 1;
-        this.signalRService.notification$.next({type: '', data: null})
+        // this.signalRService.notification$.next({type: '', data: null})
       }
     });
   }
@@ -178,6 +178,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       this.bsModalRef = this.modalService.show(PostsComponent, {
         class: 'modal-dialog modal-lg',
+        backdrop: 'static',
         initialState: {width: '500px', height: '300px' },
       });
     }
@@ -191,11 +192,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   checkRead(item: Notifications) {
-    this.subscription.add(this.notificationService.markReadNotification(item.id).subscribe((response: boolean) =>{
-      if(response)
-        item.isRead = true; 
-        this.unReadNotification = this.unReadNotification - 1;
-    }))
+    if(!item.isRead)
+      this.subscription.add(this.notificationService.markReadNotification(item.id).subscribe((response: boolean) =>{
+        if(response)
+          item.isRead = true; 
+          this.unReadNotification = this.unReadNotification - 1;
+      }))
   }
 
   formatNotificationContent(item: Notifications): string {

@@ -8,6 +8,7 @@ export interface PlaceOverall{
     types: PlaceFeatureType[] | null,
     subTypes: PlaceFeatureType[] | null,
     services: PlaceFeatureType[] | null,
+    travelTypes: PlaceFeatureType[] | null,
     avgRating: number,
     avgView: number,
     avgTag: number,

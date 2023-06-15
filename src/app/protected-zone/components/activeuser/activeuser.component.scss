@@ -1,3 +1,26 @@
+:host{
+  position: fixed;
+  top: 0px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgba(247, 247, 247, 1);
+  width: 100%;
+  z-index: 100;
+}
+
+.container{
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 80%;
+  height: 130px;
+  left: 0;
+  margin-left: 0px;
+}
+
+h4{
+  font-family: Inter, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 .online-icon{
   width: 3.5rem;
   height: 3.5rem;
@@ -41,12 +64,17 @@
 
 .mat-card-title{
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
+    width: 80px;
+    overflow:hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-elevation-z4{
     max-width: 20px;
     width: 20px;
+    margin-right: 10px;
 }
 
 owl-carousel-o {

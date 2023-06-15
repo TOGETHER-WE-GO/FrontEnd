@@ -5,8 +5,15 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { UserFollow, Message, Token, ChatGroup } from 'src/app/shared/models';
-import { SignalRService, TokenStorageService, ChatGroupService } from '../../shared/services';
+import { Subscription } from 'rxjs';
+import {
+  Token,
+  PlaceFeatureType,
+  TripPlan
+} from 'src/app/shared/models';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { TokenStorageService, PlaceService, PostService } from '../../shared/services';
+import { TripPlanDetailComponent } from './trip-plan-detail/trip-plan-detail.component';
 @Component({
   selector: 'app-trip-plan',
   templateUrl: './trip-plan.component.html',
@@ -15,64 +22,48 @@ import { SignalRService, TokenStorageService, ChatGroupService } from '../../sha
 export class TripPlanComponent implements OnInit, OnDestroy {
   alignMessage = 'chat-message-right';
   user: Token;
-  messages: Message[] = [];
-  chatGroup: ChatGroup;
+  locations: PlaceFeatureType[] = [];
+  tripPlans: TripPlan[];
+  public bsModalRef: BsModalRef;
+
+  private subscription = new Subscription();
+
   @ViewChild('sendMessage') sendMessage: ElementRef;
   constructor(
-    private signalRService: SignalRService,
     private tokenService: TokenStorageService,
-    private chatGroupService: ChatGroupService
+    private placeService: PlaceService,
+    private modalService: BsModalService,
+    private postService: PostService
   ) {}
 
   ngOnInit(): void {
     this.user = this.tokenService.getUserTokenInfo();
-    this.chatGroupService.getChatGroupDetail('ABC1234').subscribe((response: ChatGroup) =>{
-      this.chatGroup = response;
-      this.messages = response.messages;
-    })
-    if (this.signalRService.checkConnection()) {
-      this.signalRService.joinGroup('ABC1234');
-    }
-
-    this.subscribeMessageEvent();
+    this.subscription.add(
+      this.placeService
+        .getPlaceLocation()
+        .subscribe((response: PlaceFeatureType[]) => {
+          this.locations = response;
+        })
+    );
   }
 
   ngOnDestroy(): void {
-    this.signalRService.leaveGroup('ABC1234');
+    this.subscription.unsubscribe();
   }
 
-  subscribeMessageEvent() {
-    this.signalRService.message$.subscribe((event) => {
-      if (event.type === 'OnReceiveMessage' && event.data) {
-        this.messages.push(event.data);
-      }
+  onSubmit(contactForm: any) {
+    console.log(contactForm)
+    if(contactForm.value['city'] && contactForm.value['startDate'] && contactForm.value['endDate'])
+    this.subscription.add(this.postService.searchTripPlan(contactForm.value['city'], contactForm.value['startDate'], contactForm.value['endDate']).subscribe((response: TripPlan[]) =>{
+      this.tripPlans = response;
+    }));
+  }
+
+  onTripPlanClick(item: TripPlan) {
+    this.bsModalRef = this.modalService.show(TripPlanDetailComponent, {
+      class: 'modal-lg',
+      backdrop: 'static',
+      initialState: { tripPlanId: item.id, tripPlanIdentifier: item.propertyIdentifier },
     });
-  }
-
-  onSendMessage() {
-    if (this.sendMessage.nativeElement.value.length != 0) {
-      const message: Message = {
-        id: 'sss',
-        fromUserId: this.user.nameid,
-        fromUserName: this.user.name,
-        fromUserAvatar: this.user.avatar,
-        content: this.sendMessage.nativeElement.value,
-        createdAt: new Date(),
-      };
-
-      this.signalRService
-        .sendMessage('ABC1234', message)
-        .then((result) => {
-          this.sendMessage.nativeElement.value = '';
-          // this.messages.push({
-          //   fromUserId: this.user.userId,
-          //   fromUserAvatar: this.user.avatar,
-          //   fromUserName: this.user
-          // })
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
   }
 }

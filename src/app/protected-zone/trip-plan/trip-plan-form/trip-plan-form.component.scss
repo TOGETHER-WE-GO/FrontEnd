@@ -1,7 +1,6 @@
-:host {  
+:host {
   height: 100%;
 }
-
 
 .formGroup1 {
   margin-top: 15px;
@@ -28,7 +27,7 @@
       border-radius: 5%;
     }
 
-    .btn-image-edit{
+    .btn-image-edit {
       margin: auto;
       padding-top: 15px;
       display: flex;
@@ -40,6 +39,7 @@
       height: 75vh;
       width: 100%;
       object-fit: fill;
+      display: flex;
     }
   }
 
@@ -114,9 +114,9 @@
     justify-content: space-between;
 
     .date-group {
-        width: 35%;
-        display: flex;
-        flex-direction: row;
+      width: 35%;
+      display: flex;
+      flex-direction: row;
 
       .label-date {
         width: 30%;
@@ -132,40 +132,79 @@
       width: 100%;
       height: 500px;
     }
-    
+
     .example-full-width {
       width: 100%;
     }
 
-    i{
-        font-size: 25px;
-        transform: translate(-80%, 10%);
-        color: red;
+    i {
+      font-size: 25px;
+      transform: translate(-80%, 10%);
+      color: red;
     }
   }
 
-  .img-thumnal{
+  .img-thumnal {
     width: 160px;
     height: 140px;
   }
 
-  owl-carousel-o {
-    ::ng-deep{
-     .owl-stage{
-       .owl-item{
-         width: 170px !important;
-       }
-     }
-    }
+  .chat-messages {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    max-height: 200px;
+    overflow-y: scroll;
 
-    .button-add{
-      font-size: 500%;
-      transform: translate(70%, 40%);
+    .div-place{
       cursor: pointer;
-      height: 130px;
-    }
-   }
 
+      img{
+        border-radius: 5%;
+        object-fit: fill;
+        height: 50px;
+        width: 70px;
+        margin-right: 10px;
+      }
+    }
+    .div-place:hover{
+      background-color: #ede7e7;
+    }
+  }
+
+  owl-carousel-o {
+    ::ng-deep {
+      .owl-stage {
+        .owl-item {
+          width: 200px !important;
+        }
+      }
+    }
+
+    .carousel-place{
+      border: 1px black;
+      border-radius: 10%;
+    }
+
+    .place-thumbnnail{
+      width: 200px;
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      background-color: #ede7e7;
+
+      img{
+        border-radius: 5%;
+        width: 80px;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.ck-editor__editable {
+  height: 500px;
 }
 
 :host ::ng-deep .mat-ripple-element {
@@ -194,4 +233,8 @@
   font-size: 20px;
   opacity: 1;
   z-index: 10;
+}
+
+select {
+  appearance: none;
 }

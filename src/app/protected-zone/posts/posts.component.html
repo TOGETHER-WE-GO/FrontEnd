@@ -132,6 +132,7 @@
                   />
                 </div>
                 <i
+                  style="cursor: pointer;"
                   class="fa fa-trash"
                   aria-hidden="true"
                   (click)="deletePhone(i)"
@@ -152,7 +153,24 @@
                 #textAreaComment
                 rows="4"
               ></textarea>
-
+              
+              <form class="example-form">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Number</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [formControl]="myControl"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </form>
+    
               <owl-carousel-o [options]="customOptions">
                 <ng-template carouselSlide>
                   <i

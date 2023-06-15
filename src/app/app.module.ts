@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { authInterceptorProviders } from './shared/interceptors/auth.interceptor';
+import { UINotificationService } from './shared/services';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { authInterceptorProviders } from './shared/interceptors/auth.interceptor
     NgxPaginationModule,
     BrowserAnimationsModule
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, UINotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

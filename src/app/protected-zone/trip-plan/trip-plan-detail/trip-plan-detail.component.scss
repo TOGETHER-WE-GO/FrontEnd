@@ -1,0 +1,118 @@
+.animation {
+  overflow: hidden;
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+.place-thumbnnail {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  background-color: #ede7e7;
+
+  img {
+    border-radius: 5%;
+    width: 80px;
+    height: 100%;
+  }
+}
+
+.join-part{
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+owl-carousel-o {
+  ::ng-deep {
+    .owl-stage {
+      .owl-item {
+        width: 200px !important;
+      }
+    }
+  }
+}
+
+.container {
+  height: 80vh;
+  overflow-y: hidden;
+}
+.chat-container {
+  height: 70vh;
+  max-height: 70vh;
+}
+.chat-online {
+  color: #34ce57;
+}
+
+.chat-offline {
+  color: #e4606d;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+  max-height: 85%;
+  overflow-y: scroll;
+  padding-right: 5px;
+}
+
+.chat-send{
+    height: 15%;
+}
+
+.chat-message-left,
+.chat-message-right {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.chat-message-left {
+  margin-right: auto;
+}
+
+.chat-message-right {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+.py-3 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+.px-4 {
+  padding-right: 1.5rem !important;
+  padding-left: 1.5rem !important;
+}
+.flex-grow-0 {
+  flex-grow: 0 !important;
+  height: 15%;
+}
+.border-top {
+  border-top: 1px solid #dee2e6 !important;
+}
+
+.close {
+  margin-right: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 23px;
+  height: 23px;
+  border-radius: 23px;
+  background-color: #ef0000;
+  color: white;
+  font-size: 20px;
+  opacity: 1;
+  z-index: 10;
+}
+
+a {
+  text-decoration: none;
+}
+
+:host ::ng-deep .mat-ripple-element {
+  position: absolute;
+}

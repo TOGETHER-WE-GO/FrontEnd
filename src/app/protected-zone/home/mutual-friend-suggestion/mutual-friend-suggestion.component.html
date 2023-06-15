@@ -1,0 +1,41 @@
+<div class="container">
+  <h5 class="pt-2 mb-0">People you may know</h5>
+
+  <div *ngFor="let suggest of followMutuals">
+    <a
+      href="javascript:void(0)"
+      routerLink="/profiles/{{ suggest.userId }}"
+      [routerLinkActive]="['router-link-active']"
+      class="list-group-item list-group-item-action border-0 pr-0 pl-0"
+    >
+      <!-- <div class="badge bg-success float-right">5</div> -->
+      <div class="d-flex align-items-start">
+        <img
+          src="{{ suggest.avatar }}"
+          class="rounded-circle mr-1"
+          width="40"
+          height="40"
+        />
+        <div class="flex-grow-1 ml-3">
+          {{ suggest.userName }}
+          <div class="small">
+            <span
+              style="
+                width: 50%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                margin-right: 5px;
+              "
+              >Followed by
+              {{ suggest.countFollowsBy > 0 ? suggest.followsBy[0] : "" }}</span
+            >
+            <span *ngIf="suggest.countFollowsBy > 1">
+              + {{ suggest.countFollowsBy - 1 }} more</span
+            >
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

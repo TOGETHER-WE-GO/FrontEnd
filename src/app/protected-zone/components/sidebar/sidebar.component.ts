@@ -16,6 +16,7 @@ import {
   TokenStorageService,
 } from 'src/app/shared/services';
 import { PostsComponent } from '../../posts/posts.component';
+import { TripPlanFormComponent } from '../../trip-plan/trip-plan-form/trip-plan-form.component';
 // import {  } from 'src/app/shared/services/token-storage.service';
 // import { UserService } from 'src/app/shared/services/user.service';
 
@@ -94,7 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
       {
-        name: 'Messages',
+        name: 'Trip',
         url: '/trip-plan',
         icon: 'fa-telegram',
         sortOrder: 3,
@@ -112,7 +113,22 @@ export class SidebarComponent implements OnInit, OnDestroy {
         url: '/test',
         icon: 'fa-plus-square',
         sortOrder: 5,
-        children: [],
+        children: [
+          {
+            name: 'Post',
+            url: '/test',
+            icon: 'fa-picture-o',
+            sortOrder: 1,
+            children: [],
+          },
+          {
+            name: 'Trip Plan',
+            url: '/test',
+            icon: 'fa-calendar',
+            sortOrder: 2,
+            children: [],
+          },
+        ],
       },
     ];
   }
@@ -174,9 +190,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       this.isClickNoti = !this.isClickNoti;
       this.collapsed = true;
-    }else if(item.name == 'Create')
+    }else if(item.name == 'Post')
     {
       this.bsModalRef = this.modalService.show(PostsComponent, {
+        class: 'modal-dialog modal-lg',
+        backdrop: 'static',
+        initialState: {width: '500px', height: '300px' },
+      });
+    }
+    else if(item.name == 'Trip Plan')
+    {
+      this.bsModalRef = this.modalService.show(TripPlanFormComponent, {
         class: 'modal-dialog modal-lg',
         backdrop: 'static',
         initialState: {width: '500px', height: '300px' },

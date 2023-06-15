@@ -38,7 +38,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   private userId: string;
-
+  options: string[] = ['One', 'Two', 'Three'];
   gridColumns = 4;
 
   constructor(

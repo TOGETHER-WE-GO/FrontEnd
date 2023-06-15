@@ -63,9 +63,9 @@ $topnav-background-color: #ffff;
   position: fixed;
   z-index: 3;
   top: 0px;
-  left: 235px;
-  width: 235px;
-  margin-left: -235px;
+  left: 16vw;   //235px
+  width: 16vw;  //235px
+  margin-left: -16vw; //-235px
   margin-bottom: 48px;
   overflow-y: auto;
   background-color: $topnav-background-color;
@@ -238,12 +238,12 @@ $topnav-background-color: #ffff;
 }
 
 i {
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .toggle-button {
   position: fixed;
-  width: 235px;
+  width: 16vw;  //235px
   cursor: pointer;
   padding: 12px;
   bottom: 0;

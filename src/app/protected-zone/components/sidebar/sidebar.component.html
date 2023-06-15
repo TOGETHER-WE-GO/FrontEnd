@@ -24,8 +24,12 @@
         *ngIf="item.children.length > 0"
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
-        <span>{{ item.name }}</span>
-        <span class="notification-count-unread" *ngIf="item.name == 'Notification'">{{unReadNotification}}</span>
+        <span style="font-size: 19px;">{{ item.name }}</span>
+        <span
+          class="notification-count-unread"
+          *ngIf="item.name == 'Notification'"
+          >{{ unReadNotification }}</span
+        >
       </a>
       <a
         (click)="onMenuClick(item)"
@@ -33,8 +37,12 @@
         class="list-group-item"
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
-        <span>{{ item.name }}</span>
-        <span class="notification-count-unread" *ngIf="item.name == 'Notification' && unReadNotification!=0">{{unReadNotification}}</span>
+        <span style="font-size: 19px;">{{ item.name }}</span>
+        <span
+          class="notification-count-unread"
+          *ngIf="item.name == 'Notification' && unReadNotification != 0"
+          >{{ unReadNotification }}</span
+        >
       </a>
       <li
         *ngIf="item.children.length > 0"
@@ -44,12 +52,13 @@
         <ul class="submenu">
           <li *ngFor="let subItem of item.children">
             <a
+              (click)="onMenuClick(subItem)"
               href="javascript:void(0)"
               routerLink="{{ subItem.url }}"
               [routerLinkActive]="['router-link-active']"
             >
               <i class="fa {{ subItem.icon }}"></i>&nbsp;
-              <span>{{ subItem.name }}</span>
+              <span style="font-size:19px">{{ subItem.name }}</span>
             </a>
           </li>
         </ul>
@@ -88,7 +97,11 @@
     Notification
   </p>
   <br />
-  <div class="notification-item" *ngFor="let item of userNotifications" (click) = "checkRead(item)">
+  <div
+    class="notification-item"
+    *ngFor="let item of userNotifications"
+    (click)="checkRead(item)"
+  >
     <img class="noti-avatar" src="{{ item.fromAvatar }}" />&nbsp;
     <span [innerHTML]="formatNotificationContent(item)"></span>
     <span class="notification-read" *ngIf="!item.isRead"></span>

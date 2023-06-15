@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlaceOverall, UpdateUserInteraction } from '../models';
+import { PlaceOverall, FollowMutualRecommend } from '../models';
 import { BaseService } from './base.service';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs';
@@ -38,8 +38,23 @@ export class RecommendationService extends BaseService {
       );
   }
 
-  recommendPlaceNearby(id: number, limit: number)
-  {
+  recommendFollowByMutualFollowing(userId: string) {
+    return this.http
+      .get<FollowMutualRecommend[]>(
+        `${environment.exploreurl}/api/recommendation/users/${userId}/follows-mutual`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: FollowMutualRecommend[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  recommendPlaceNearby(id: number, limit: number) {
     let params = new HttpParams().set('limit', limit);
 
     return this.http

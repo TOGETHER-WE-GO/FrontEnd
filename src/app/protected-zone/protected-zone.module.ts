@@ -26,6 +26,18 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TripPlanComponent } from './trip-plan/trip-plan.component';
 import { TripPlanDetailComponent } from './trip-plan/trip-plan-detail/trip-plan-detail.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {NgFor, AsyncPipe} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import { TripPlanFormComponent } from './trip-plan/trip-plan-form/trip-plan-form.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DropdownModule } from 'primeng/dropdown';
+import { BlockUIModule } from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PanelModule } from 'primeng/panel';
+import { MutualFriendSuggestionComponent } from './home/mutual-friend-suggestion/mutual-friend-suggestion.component';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
@@ -40,7 +52,9 @@ import { TripPlanDetailComponent } from './trip-plan/trip-plan-detail/trip-plan-
     NewsfeedDetailComponent,
     UtcToLocalTimePipe,
     TripPlanComponent,
-    TripPlanDetailComponent
+    TripPlanDetailComponent,
+    TripPlanFormComponent,
+    MutualFriendSuggestionComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +70,17 @@ import { TripPlanDetailComponent } from './trip-plan/trip-plan-detail/trip-plan-
     ReactiveFormsModule,
     MatTabsModule,
     ImageCropperModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    AsyncPipe,
+    CKEditorModule,
+    DropdownModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
+    PanelModule
   ],
   providers:[
     BsModalService,

@@ -8,6 +8,8 @@ import {
   Comments,
   ReplyCreate,
   Reply,
+  TripPlan,
+  TripPlanCreate,
 } from '../models';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -31,6 +33,45 @@ export class PostService extends BaseService {
   createPost(data: PostCreate) {
     return this.http
       .post(`${environment.postUrl}/api/posts`, data, {
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  searchTripPlan(city: string, startDate: Date, endDate: Date) {
+    let params = new HttpParams().set('city', city).set('startDate', startDate.toString()).set('endDate', endDate.toString());
+
+    return this.http
+      .get<TripPlan[]>(`${environment.postUrl}/api/tripplans/search`, {
+        headers: this._sharedHeaders,
+        params,
+      })
+      .pipe(
+        map((response: TripPlan[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getTripPlanDetail(tripPlanId: string)
+  {
+    return this.http
+      .get<TripPlan>(`${environment.postUrl}/api/tripplans/${tripPlanId}`, {
+        headers: this._sharedHeaders
+      })
+      .pipe(
+        map((response: TripPlan) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  createTripPlan(data: TripPlanCreate) {
+    return this.http
+      .post(`${environment.postUrl}/api/tripplans`, data, {
         reportProgress: true,
         observe: 'events',
       })

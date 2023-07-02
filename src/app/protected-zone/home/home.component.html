@@ -1,22 +1,28 @@
 <!-- <app-recommendbar></app-recommendbar> -->
 <div class="home-container">
   <div class="row">
-    <div class="col-md-3" style="width: 22.833333325%;
-    flex: 0 0 22.833333325%;max-width: 22.833333325%;">
+    <div
+      class="col-md-3"
+      style="
+        width: 22.833333325%;
+        flex: 0 0 22.833333325%;
+        max-width: 22.833333325%;
+      "
+    >
       <app-mutual-friend-suggestion
         [userInfo]="userInfo"
       ></app-mutual-friend-suggestion>
+
+      <app-sameinterest-friend-suggestion
+        [userInfo]="userInfo"
+      ></app-sameinterest-friend-suggestion>
     </div>
     <div class="col-md-6">
       <app-activeuser></app-activeuser>
-      <br />
+
       <!--Section: Newsfeed-->
       <section>
-        <div
-          class="card"
-          style="margin-top: 130px"
-          *ngFor="let item of posts"
-        >
+        <div class="card" style="margin-top: 130px" *ngFor="let item of posts">
           <div class="card-body">
             <!-- Data -->
             <div class="d-flex mb-3">

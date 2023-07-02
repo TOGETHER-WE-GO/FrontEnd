@@ -114,12 +114,8 @@
         <div class="col-12 col-lg-5 col-xl-3 border-right">
           <div class="px-4 d-none d-md-block">
             <div class="d-flex align-items-center">
-              <div class="flex-grow-1">
-                <input
-                  type="text"
-                  class="form-control my-3"
-                  placeholder="Search..."
-                />
+              <div class="flex-grow-1 mt-3 mb-3">
+                <button type="button" class="btn btn-outline-danger" (click)="onLeaveChat()"><i class="fa fa-arrow-circle-left mr-2" aria-hidden="true"></i>Leave Chat</button>
               </div>
             </div>
           </div>
@@ -235,7 +231,7 @@
                 <div
                   class="chat-message-{{
                     item.fromUserId == user.nameid ? 'right' : 'left'
-                  }} pb-4"
+                  }} pt-4"
                 >
                   <div>
                     <img

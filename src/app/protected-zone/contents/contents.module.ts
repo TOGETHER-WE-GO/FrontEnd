@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelModule } from 'primeng/panel';
-import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ContentsRoutingModule } from './contents-routing.module';
 import { ExploreComponent } from './explore/explore.component';
@@ -16,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
 import { ExploreFriendComponent } from './explore-friend/explore-friend.component'; 
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,6 @@ import { ExploreFriendComponent } from './explore-friend/explore-friend.componen
   ],
   imports: [
     CommonModule,
-    BlockUIModule,
     ProgressSpinnerModule,
     PanelModule,
     NgxPaginationModule,
@@ -38,7 +37,8 @@ import { ExploreFriendComponent } from './explore-friend/explore-friend.componen
     FormsModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    NgbRatingModule
+    NgbRatingModule,
+    BlockUIModule.forRoot()
   ]
 })
 export class ContentsModule { }

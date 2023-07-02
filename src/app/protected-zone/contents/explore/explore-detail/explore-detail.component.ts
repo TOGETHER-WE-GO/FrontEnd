@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { concatMap, Subscription, switchMap } from 'rxjs';
+import { concatMap, forkJoin, Subscription, switchMap } from 'rxjs';
 import { PlaceDetail } from 'src/app/shared/models/places/place-detail';
 import { PlaceService } from 'src/app/shared/services/place.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,7 +22,7 @@ import {
   UserPlaceInteraction,
 } from 'src/app/shared/models';
 import { environment } from '../../../../../environments/environment';
-
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 @Component({
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
@@ -67,6 +67,8 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
+  @BlockUI() blockUI: NgBlockUI;
+
   constructor(
     private placeService: PlaceService,
     private userService: UserService,
@@ -88,6 +90,8 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((val) => {
+      this.blockedPanel = true;
+      this.blockUI.start();
       this.stopTrackingUser();
       this.initPage();
     });
@@ -116,22 +120,25 @@ export class ExploreDetailComponent implements OnInit, OnDestroy {
           switchMap((data1) => {
             this.placeDetail = data1;
             this.placeTypes = data1.types.map((x) => x.name);
-            return this.recommendService.recommendPlaceByContent(
-              this.placeDetailId,
-              this.placeTypes
-            );
+            return forkJoin([
+              this.recommendService.recommendPlaceByContent(
+                this.placeDetailId,
+                this.placeTypes
+              ),
+              this.recommendService.recommendPlaceNearby(
+                this.placeDetailId,
+                this.placeTypes,
+                30
+              ),
+            ]);
           })
         )
-        .subscribe((data2) => {
+        .subscribe(([data2, data3]) => {
+          setTimeout(() => {
+            this.blockUI.stop();
+          }, 1000);
           this.placeRecommend = data2;
-        })
-    );
-
-    this.subscription.add(
-      this.recommendService
-        .recommendPlaceNearby(this.placeDetailId, 30)
-        .subscribe((response: PlaceOverall[]) => {
-          this.placeRecommendNearby = response;
+          this.placeRecommendNearby = data3;
         })
     );
   }

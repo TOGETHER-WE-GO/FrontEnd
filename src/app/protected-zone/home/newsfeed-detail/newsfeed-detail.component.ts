@@ -13,6 +13,7 @@ import {
   Comments,
   Reply,
   ReplyCreate,
+  Token,
 } from 'src/app/shared/models';
 import { Post } from 'src/app/shared/models/posts/post.model';
 import { PostService, TokenStorageService } from 'src/app/shared/services';
@@ -25,6 +26,7 @@ import { PostService, TokenStorageService } from 'src/app/shared/services';
 export class NewsfeedDetailComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   userInfo: any;
+  loginUser: Token;
   postId: string;
   post: Post = new Post();
   comments: Comments[] = [];
@@ -105,9 +107,9 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
       const commentCreate: CommentCreate = {
         postId: this.postId,
         message: commentMessage,
-        userId: this.userInfo.nameid?? this.userInfo.id ,
-        userName: this.userInfo.name?? this.userInfo.userName,
-        userAvatar: this.userInfo.avatar,
+        userId: this.loginUser.nameid,
+        userName: this.loginUser.name,
+        userAvatar: this.loginUser.avatar,
       };
 
       this.subscription.add(
@@ -141,9 +143,9 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
         postId: this.postId,
         commentId: comment.id,
         message: replyMessage,
-        userId: this.userInfo.nameid?? this.userInfo.id ,
-        userName: this.userInfo.name?? this.userInfo.userName ,
-        userAvatar: this.userInfo.avatar,
+        userId: this.loginUser.nameid,
+        userName: this.loginUser.name,
+        userAvatar: this.loginUser.avatar,
       };
 
       this.subscription.add(

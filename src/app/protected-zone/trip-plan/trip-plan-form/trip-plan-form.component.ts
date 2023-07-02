@@ -28,7 +28,7 @@ import {
 } from 'src/app/shared/services';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { PlaceService } from 'src/app/shared/services/place.service';
-
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 @Component({
   selector: 'app-trip-plan-form',
   templateUrl: './trip-plan-form.component.html',
@@ -96,6 +96,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('thumbnailInput') thumbnailInput: ElementRef;
+  @BlockUI() blockUI: NgBlockUI;
   constructor(
     private formBuilder: FormBuilder,
     private tokenService: TokenStorageService,
@@ -253,7 +254,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
-    this.blockedPanel = true;
+    this.blockUI.start();
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
@@ -266,12 +267,12 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
               displayImage: response,
             });
 
-            this.blockedPanel = false;
+            this.blockUI.stop();
           },
           (error) => {
-            this.uiNotificationService.showSuccess('Upload Image Fail !');
+            this.uiNotificationService.showError('Upload Image Fail !');
 
-            this.blockedPanel = false;
+            this.blockUI.stop();
           }
         )
       );

@@ -4,6 +4,7 @@ import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Notifications, UserFollow } from '../models';
 import { TokenStorageService } from './token-storage.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class SignalRService {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `https://localhost:5044/hub?access_token=${tokenService.getToken()}`
+        `${environment.notificationUrl}/hub?access_token=${tokenService.getToken()}`
       )
       .withAutomaticReconnect()
       .build();

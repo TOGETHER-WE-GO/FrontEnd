@@ -58,7 +58,8 @@ input[type=radio] + label, input[type=checkbox] + label {
   font-size: 14px;
   line-height: 20px;
   color: #333;
-  border-radius: 10%;
+  border-radius: 5px;
+  width: max-content;
   text-align: center;
   text-shadow: 0 1px 1px rgba(255,255,255,0.75);
   vertical-align: middle;
@@ -102,10 +103,10 @@ mat-toolbar {
 
 .mat-card{
   background-color: white;
-  height: 480px;
+  height: 550px;
 
   .mat-card-content{
-    height: 50%;
+    height: 230px;
     overflow: hidden;
   }
 }

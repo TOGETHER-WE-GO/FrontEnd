@@ -38,6 +38,22 @@ export class RecommendationService extends BaseService {
       );
   }
 
+  recommendFollowBySameInterest(userId: string) {
+    return this.http
+      .get<FollowMutualRecommend[]>(
+        `${environment.exploreurl}/api/recommendation/users/${userId}/same-interest`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: FollowMutualRecommend[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   recommendFollowByMutualFollowing(userId: string) {
     return this.http
       .get<FollowMutualRecommend[]>(
@@ -54,8 +70,8 @@ export class RecommendationService extends BaseService {
       );
   }
 
-  recommendPlaceNearby(id: number, limit: number) {
-    let params = new HttpParams().set('limit', limit);
+  recommendPlaceNearby(id: number, placeType: string[], limit: number) {
+    let params = new HttpParams().set('limit', limit).set('placeType', JSON.stringify(placeType));
 
     return this.http
       .get<PlaceOverall[]>(

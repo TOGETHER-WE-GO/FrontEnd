@@ -34,10 +34,12 @@ import {MatInputModule} from '@angular/material/input';
 import { TripPlanFormComponent } from './trip-plan/trip-plan-form/trip-plan-form.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DropdownModule } from 'primeng/dropdown';
-import { BlockUIModule } from 'primeng/blockui';
+// import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PanelModule } from 'primeng/panel';
 import { MutualFriendSuggestionComponent } from './home/mutual-friend-suggestion/mutual-friend-suggestion.component';
+import { BlockUIModule } from 'ng-block-ui';
+import { SameinterestFriendSuggestionComponent } from './home/sameinterest-friend-suggestion/sameinterest-friend-suggestion.component';
 @NgModule({
   declarations: [
     ProtectedZoneComponent,
@@ -54,7 +56,8 @@ import { MutualFriendSuggestionComponent } from './home/mutual-friend-suggestion
     TripPlanComponent,
     TripPlanDetailComponent,
     TripPlanFormComponent,
-    MutualFriendSuggestionComponent
+    MutualFriendSuggestionComponent,
+    SameinterestFriendSuggestionComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +83,8 @@ import { MutualFriendSuggestionComponent } from './home/mutual-friend-suggestion
     DropdownModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    PanelModule
+    PanelModule,
+    BlockUIModule.forRoot()
   ],
   providers:[
     BsModalService,

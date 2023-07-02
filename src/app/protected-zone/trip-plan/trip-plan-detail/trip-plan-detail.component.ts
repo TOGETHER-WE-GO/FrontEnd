@@ -125,6 +125,7 @@ export class TripPlanDetailComponent implements OnInit {
         .subscribe((response: boolean) => {
           if (response) {
             this.isMember = true;
+            this.chatGroup.members.push(member);
           }
         })
     );
@@ -163,6 +164,19 @@ export class TripPlanDetailComponent implements OnInit {
           console.log(err);
         });
     }
+  }
+
+  onLeaveChat()
+  {
+    this.subscription.add(
+      this.chatGroupService
+        .removeMemberFromGroupChat(this.tripPlanIdentifier, this.user.nameid)
+        .subscribe((response: boolean) => {
+          if (response) {
+            this.isMember = false;
+          }
+        })
+    );
   }
 
   togglePanel(id: number) {

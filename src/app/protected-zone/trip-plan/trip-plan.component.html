@@ -1,60 +1,64 @@
-<section class="search-sec">
-  <form
-    novalidate="novalidate"
-    #contactForm="ngForm"
-    (ngSubmit)="onSubmit(contactForm)"
-  >
-    <div class="col-lg-12">
-      <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-          <!-- <input
+<block-ui>
+  <section class="search-sec">
+    <form
+      novalidate="novalidate"
+      #contactForm="ngForm"
+      (ngSubmit)="onSubmit(contactForm)"
+    >
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+            <!-- <input
               type="text"
               class="form-control search-slt"
               placeholder="Enter Pickup City"
             /> -->
-          <mat-form-field
-            class="form-control search-slt"
-            style="padding-top: 10px"
-            placeholder="Choose city..."
-          >
-            <select matNativeControl required name="city" ngModel>
-              <option value="" disabled selected>Select your option</option>
-              <option [ngValue]="'all'">All</option>
-              <option *ngFor="let option of locations" [ngValue]="option.name">
-                {{ option.name }}
-              </option>
-            </select>
-          </mat-form-field>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-          <input
-            type="date"
-            name="startDate"
-            ngModel
-            class="form-control search-slt"
-            placeholder="Enter Start Date"
-          />
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-          <input
-            type="date"
-            name="endDate"
-            ngModel
-            class="form-control search-slt"
-            placeholder="Enter End Date"
-          />
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-12 pl-2">
-          <button type="submit" class="btn wrn-btn">Search</button>
+            <mat-form-field
+              class="form-control search-slt"
+              style="padding-top: 10px"
+              placeholder="Choose city..."
+            >
+              <select matNativeControl required name="city" ngModel>
+                <option value="" disabled selected>Select your option</option>
+                <option [ngValue]="'all'">All</option>
+                <option
+                  *ngFor="let option of locations"
+                  [ngValue]="option.name"
+                >
+                  {{ option.name }}
+                </option>
+              </select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+            <input
+              type="date"
+              name="startDate"
+              ngModel
+              class="form-control search-slt"
+              placeholder="Enter Start Date"
+            />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+            <input
+              type="date"
+              name="endDate"
+              ngModel
+              class="form-control search-slt"
+              placeholder="Enter End Date"
+            />
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12 pl-2">
+            <button type="submit" class="btn wrn-btn">Search</button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
-</section>
+    </form>
+  </section>
 
-<div class="container">
-  <div class="user-page-inner">
-    <!-- <div class="col-md-4">
+  <div class="container">
+    <div class="user-page-inner">
+      <!-- <div class="col-md-4">
       <div class="profile-card-2">
         <div id="iov1" class="img-overlay-wrapper">
         </div>
@@ -72,23 +76,28 @@
       </div>
     </div> -->
 
-    <div class="col-md-4" *ngFor="let item of tripPlans" (click) = onTripPlanClick(item)>
-      <div class="profile-card-2">
-        <div id="iov1" class="img-overlay-wrapper">
-          <div class="img-overlay"></div>
-        </div>
+      <div
+        class="col-md-4"
+        *ngFor="let item of tripPlans"
+        (click)="onTripPlanClick(item)"
+      >
+        <div class="profile-card-2">
+          <div id="iov1" class="img-overlay-wrapper">
+            <div class="img-overlay"></div>
+          </div>
 
-        <img
-          src="{{ item.displayImage.imageUrl }}"
-          class="img img-responsive object-fit-fill"
-        />
-        <div class="profile-name">{{ item.title }}</div>
-        <div class="profile-username">
-          {{ item.startDate | date : "shortDate" : "local" }} -
-          {{ item.endDate | date : "shortDate" : "local" }}
+          <img
+            src="{{ item.displayImage.imageUrl }}"
+            class="img img-responsive object-fit-fill"
+          />
+          <div class="profile-name">{{ item.title }}</div>
+          <div class="profile-username">
+            {{ item.startDate | date : "shortDate" : "local" }} -
+            {{ item.endDate | date : "shortDate" : "local" }}
+          </div>
+          <div class="profile-note" [innerHTML]="item.note"></div>
         </div>
-        <div class="profile-note" [innerHTML]="item.note"></div>
       </div>
     </div>
   </div>
-</div>
+</block-ui>

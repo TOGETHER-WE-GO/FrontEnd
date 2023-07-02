@@ -1,5 +1,5 @@
-<div class="animated fadeIn">
-  <p-panel #pnll>
+<block-ui>
+  <div class="animated fadeIn">
     <button
       type="button"
       class="close"
@@ -278,19 +278,5 @@
       </mat-tab-group>
       <br />
     </form>
-
-    <p-blockUI [target]="pnll" [blocked]="blockedPanel">
-      <p-progressSpinner
-        [style]="{
-          width: '100px',
-          height: '100px',
-          position: 'absolute',
-          top: '25%',
-          left: '50%'
-        }"
-        strokeWidth="2"
-        animationDuration=".5s"
-      ></p-progressSpinner>
-    </p-blockUI>
-  </p-panel>
-</div>
+  </div>
+</block-ui>

@@ -7,7 +7,7 @@ import {
   TokenStorageService,
   UserService,
 } from '../../shared/services';
-import { FollowRequest, User, UserActivity } from '../../shared/models';
+import { FollowRequest, User, UserActivity, TripPlan, Token } from '../../shared/models';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ProfileFollowsComponent } from './profile-follows/profile-follows.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
@@ -18,6 +18,7 @@ import {
   FollowRequestEvent,
   RejectFollowRequestEvent,
 } from 'src/app/shared/_helpers/constant';
+import { TripPlanDetailComponent } from '../trip-plan/trip-plan-detail/trip-plan-detail.component';
 
 @Component({
   selector: 'app-profiles',
@@ -28,7 +29,9 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   public userProfile: User;
   public userActivity: UserActivity;
   public posts: Post[];
+  public tripPlans: TripPlan[];
   public loginUserId: string;
+  public loginUser: Token;
   public isFollowing: boolean;
   public isReceivingFollowRequest: boolean;
   public isSendingFollowRequest: boolean;
@@ -54,11 +57,13 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loginUserId = this.tokenStorageService.getUserTokenInfo()?.nameid;
+    this.loginUser = this.tokenStorageService.getUserTokenInfo();
+    this.loginUserId = this.loginUser?.nameid;
     this.userId = this.activatedRoute.snapshot.paramMap.get('id');
     this.fetchProfileData();
     this.fetchActivityData();
     this.fetchUserPosts();
+    this.fetchUserTripPlans();
     this.subscribeSignalEvent();
 
     this.userService.isChangeProfile$.subscribe((data) => {
@@ -94,6 +99,16 @@ export class ProfilesComponent implements OnInit, OnDestroy {
         .getUserPosts(this.userId)
         .subscribe((response: Post[]) => {
           this.posts = response;
+        })
+    );
+  }
+
+  fetchUserTripPlans() {
+    this.subscription.add(
+      this.postService
+        .getUserTripPlans(this.userId)
+        .subscribe((response: TripPlan[]) => {
+          this.tripPlans = response;
         })
     );
   }
@@ -215,12 +230,12 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   openEditModal() {
     this.bsModalRef = this.modalService.show(ProfileEditComponent, {
-      class: 'modal-dialog modal-lg',
+      class: 'modal-dialog modal-lg', 
       initialState: { userId: this.userId, userProfile: this.userProfile },
     });
   }
 
-  public getCardImage(post: Post) {
+  public getCardImage(post: Post | TripPlan) {
     if (post.displayImage) {
       return post.displayImage.imageUrl;
     } else {
@@ -230,9 +245,20 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   onPostClick(item: Post) {
     this.bsModalRef = this.modalService.show(NewsfeedDetailComponent, {
-      class: 'modal-lg',
+      class: 'modal-xl',
       backdrop: 'static',
-      initialState: { postId: item.id, userInfo: this.userProfile },
+      initialState: { postId: item.id, userInfo: this.userProfile, loginUser: this.loginUser },
+    });
+  }
+
+  onTripPlanClick(item: TripPlan) {
+    this.bsModalRef = this.modalService.show(TripPlanDetailComponent, {
+      class: 'modal-xl',
+      backdrop: 'static',
+      initialState: {
+        tripPlanId: item.id,
+        tripPlanIdentifier: item.propertyIdentifier,
+      },
     });
   }
 }

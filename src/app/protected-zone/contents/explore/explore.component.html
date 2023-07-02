@@ -1,6 +1,6 @@
 <!-- Search form -->
 <form
-  class="mx-1 mx-md-4"
+  class="mx-1 mx-md-4 mt-3"
   name="form"
   (ngSubmit)="f.form.valid && onSubmit()"
   #f="ngForm"
@@ -56,6 +56,7 @@
       [fxFlex]="100 / gridColumns + '%'"
       fxFlex.xs="100%"
       fxFlex.sm="33%"
+      
       *ngFor="let place of places"
     >
       <mat-card class="mat-elevation-z4">
@@ -125,8 +126,8 @@
           <i class="fa fa-star" aria-hidden="true">
             {{ place.avgRating | number : "1.0-2" }}</i
           >
-          <i class="fa fa-link" aria-hidden="true"> {{ place.avgTag }}</i>
-          <i class="fa fa-eye" aria-hidden="true"> {{ place.avgView }}</i>
+          <i class="fa fa-link" aria-hidden="true"> {{ place.avgTag | number : "1.0-2" }}</i>
+          <i class="fa fa-eye" aria-hidden="true"> {{ place.avgView | number : "1.0-2" }}</i>
         </div>
       </mat-card>
     </div>

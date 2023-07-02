@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import {
@@ -13,7 +12,6 @@ import {
 } from '../models';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { UserLogin } from '../models/users/user-login.model';
 import { Post } from '../models/posts/post.model';
 
 @Injectable({
@@ -46,6 +44,19 @@ export class PostService extends BaseService {
       .get<TripPlan[]>(`${environment.postUrl}/api/tripplans/search`, {
         headers: this._sharedHeaders,
         params,
+      })
+      .pipe(
+        map((response: TripPlan[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getUserTripPlans(userId: string) {
+    return this.http
+      .get<TripPlan[]>(`${environment.postUrl}/api/tripplans/users/${userId}`, {
+        headers: this._sharedHeaders
       })
       .pipe(
         map((response: TripPlan[]) => {

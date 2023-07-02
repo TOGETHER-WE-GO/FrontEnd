@@ -43,6 +43,13 @@ export class ChatGroupService extends BaseService {
     );
   }
 
+  removeMemberFromGroupChat(propertyIdentifier: string, memberId: string)
+  {
+    return this.http.delete<boolean>(
+      `${environment.notificationUrl}/api/chatgroups/${propertyIdentifier}/members/${memberId}/remove-from-group`
+    );  
+  }
+
   getChatGroupDetail(propertyIdentifier: string) {
     return this.http
       .get<ChatGroup>(

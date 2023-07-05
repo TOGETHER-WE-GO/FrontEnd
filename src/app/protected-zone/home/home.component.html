@@ -1,306 +1,192 @@
-<!-- <app-recommendbar></app-recommendbar> -->
-<div class="home-container">
-  <div class="row">
-    <div
-      class="col-md-3"
-      style="
-        width: 22.833333325%;
-        flex: 0 0 22.833333325%;
-        max-width: 22.833333325%;
-      "
-    >
-      <app-mutual-friend-suggestion
-        [userInfo]="userInfo"
-      ></app-mutual-friend-suggestion>
+<block-ui>
+  <!-- <app-recommendbar></app-recommendbar> -->
+  <div class="home-container">
+    <div class="row">
+      <div
+        class="col-md-3"
+        style="
+          width: 22.833333325%;
+          flex: 0 0 22.833333325%;
+          max-width: 22.833333325%;
+        "
+      >
+        <app-mutual-friend-suggestion
+          [userInfo]="userInfo"
+        ></app-mutual-friend-suggestion>
 
-      <app-sameinterest-friend-suggestion
-        [userInfo]="userInfo"
-      ></app-sameinterest-friend-suggestion>
-    </div>
-    <div class="col-md-6">
-      <app-activeuser></app-activeuser>
+        <app-sameinterest-friend-suggestion
+          [userInfo]="userInfo"
+        ></app-sameinterest-friend-suggestion>
+      </div>
+      <div class="col-md-6">
+        <app-activeuser></app-activeuser>
 
-      <!--Section: Newsfeed-->
-      <section>
-        <div class="card" style="margin-top: 130px" *ngFor="let item of posts">
-          <div class="card-body">
-            <!-- Data -->
-            <div class="d-flex mb-3">
-              <a
-                href="javascript:void(0)"
-                routerLink="/profiles/{{ item.userId }}"
-                [routerLinkActive]="['router-link-active']"
-              >
-                <img
-                  src="{{ item.userAvatar }}"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div>
+        <!--Section: Newsfeed-->
+        <section style="margin-top: 130px">
+          <div class="card" style="margin-top: 20px" *ngFor="let item of posts, let i =index">
+            <div class="card-body">
+              <!-- Data -->
+              <div class="d-flex mb-3">
                 <a
                   href="javascript:void(0)"
                   routerLink="/profiles/{{ item.userId }}"
                   [routerLinkActive]="['router-link-active']"
-                  class="text-dark mb-0 ml-2"
                 >
-                  <strong>{{ item.userName }}</strong>
+                  <img
+                    src="{{ item.userAvatar }}"
+                    class="border rounded-circle me-2"
+                    alt="Avatar"
+                    style="height: 40px"
+                  />
                 </a>
-                <a
-                  href=""
-                  class="text-muted d-block ml-2"
-                  style="margin-top: -6px"
-                >
-                  <small>10h</small>
-                </a>
+                <div>
+                  <a
+                    href="javascript:void(0)"
+                    routerLink="/profiles/{{ item.userId }}"
+                    [routerLinkActive]="['router-link-active']"
+                    class="text-dark mb-0 ml-2"
+                  >
+                    <strong>{{ item.userName }}</strong>
+                  </a>
+                  <a
+                    href=""
+                    class="text-muted d-block ml-2"
+                    style="margin-top: -6px"
+                  >
+                    <small>{{
+                      item.createdAt | date : "short" : "local"
+                    }}</small>
+                  </a>
+                </div>
               </div>
-            </div>
-            <!-- Description -->
-            <div>
-              <p>
-                {{ item.caption }}
-              </p>
-            </div>
-            <span class="span-more" (click)="onNewsfeedClick(item)"
-              >more...</span
-            >
-          </div>
-          <!-- Media -->
-          <div
-            class="bg-image hover-overlay ripple rounded-0 m-auto"
-            data-mdb-ripple-color="light"
-          >
-            <img src="{{ item.displayImage.imageUrl }}" class="img-display" />
-            <a href="#!">
-              <div
-                class="mask"
-                style="background-color: rgba(251, 251, 251, 0.2)"
-              ></div>
-            </a>
-          </div>
-          <!-- Media -->
-          <!-- Interactions -->
-          <div class="card-body">
-            <!-- Reactions -->
-            <div class="d-flex justify-content-between mb-3">
+              <!-- Description -->
               <div>
-                <a href="">
-                  <i
-                    class="fa fa-thumbs-up"
-                    style="color: #3b71ca"
-                    aria-hidden="true"
-                  ></i>
-                  <i
-                    class="fa fa-heart"
-                    style="color: #dc4c64"
-                    aria-hidden="true"
-                  ></i>
-                  <span>124</span>
-                </a>
+                <p [innerHTML]="item.caption">
+                </p>
               </div>
-              <div>
-                <a href="" class="text-muted"> 8 comments </a>
-              </div>
+              <span class="span-more" (click)="onNewsfeedClick(item)"
+                >more...</span
+              >
             </div>
-            <!-- Reactions -->
-
-            <!-- Buttons -->
+            <!-- Media -->
             <div
-              class="d-flex justify-content-between text-center border-top border-bottom mb-4"
+              class="bg-image hover-overlay ripple rounded-0 m-auto"
+              data-mdb-ripple-color="light"
             >
-              <button
-                type="button"
-                class="btn btn-link btn-lg"
-                data-mdb-ripple-color="dark"
+              <img src="{{ item.displayImage.imageUrl }}" class="img-display" />
+              <a href="#!">
+                <div
+                  class="mask"
+                  style="background-color: rgba(251, 251, 251, 0.2)"
+                ></div>
+              </a>
+            </div>
+            <!-- Media -->
+            <!-- Interactions -->
+            <div class="card-body">
+              <!-- Reactions -->
+              <div class="d-flex justify-content-between mb-3">
+                <div>
+                  <a href="">
+                    <i
+                      class="fa fa-thumbs-up mr-1"
+                      style="color: #3b71ca"
+                      aria-hidden="true"
+                    ></i>
+                    <i
+                      class="fa fa-heart"
+                      style="color: #dc4c64"
+                      aria-hidden="true"
+                    ></i>
+                    <span> {{ item.likes.length }}</span>
+                  </a>
+                </div>
+                <div>
+                  <a href="" class="text-muted">
+                    {{ item.comments.length }} comments
+                  </a>
+                </div>
+              </div>
+              <!-- Reactions -->
+
+              <!-- Buttons -->
+              <div
+                class="d-flex justify-content-between text-center border-top border-bottom mb-4"
               >
-                <i class="fa fa-thumbs-up" aria-hidden="true"></i>Like
-              </button>
-              <button
-                type="button"
-                class="btn btn-link btn-lg"
-                data-mdb-ripple-color="dark"
+                <button
+                  *ngIf="checkLikeStatus(item.likes); else notLike"
+                  type="button"
+                  class="btn btn-link btn-lg"
+                  data-mdb-ripple-color="dark"
+                  (click)="removeLike(item.id, item.likes, i)"
+                >
+                  <i class="fa fa-thumbs-up" aria-hidden="true"></i>Like
+                </button>
+
+                <ng-template #notLike>
+                  <button
+                    type="button"
+                    class="btn btn-link btn-lg"
+                    data-mdb-ripple-color="dark"
+                    (click)="createLike(item.id, i)"
+                  >
+                    <i
+                      class="fa fa-thumbs-o-up"
+                      aria-hidden="true"
+                    ></i
+                    >Like
+                  </button>
+                </ng-template>
+
+                <button
+                  type="button"
+                  class="btn btn-link btn-lg"
+                  data-mdb-ripple-color="dark"
+                >
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>Comment
+                </button>
+              </div>
+              <!-- Buttons -->
+
+              <!-- Comments -->
+
+              <!-- Single answer -->
+              <div
+                class="d-flex mb-3"
+                *ngFor="let comment of item.comments.slice(0, 3)"
               >
-                <i class="fa fa-commenting-o" aria-hidden="true"></i>Comment
-              </button>
-              <button
-                type="button"
-                class="btn btn-link btn-lg"
-                data-mdb-ripple-color="dark"
-              >
-                <i class="fas fa-share me-2"></i>Share
-              </button>
-            </div>
-            <!-- Buttons -->
-
-            <!-- Comments -->
-
-            <!-- Input -->
-            <div class="d-flex mb-3">
-              <a href="">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/18.webp"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div class="form-outline w-100">
-                <textarea
-                  class="form-control"
-                  id="textAreaExample"
-                  rows="2"
-                ></textarea>
-                <label class="form-label" for="textAreaExample"
-                  >Write a comment</label
+                <a
+                  href="javascript:void(0)"
+                  routerLink="/profiles/{{ comment.userId }}"
+                  [routerLinkActive]="['router-link-active']"
                 >
-              </div>
-            </div>
-            <!-- Input -->
-
-            <!-- Answers -->
-
-            <!-- Single answer -->
-            <div class="d-flex mb-3">
-              <a href="">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div>
-                <div class="bg-light rounded-3 px-3 py-1">
-                  <a href="" class="text-dark mb-0">
-                    <strong>Malcolm Dosh</strong>
-                  </a>
-                  <a href="" class="text-muted d-block">
-                    <small
-                      >Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Natus, aspernatur!</small
-                    >
-                  </a>
+                  <img
+                    src="{{ comment.userAvatar }}"
+                    class="border rounded-circle me-2"
+                    alt="Avatar"
+                    style="height: 40px"
+                  />
+                </a>
+                <div>
+                  <div class="bg-light rounded-3 px-3 py-1">
+                    <a href="" class="text-dark mb-0">
+                      <strong>{{ comment.userName }}</strong>
+                    </a>
+                    <a href="" class="text-muted d-block">
+                      <small>{{ comment.message }}</small>
+                    </a>
+                  </div>
                 </div>
-                <a href="" class="text-muted small ms-3 me-2"
-                  ><strong>Like</strong></a
-                >
-                <a href="" class="text-muted small me-2"
-                  ><strong>Reply</strong></a
-                >
               </div>
             </div>
-
-            <!-- Single answer -->
-            <div class="d-flex mb-3">
-              <a href="">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/5.webp"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div>
-                <div class="bg-light rounded-3 px-3 py-1">
-                  <a href="" class="text-dark mb-0">
-                    <strong>Rhia Wallis</strong>
-                  </a>
-                  <a href="" class="text-muted d-block">
-                    <small
-                      >Et tempora ad natus autem enim a distinctio quaerat
-                      asperiores necessitatibus commodi dolorum nam perferendis
-                      labore delectus, aliquid placeat quia nisi magnam.</small
-                    >
-                  </a>
-                </div>
-                <a href="" class="text-muted small ms-3 me-2"
-                  ><strong>Like</strong></a
-                >
-                <a href="" class="text-muted small me-2"
-                  ><strong>Reply</strong></a
-                >
-              </div>
-            </div>
-
-            <!-- Single answer -->
-            <div class="d-flex mb-3">
-              <a href="">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/6.webp"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div>
-                <div class="bg-light rounded-3 px-3 py-1">
-                  <a href="" class="text-dark mb-0">
-                    <strong>Marcie Mcgee</strong>
-                  </a>
-                  <a href="" class="text-muted d-block">
-                    <small>
-                      Officia asperiores autem sit rerum architecto a deserunt
-                      doloribus obcaecati, velit ab at, ad delectus sapiente!
-                      Voluptatibus quaerat suscipit in nostrum necessitatibus
-                      illum nemo quo beatae obcaecati quidem optio fugit ipsam
-                      distinctio, illo repellendus porro sequi alias perferendis
-                      ea soluta maiores nisi eligendi? Mollitia debitis quam ex,
-                      voluptates cupiditate magnam fugiat.</small
-                    >
-                  </a>
-                </div>
-                <a href="" class="text-muted small ms-3 me-2"
-                  ><strong>Like</strong></a
-                >
-                <a href="" class="text-muted small me-2"
-                  ><strong>Reply</strong></a
-                >
-              </div>
-            </div>
-
-            <!-- Single answer -->
-            <div class="d-flex mb-3">
-              <a href="">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/10.webp"
-                  class="border rounded-circle me-2"
-                  alt="Avatar"
-                  style="height: 40px"
-                />
-              </a>
-              <div>
-                <div class="bg-light rounded-3 px-3 py-1">
-                  <a href="" class="text-dark mb-0">
-                    <strong>Hollie James</strong>
-                  </a>
-                  <a href="" class="text-muted d-block">
-                    <small
-                      >Voluptatibus quaerat suscipit in nostrum
-                      necessitatibus</small
-                    >
-                  </a>
-                </div>
-                <a href="" class="text-muted small ms-3 me-2"
-                  ><strong>Like</strong></a
-                >
-                <a href="" class="text-muted small me-2"
-                  ><strong>Reply</strong></a
-                >
-              </div>
-            </div>
-
-            <!-- Answers -->
-
-            <!-- Comments -->
+            <!-- Interactions -->
           </div>
-          <!-- Interactions -->
-        </div>
-      </section>
-      <!--Section: Newsfeed-->
-    </div>
-    <div class="col-md-3">
-      <app-recommendbar></app-recommendbar>
+        </section>
+        <!--Section: Newsfeed-->
+      </div>
+      <div class="col-md-3">
+        <app-recommendbar></app-recommendbar>
+      </div>
     </div>
   </div>
-</div>
+</block-ui>

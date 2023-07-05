@@ -14,14 +14,29 @@
 //   scope: 'openid profile email roles together_we_go_api.read together_we_go_api.write'
 // };
 
+        // new
 export const environment = {
   production: false,
-  apiUrl: 'http://23.102.92.127:8081',
-  exploreurl: 'http://23.102.92.127:8085',
-  authorityUrl: 'http://23.102.92.127:8081',
-  notificationUrl: 'http://20.210.207.194:8087',
-  postUrl: 'http://20.210.207.194:8083',
+  apiUrl: 'http://20.196.192.175:8081',
+  exploreurl: 'http://20.196.192.175:8085',
+  authorityUrl: 'http://20.196.192.175:8081',
+  notificationUrl: 'http://20.214.200.223:8087',
+  postUrl: 'http://20.214.200.223:8083',
   clientId: 'together_we_go_angular_client',
   clientUrl: 'https://localhost:4200',
   scope: 'openid profile email roles together_we_go_api.read together_we_go_api.write'
 };
+
+
+        // old  
+// export const environment = {
+//   production: false,
+//   apiUrl: 'https://23.102.92.127:8082',
+//   exploreurl: 'http://23.102.92.127:8085',
+//   authorityUrl: 'https://23.102.92.127:8082',
+//   notificationUrl: 'http://20.210.207.194:8087',
+//   postUrl: 'http://20.210.207.194:8083',
+//   clientId: 'together_we_go_angular_client',
+//   clientUrl: 'https://localhost:4200',
+//   scope: 'openid profile email roles together_we_go_api.read together_we_go_api.write'
+// };

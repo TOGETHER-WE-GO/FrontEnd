@@ -43,10 +43,7 @@
 
         <!-- Article title and description -->
         <a class="text-dark">
-          <h5>This is title of the news</h5>
-
-          <p>
-            {{ post.caption }}
+          <p [innerHTML]="post.caption">
           </p>
         </a>
 

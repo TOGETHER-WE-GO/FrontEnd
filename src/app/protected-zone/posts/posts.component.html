@@ -1,4 +1,9 @@
-<button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+<button
+  type="button"
+  class="close"
+  aria-label="Close"
+  (click)="bsModalRef.hide()"
+>
   <span aria-hidden="true">&times;</span>
 </button>
 
@@ -89,18 +94,33 @@
               >
             </div>
 
-            <!-- <input
-              formControlName="caption"
-              type="text"
-              style="width: 300px; height: 150px; word-wrap: break-word"
-            /> -->
-            <textarea
+            <!-- <textarea
               formControlName="caption"
               class="form-control mt-3"
               placeholder="Write your caption here..."
               #textAreaComment
               rows="4"
-            ></textarea>
+            ></textarea> -->
+
+            <br />
+
+            <ckeditor
+              class="mt-3"
+              [editor]="editor"
+              formControlName="caption"
+            ></ckeditor>
+
+            <div class="form-check form-switch ml-1 mt-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="public"
+                style="transform: scale(1.4)"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault"
+                >For Following Only</label
+              >
+            </div>
           </div>
         </div>
       </ng-template>
@@ -132,7 +152,7 @@
                   />
                 </div>
                 <i
-                  style="cursor: pointer;"
+                  style="cursor: pointer"
                   class="fa fa-trash"
                   aria-hidden="true"
                   (click)="deletePhone(i)"
@@ -153,24 +173,48 @@
                 #textAreaComment
                 rows="4"
               ></textarea>
-              
-              <form class="example-form">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Number</mat-label>
-                  <input type="text"
-                         placeholder="Pick one"
-                         aria-label="Number"
-                         matInput
-                         [formControl]="myControl"
-                         [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                      {{option}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </form>
-    
+
+              <input
+                type="text"
+                class="form-control mt-3 md-3"
+                placeHolder="Search place..."
+                (input)="onSearchPlace($event, i)"
+              />
+
+              <div
+                class="chat-messages"
+                *ngIf="
+                  placeSearchs && placeSearchs[i] && placeSearchs[i].length != 0
+                "
+              >
+                <div
+                  *ngFor="let item of placeSearchs[i]"
+                  (click)="onChoosePlace(item, i)"
+                  class="div-place"
+                >
+                  <div class="chat-message-left pb-4">
+                    <div>
+                      <img src="{{ item.images[0] }}" />
+                      {{ item.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <owl-carousel-o [options]="customOptions">
+                <ng-template
+                  carouselSlide
+                  *ngFor="let item of selectedPlaces[i]"
+                >
+                  <div class="place-thumbnnail">
+                    <img src="{{ item.images[0] }}" class="mr-3" />
+                    {{ item.name }}
+                  </div>
+                </ng-template>
+              </owl-carousel-o>
+
+              <br>
+
               <owl-carousel-o [options]="customOptions">
                 <ng-template carouselSlide>
                   <i

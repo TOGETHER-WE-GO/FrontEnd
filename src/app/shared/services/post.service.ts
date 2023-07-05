@@ -13,6 +13,8 @@ import {
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Post } from '../models/posts/post.model';
+import { LikeCreate } from '../models/posts/like-create.model';
+import { Likes } from '../models/posts/like.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +32,7 @@ export class PostService extends BaseService {
 
   createPost(data: PostCreate) {
     return this.http
-      .post(`${environment.postUrl}/api/posts`, data, {
-        reportProgress: true,
-        observe: 'events',
-      })
-      .pipe(catchError(this.handleError));
+      .post<string>(`${environment.postUrl}/api/posts`, data);
   }
 
   searchTripPlan(city: string, startDate: Date, endDate: Date) {
@@ -149,6 +147,36 @@ export class PostService extends BaseService {
       )
       .pipe(
         map((response: Comments) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  createLike(postId: string, data: LikeCreate) {
+    return this.http
+      .post<Likes>(
+        `${environment.postUrl}/api/posts/${postId}/likes`,
+        data
+      )
+      .pipe(
+        map((response: Likes) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteLike(postId: string, likeId: string) {
+    return this.http
+      .delete<boolean>(
+        `${environment.postUrl}/api/posts/${postId}/likes/${likeId}`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: boolean) => {
           return response;
         }),
         catchError(this.handleError)

@@ -1,7 +1,9 @@
+import { Comments } from "./comment.model";
 import { ImageRequest } from "./image-request.model";
 import { Image } from "./image.model";
 import { ItineraryCreate } from "./itinerary-create.model";
 import { Itinerary } from "./itinerary.model";
+import { Likes } from "./like.model";
 
 
 export class Post{
@@ -11,7 +13,10 @@ export class Post{
     userName: string;
     userAvatar: string;
     displayImage: Image;
-    itineraries: Itinerary[] = []
+    createdAt: Date;
+    itineraries: Itinerary[] = [];
     likeCount: number;
     commentCount: number;
+    comments: Comments[];
+    likes: Likes[];
 }

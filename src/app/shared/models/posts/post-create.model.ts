@@ -7,6 +7,7 @@ export interface PostCreate{
     userId: string;
     userName: string;
     userAvatar: string;
+    public: boolean;
     displayImage: ImageRequest;
     itineraries: ItineraryCreate[]
 }

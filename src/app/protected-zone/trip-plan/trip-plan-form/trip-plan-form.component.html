@@ -1,110 +1,179 @@
-<block-ui>
-  <div class="animated fadeIn">
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="bsModalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+<div class="animated fadeIn">
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="bsModalRef.hide()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
 
-    <form #myForm="ngForm" class="formOverall">
-      <mat-tab-group>
-        <mat-tab label="Overall">
-          <ng-template matTabContent>
-            <div [formGroup]="formGroup1" class="formGroup1">
-              <div class="image-part">
-                <input
-                  (change)="onFileSelected($event)"
-                  type="file"
-                  #fileInput
-                  style="display: none"
-                />
-                <button
-                  [hidden]="imageChangedEvent"
-                  class="btn btn-primary button-select"
-                  (click)="handleFileInput()"
-                >
-                  Select from computer
-                </button>
+  <form #myForm="ngForm" class="formOverall">
+    <mat-tab-group>
+      <mat-tab label="Overall">
+        <ng-template matTabContent>
+          <div [formGroup]="formGroup1" class="formGroup1">
+            <div class="image-part">
+              <input
+                (change)="onFileSelected($event)"
+                type="file"
+                #fileInput
+                style="display: none"
+              />
+              <button
+                [hidden]="imageChangedEvent"
+                class="btn btn-primary button-select"
+                (click)="handleFileInput()"
+              >
+                Select from computer
+              </button>
 
-                <div [hidden]="!imageChangedEvent">
-                  <div class="btn-image-edit">
-                    <a href="javascript:void(0);" (click)="resetImage()"
-                      ><i class="fa fa-refresh" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="flipHorizontal()"
-                      ><i class="fa fa-arrows-h" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="flipVertical()"
-                      ><i class="fa fa-arrows-v" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="rotateLeft()"
-                      ><i class="fa fa-undo" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="rotateRight()"
-                      ><i class="fa fa-repeat" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="zoomOut()"
-                      ><i class="fa fa-search-minus" aria-hidden="true"></i
-                    ></a>
-                    <a href="javascript:void(0);" (click)="zoomIn()"
-                      ><i class="fa fa-search-plus" aria-hidden="true"></i
-                    ></a>
-                    <a
-                      href="javascript:void(0);"
-                      style="font-weight: bold"
-                      (click)="onSaveDisplayImage()"
-                      >Save</a
-                    >
-                  </div>
-                  <div class="custom-image-cropper">
-                    <image-cropper
-                      [imageChangedEvent]="imageChangedEvent"
-                      [containWithinAspectRatio]="containWithinAspectRatio"
-                      [maintainAspectRatio]="true"
-                      [aspectRatio]="aspectRatio"
-                      [autoCrop]="true"
-                      [onlyScaleDown]="false"
-                      [roundCropper]="false"
-                      [canvasRotation]="canvasRotation"
-                      [transform]="transform"
-                      [alignImage]="'left'"
-                      [style.display]="showCropper ? null : 'none'"
-                      format="png"
-                      (imageCropped)="imageCropped($event)"
-                      (imageLoaded)="imageLoaded()"
-                      (cropperReady)="cropperReady($event)"
-                      (loadImageFailed)="loadImageFailed()"
-                    ></image-cropper>
-                  </div>
-                </div>
-              </div>
-              <div class="content-part">
-                <div class="userinfo-part">
-                  <div class="uh-image">
-                    <img
-                      class="uh-image-inner"
-                      src="{{ userInfo.avatar }}"
-                      alt=""
-                    />
-                    <div class="gradient"></div>
-                  </div>
-                  <span
-                    ><strong>{{ userInfo.name }}</strong></span
+              <div [hidden]="!imageChangedEvent">
+                <div class="btn-image-edit">
+                  <a href="javascript:void(0);" (click)="resetImage()"
+                    ><i class="fa fa-refresh" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="flipHorizontal()"
+                    ><i class="fa fa-arrows-h" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="flipVertical()"
+                    ><i class="fa fa-arrows-v" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="rotateLeft()"
+                    ><i class="fa fa-undo" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="rotateRight()"
+                    ><i class="fa fa-repeat" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="zoomOut()"
+                    ><i class="fa fa-search-minus" aria-hidden="true"></i
+                  ></a>
+                  <a href="javascript:void(0);" (click)="zoomIn()"
+                    ><i class="fa fa-search-plus" aria-hidden="true"></i
+                  ></a>
+                  <a
+                    href="javascript:void(0);"
+                    style="font-weight: bold"
+                    (click)="onSaveDisplayImage()"
+                    >Save</a
                   >
                 </div>
+                <div class="custom-image-cropper">
+                  <image-cropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [containWithinAspectRatio]="containWithinAspectRatio"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="aspectRatio"
+                    [autoCrop]="true"
+                    [onlyScaleDown]="false"
+                    [roundCropper]="false"
+                    [canvasRotation]="canvasRotation"
+                    [transform]="transform"
+                    [alignImage]="'left'"
+                    [style.display]="showCropper ? null : 'none'"
+                    format="png"
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady($event)"
+                    (loadImageFailed)="loadImageFailed()"
+                  ></image-cropper>
+                </div>
+              </div>
+            </div>
+            <div class="content-part">
+              <div class="userinfo-part">
+                <div class="uh-image">
+                  <img
+                    class="uh-image-inner"
+                    src="{{ userInfo.avatar }}"
+                    alt=""
+                  />
+                  <div class="gradient"></div>
+                </div>
+                <span
+                  ><strong>{{ userInfo.name }}</strong></span
+                >
+              </div>
 
-                <input
-                  type="text"
-                  class="form-control mt-3 mb-2 w-10"
-                  formControlName="title"
-                  placeholder="Title"
-                />
+              <input
+                type="text"
+                class="form-control mt-3 mb-2 w-10"
+                formControlName="title"
+                placeholder="Title"
+              />
 
+              <div class="date-range">
+                <div class="date-group mb-2">
+                  <label class="label-date">Start Date</label>
+                  <input
+                    type="date"
+                    class="form-control input-date"
+                    formControlName="startDate"
+                  />
+                </div>
+                <div class="date-group mb-2">
+                  <label class="label-date">End Date</label>
+                  <input
+                    type="date"
+                    class="form-control input-date"
+                    formControlName="endDate"
+                  />
+                </div>
+              </div>
+
+              <mat-form-field
+                class="form-control search-slt"
+                style="padding-top: 10px"
+              >
+                <select
+                  matNativeControl
+                  required
+                  #mySelect
+                  (change)="onOptionsSelected(mySelect.value)"
+                >
+                  <option
+                    *ngFor="let option of locations"
+                    [value]="option.name"
+                  >
+                    {{ option.name }}
+                  </option>
+                </select>
+              </mat-form-field>
+
+              <div class="row mt-3 mb-3">
+                <div *ngFor="let city of selectedLocations">
+                  <a href="javascript:void(0);" class="ml-3">
+                    <i
+                      class="fa fa-map-marker"
+                      style="font-size: large"
+                      aria-hidden="true"
+                    >
+                      {{ city }}</i
+                    >
+                  </a>
+                </div>
+              </div>
+
+              <ckeditor
+                class="mt-3"
+                [editor]="editor"
+                formControlName="caption"
+              ></ckeditor>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Itinerary">
+        <ng-template matTabContent>
+          <div [formGroup]="formGroup2" class="formGroup2">
+            <div formArrayName="phones">
+              <div
+                *ngFor="let phone of phoneForms.controls; let i = index"
+                [formGroupName]="i"
+                class="mb-3"
+              >
                 <div class="date-range">
-                  <div class="date-group mb-2">
+                  <div class="date-group">
                     <label class="label-date">Start Date</label>
                     <input
                       type="date"
@@ -112,7 +181,7 @@
                       formControlName="startDate"
                     />
                   </div>
-                  <div class="date-group mb-2">
+                  <div class="date-group">
                     <label class="label-date">End Date</label>
                     <input
                       type="date"
@@ -120,163 +189,92 @@
                       formControlName="endDate"
                     />
                   </div>
+                  <i
+                    style="cursor: pointer"
+                    class="fa fa-trash"
+                    aria-hidden="true"
+                    (click)="deletePhone(i)"
+                  ></i>
                 </div>
 
-                <mat-form-field
-                  class="form-control search-slt"
-                  style="padding-top: 10px"
-                >
-                  <select
-                    matNativeControl
-                    required
-                    #mySelect
-                    (change)="onOptionsSelected(mySelect.value)"
-                  >
-                    <option
-                      *ngFor="let option of locations"
-                      [value]="option.name"
-                    >
-                      {{ option.name }}
-                    </option>
-                  </select>
-                </mat-form-field>
-
-                <div class="row mt-3 mb-3">
-                  <div *ngFor="let city of selectedLocations">
-                    <a href="javascript:void(0);" class="ml-3">
-                      <i
-                        class="fa fa-map-marker"
-                        style="font-size: large"
-                        aria-hidden="true"
-                      >
-                        {{ city }}</i
-                      >
-                    </a>
-                  </div>
-                </div>
+                <input
+                  type="text"
+                  class="form-control mt-2 mb-2 w-10"
+                  formControlName="title"
+                  placeholder="Title"
+                />
 
                 <ckeditor
+                  formControlName="description"
                   class="mt-3"
                   [editor]="editor"
-                  formControlName="caption"
                 ></ckeditor>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-        <mat-tab label="Itinerary">
-          <ng-template matTabContent>
-            <div [formGroup]="formGroup2" class="formGroup2">
-              <div formArrayName="phones">
+
+                <input
+                  type="text"
+                  class="form-control mt-3 md-3"
+                  placeHolder="Search place..."
+                  (input)="onSearchPlace($event, i)"
+                />
+
                 <div
-                  *ngFor="let phone of phoneForms.controls; let i = index"
-                  [formGroupName]="i"
-                  class="mb-3"
+                  class="chat-messages"
+                  *ngIf="
+                    placeSearchs &&
+                    placeSearchs[i] &&
+                    placeSearchs[i].length != 0
+                  "
                 >
-                  <div class="date-range">
-                    <div class="date-group">
-                      <label class="label-date">Start Date</label>
-                      <input
-                        type="date"
-                        class="form-control input-date"
-                        formControlName="startDate"
-                      />
-                    </div>
-                    <div class="date-group">
-                      <label class="label-date">End Date</label>
-                      <input
-                        type="date"
-                        class="form-control input-date"
-                        formControlName="endDate"
-                      />
-                    </div>
-                    <i
-                      style="cursor: pointer"
-                      class="fa fa-trash"
-                      aria-hidden="true"
-                      (click)="deletePhone(i)"
-                    ></i>
-                  </div>
-
-                  <input
-                    type="text"
-                    class="form-control mt-2 mb-2 w-10"
-                    formControlName="title"
-                    placeholder="Title"
-                  />
-
-                  <ckeditor
-                    formControlName="description"
-                    class="mt-3"
-                    [editor]="editor"
-                  ></ckeditor>
-
-                  <input
-                    type="text"
-                    class="form-control mt-3 md-3"
-                    placeHolder="Search place..."
-                    (input)="onSearchPlace($event, i)"
-                  />
-
                   <div
-                    class="chat-messages"
-                    *ngIf="
-                      placeSearchs &&
-                      placeSearchs[i] &&
-                      placeSearchs[i].length != 0
-                    "
+                    *ngFor="let item of placeSearchs[i]"
+                    (click)="onChoosePlace(item, i)"
+                    class="div-place"
                   >
-                    <div
-                      *ngFor="let item of placeSearchs[i]"
-                      (click)="onChoosePlace(item, i)"
-                      class="div-place"
-                    >
-                      <div class="chat-message-left pb-4">
-                        <div>
-                          <img src="{{ item.images[0] }}" />
-                          {{ item.name }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <br />
-
-                  <owl-carousel-o [options]="customOptions">
-                    <ng-template
-                      carouselSlide
-                      *ngFor="let item of selectedPlaces[i]"
-                    >
-                      <div class="place-thumbnnail">
-                        <img src="{{ item.images[0] }}" class="mr-3" />
+                    <div class="chat-message-left pb-4">
+                      <div>
+                        <img src="{{ item.images[0] }}" />
                         {{ item.name }}
                       </div>
-                    </ng-template>
-                  </owl-carousel-o>
-                  <hr />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <button class="btn btn-info m" (click)="addPhone()">
-                Add Itinerary
-              </button>
+                <br />
+
+                <owl-carousel-o [options]="customOptions">
+                  <ng-template
+                    carouselSlide
+                    *ngFor="let item of selectedPlaces[i]"
+                  >
+                    <div class="place-thumbnnail">
+                      <img src="{{ item.images[0] }}" class="mr-3" />
+                      {{ item.name }}
+                    </div>
+                  </ng-template>
+                </owl-carousel-o>
+                <hr />
+              </div>
             </div>
-          </ng-template>
-        </mat-tab>
-        <mat-tab disabled>
-          <ng-template mat-tab-label>
-            <a
-              href="javascript:void(0);"
-              style="font-weight: bolder"
-              mat-icon-button
-              (click)="submit()"
-            >
-              Submit
-            </a>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
-      <br />
-    </form>
-  </div>
-</block-ui>
+
+            <button class="btn btn-info m" (click)="addPhone()">
+              Add Itinerary
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <a
+            href="javascript:void(0);"
+            style="font-weight: bolder"
+            mat-icon-button
+            (click)="submit()"
+          >
+            Submit
+          </a>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+    <br />
+  </form>
+</div>

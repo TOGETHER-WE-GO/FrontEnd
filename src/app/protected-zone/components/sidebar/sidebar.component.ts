@@ -14,6 +14,7 @@ import {
   NotificationService,
   SignalRService,
   TokenStorageService,
+  UINotificationService,
 } from 'src/app/shared/services';
 import { PostsComponent } from '../../posts/posts.component';
 import { TripPlanFormComponent } from '../../trip-plan/trip-plan-form/trip-plan-form.component';
@@ -47,6 +48,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private signalRService: SignalRService,
     private modalService: BsModalService,
+    private uiNotificationService:UINotificationService
   ) {
     this.loadMenu();
     this.router.events.subscribe((val) => {
@@ -212,7 +214,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   onLoggedout() {
-    localStorage.removeItem('auth-token');
+    this.uiNotificationService.showConfirmation("Are you sure you want to logout",
+      () =>{
+        localStorage.removeItem('auth-token');
+        this.router.navigate(['/login']);
+      });
+    
   }
 
   checkRead(item: Notifications) {

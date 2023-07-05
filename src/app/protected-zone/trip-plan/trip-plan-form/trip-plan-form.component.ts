@@ -25,10 +25,11 @@ import {
   TokenStorageService,
   PostService,
   UINotificationService,
+  TransmitService,
 } from 'src/app/shared/services';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { PlaceService } from 'src/app/shared/services/place.service';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-trip-plan-form',
   templateUrl: './trip-plan-form.component.html',
@@ -45,7 +46,6 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   placeSearchs: PlaceSearch[][] = [];
   selectedPlaces: PlaceSearch[][] = [];
   caption = '';
-  blockedPanel = false;
 
   locations: PlaceFeatureType[] = [];
   selectedLocations: string[] = [];
@@ -96,13 +96,13 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('thumbnailInput') thumbnailInput: ElementRef;
-  @BlockUI() blockUI: NgBlockUI;
   constructor(
     private formBuilder: FormBuilder,
     private tokenService: TokenStorageService,
     private postService: PostService,
     private placeService: PlaceService,
     public bsModalRef: BsModalRef,
+    private transmitService: TransmitService,
     private uiNotificationService: UINotificationService
   ) {
     this.formGroup1 = this.formBuilder.group({
@@ -202,7 +202,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.blockedPanel = true;
+    this.transmitService.setValue({data: true});
     const tripPlan: TripPlanCreate = {
       title: this.formGroup1.get('title').value,
       note: this.formGroup1.get('caption').value,
@@ -232,17 +232,18 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
         (response: any) => {
           if (response) {
             this.uiNotificationService.showSuccess('Create TripPlan Success !');
+            this.bsModalRef.hide();
           } else {
             this.uiNotificationService.showError('Create TripPlan Failed !');
           }
           setTimeout(() => {
-            this.blockedPanel = false;
+            this.transmitService.setValue({data: false});
           }, 1000);
         },
         (error) => {
           this.uiNotificationService.showError(error.error.title);
           setTimeout(() => {
-            this.blockedPanel = false;
+            this.transmitService.setValue({data: false});
           }, 1000);
         }
       )
@@ -254,25 +255,24 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
-    this.blockUI.start();
+    this.transmitService.setValue({data: true});
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
       this.subscription.add(
         this.postService.uploadImage(file).subscribe(
           (response) => {
-            this.uiNotificationService.showSuccess('Upload Image Success !');
             console.log('Upload success:', response);
             this.formGroup1.patchValue({
               displayImage: response,
             });
 
-            this.blockUI.stop();
+            this.transmitService.setValue({data: false});
+            this.uiNotificationService.showSuccess('Upload Image Success !');
           },
           (error) => {
+            this.transmitService.setValue({data: false});
             this.uiNotificationService.showError('Upload Image Fail !');
-
-            this.blockUI.stop();
           }
         )
       );

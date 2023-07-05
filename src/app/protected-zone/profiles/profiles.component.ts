@@ -245,7 +245,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   onPostClick(item: Post) {
     this.bsModalRef = this.modalService.show(NewsfeedDetailComponent, {
-      class: 'modal-xl',
+      class: 'modal-lg',
       backdrop: 'static',
       initialState: { postId: item.id, userInfo: this.userProfile, loginUser: this.loginUser },
     });
@@ -253,7 +253,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   onTripPlanClick(item: TripPlan) {
     this.bsModalRef = this.modalService.show(TripPlanDetailComponent, {
-      class: 'modal-xl',
+      class: 'modal-lg',
       backdrop: 'static',
       initialState: {
         tripPlanId: item.id,

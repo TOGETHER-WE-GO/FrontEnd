@@ -25,7 +25,6 @@ import { PostService, TokenStorageService } from 'src/app/shared/services';
 })
 export class NewsfeedDetailComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  userInfo: any;
   loginUser: Token;
   postId: string;
   post: Post = new Post();

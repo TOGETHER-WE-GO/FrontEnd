@@ -15,10 +15,20 @@ import {
 } from 'ngx-image-cropper';
 import { User } from 'oidc-client';
 import { map, Observable, startWith, Subscription } from 'rxjs';
-import { Itinerary, ItineraryCreate, PostCreate, PlaceSearch } from 'src/app/shared/models';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
+  Itinerary,
+  ItineraryCreate,
+  PostCreate,
+  PlaceSearch,
+} from 'src/app/shared/models';
+import {
+  NotificationService,
+  PlaceService,
   PostService,
   TokenStorageService,
+  TransmitService,
+  UINotificationService,
 } from 'src/app/shared/services';
 
 @Component({
@@ -33,7 +43,11 @@ export class PostsComponent implements OnInit, OnDestroy {
   userInfo: any;
   thumbnails: string[][] = [];
   selectedFormIndex: number = 0;
-  placeSearchs: PlaceSearch[];
+  placeSearchs: PlaceSearch[][] = [];
+  selectedPlaces: PlaceSearch[][] = [];
+
+  // ckEditor
+  editor = ClassicEditor;
 
   // image
   imageChangedEvent: any = '';
@@ -44,7 +58,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   showCropper = false;
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
-  aspectRatio: number = 3/2;
+  aspectRatio: number = 3 / 2;
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
@@ -84,11 +98,15 @@ export class PostsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private tokenService: TokenStorageService,
     private postService: PostService,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    private placeService: PlaceService,
+    private transmitService: TransmitService,
+    private uiNotificationService: UINotificationService
   ) {
     this.formGroup1 = this.formBuilder.group({
       displayImage: '',
       caption: '',
+      public: false,
     });
 
     this.formGroup2 = this.formBuilder.group({
@@ -99,20 +117,21 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-
   ngOnInit(): void {
     this.userInfo = this.tokenService.getUserTokenInfo();
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value as string || '')),
+      map((value) => this._filter((value as string) || ''))
     );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   get phoneForms() {
@@ -189,10 +208,12 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.transmitService.setValue({ data: true });
     const post: PostCreate = {
       caption: this.formGroup1.get('caption').value,
       userId: this.userInfo.nameid,
       userName: this.userInfo.name,
+      public: !this.formGroup1.get('public').value,
       userAvatar: this.userInfo.avatar,
       displayImage: this.formGroup1.get('displayImage').value,
       itineraries: [],
@@ -205,12 +226,58 @@ export class PostsComponent implements OnInit, OnDestroy {
         startDate: element.startDate,
         endDate: element.endDate,
         images: element.thumbnails,
-        places: []
+        places: [],
       };
       post.itineraries.push(itinerary);
     });
 
-    this.subscription.add(this.postService.createPost(post).subscribe());
+    this.subscription.add(
+      this.postService.createPost(post).subscribe(
+        (response: any) => {
+          if (response == true) {
+            this.uiNotificationService.showSuccess('Create Post Success !');
+            this.bsModalRef.hide();
+          } else  {
+            this.uiNotificationService.showError('Create Post Fail !');
+          }
+          this.transmitService.setValue({ data: false });
+         
+        },
+        (error) => {
+          this.uiNotificationService.showError('Create Post Fail !');
+
+          this.transmitService.setValue({ data: false });
+        }
+      )
+    );
+  }
+
+  onChoosePlace(item: PlaceSearch, index: number) {
+    if (this.selectedPlaces[index]) {
+      if (!this.selectedPlaces[index].includes(item)) {
+        this.selectedPlaces[index].push(item);
+        this.phoneForms
+          .at(this.selectedFormIndex)
+          .get('places')
+          .value.push(item);
+      }
+    } else {
+      this.selectedPlaces[index] = [item];
+      this.phoneForms.at(this.selectedFormIndex).patchValue({
+        places: [item],
+      });
+    }
+  }
+
+  onSearchPlace(event: any, index: number) {
+    const key = event.target.value;
+    if (key && key.length >= 3) {
+      this.placeService
+        .searchPlace(key)
+        .subscribe((response: PlaceSearch[]) => {
+          this.placeSearchs[index] = response;
+        });
+    }
   }
 
   onFileSelected(event: any): void {
@@ -244,6 +311,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
+    this.transmitService.setValue({ data: true });
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
@@ -254,9 +322,13 @@ export class PostsComponent implements OnInit, OnDestroy {
             this.formGroup1.patchValue({
               displayImage: response,
             });
+            this.transmitService.setValue({ data: false });
+            this.uiNotificationService.showSuccess('Upload Image Success !');
           },
           (error) => {
             console.error('Upload error:', error);
+            this.transmitService.setValue({ data: false });
+            this.uiNotificationService.showError('Upload Image Fail !');
           }
         )
       );
@@ -264,15 +336,14 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   base64ToFile(data: any, filename: any) {
-
     const arr = data.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;
     let u8arr = new Uint8Array(n);
 
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
 
     return new File([u8arr], filename, { type: mime });

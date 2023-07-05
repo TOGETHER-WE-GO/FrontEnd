@@ -119,10 +119,10 @@ Enjoy the code <3
               (click)="onPostClick(item)"
             >
               <div class="img-btns text-center">
-                <p class="p-caption">{{ item.caption }} <br /></p>
+                <p class="p-caption" [innerHTML]="item.caption"><br /></p>
 
                 <div
-                  class="d-flex justify-content-around text-center border-top border-bottom mb-4"
+                  class="d-flex justify-content-around text-center border-top border-bottom mb-4 "
                 >
                   <div>
                     {{ item.likeCount
@@ -163,7 +163,6 @@ Enjoy the code <3
               <div class="img-btns text-center">
                 <p class="p-caption">{{ item.title }} <br /></p>
                 <p class="p-caption" [innerHTML]="item.note"></p>
-
               </div>
               <div class="img-overlay"></div>
             </div>

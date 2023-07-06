@@ -1,178 +1,187 @@
 <!-- 
 Enjoy the code <3
 -->
-<div class="user-header-wrapper">
-  <div class="user-header-inner">
-    <div class="uh-left">
-      <div class="uh-image">
-        <img class="uh-image-inner" src="{{ userProfile?.avatar }}" alt="" />
-        <div class="gradient"></div>
-      </div>
-    </div>
-    <div class="uh-right">
-      <div class="user-info">
-        <h3>
-          {{ userProfile?.userName }}
-          <svg
-            class="uname-verified"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1350.03 1326.16"
-          >
-            <defs>
-              <style>
-                .cls-11 {
-                  fill: var(--blue);
-                }
-                .cls-12 {
-                  fill: #ffffff;
-                }
-              </style>
-            </defs>
-            <title>verified</title>
-            <g id="Layer_3" data-name="Layer 3">
-              <polygon
-                class="cls-11"
-                points="0 747.37 120.83 569.85 70.11 355.04 283.43 292.38 307.3 107.41 554.93 107.41 693.66 0 862.23 120.83 1072.57 126.8 1112.84 319.23 1293.35 399.79 1256.05 614.6 1350.03 793.61 1197.87 941.29 1202.35 1147.15 969.64 1178.48 868.2 1326.16 675.02 1235.17 493.77 1315.72 354.99 1133.73 165.58 1123.29 152.16 878.64 0 747.37"
-              />
-            </g>
-            <g id="Layer_2" data-name="Layer 2">
-              <path
-                class="cls-12"
-                d="M755.33,979.23s125.85,78.43,165.06,114c34.93-36,234.37-277.22,308.24-331.94,54.71,21.89,85,73.4,93,80.25-3.64,21.89-321.91,418.58-368.42,445.94-32.74-3.84-259-195.16-275.4-217C689.67,1049.45,725.24,1003.85,755.33,979.23Z"
-                transform="translate(-322.83 -335.95)"
-              />
-            </g>
-          </svg>
-        </h3>
-
-        <!-- user-user interaction -->
-        <div *ngIf="loginUserId === userProfile?.id">
-          <button type="button" class="btn" (click)="openEditModal()">
-            Edit Profile
-          </button>
-        </div>
-
-        <div *ngIf="loginUserId !== userProfile?.id">
-          <button type="button" class="btn" (click)="handelFollowOrRemove()">
-            {{ isFollowing || isSendingFollowRequest ? "Remove" : "Follow" }}
-          </button>
-        </div>
-
-        <div
-          *ngIf="loginUserId !== userProfile?.id && isReceivingFollowRequest"
-        >
-          <button
-            type="button"
-            class="btn"
-            (click)="handelAcceptOrRejectRequest(0)"
-          >
-            Accept Request
-          </button>
-          <button
-            type="button"
-            class="btn"
-            (click)="handelAcceptOrRejectRequest(1)"
-          >
-            Reject Request
-          </button>
+<block-ui>
+  <div class="user-header-wrapper">
+    <div class="user-header-inner">
+      <div class="uh-left">
+        <div class="uh-image">
+          <img class="uh-image-inner" src="{{ userProfile?.avatar }}" alt="" />
+          <div class="gradient"></div>
         </div>
       </div>
+      <div class="uh-right">
+        <div class="user-info">
+          <h3>
+            {{ userProfile?.userName }}
+            <svg
+              class="uname-verified"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1350.03 1326.16"
+            >
+              <defs>
+                <style>
+                  .cls-11 {
+                    fill: var(--blue);
+                  }
+                  .cls-12 {
+                    fill: #ffffff;
+                  }
+                </style>
+              </defs>
+              <title>verified</title>
+              <g id="Layer_3" data-name="Layer 3">
+                <polygon
+                  class="cls-11"
+                  points="0 747.37 120.83 569.85 70.11 355.04 283.43 292.38 307.3 107.41 554.93 107.41 693.66 0 862.23 120.83 1072.57 126.8 1112.84 319.23 1293.35 399.79 1256.05 614.6 1350.03 793.61 1197.87 941.29 1202.35 1147.15 969.64 1178.48 868.2 1326.16 675.02 1235.17 493.77 1315.72 354.99 1133.73 165.58 1123.29 152.16 878.64 0 747.37"
+                />
+              </g>
+              <g id="Layer_2" data-name="Layer 2">
+                <path
+                  class="cls-12"
+                  d="M755.33,979.23s125.85,78.43,165.06,114c34.93-36,234.37-277.22,308.24-331.94,54.71,21.89,85,73.4,93,80.25-3.64,21.89-321.91,418.58-368.42,445.94-32.74-3.84-259-195.16-275.4-217C689.67,1049.45,725.24,1003.85,755.33,979.23Z"
+                  transform="translate(-322.83 -335.95)"
+                />
+              </g>
+            </svg>
+          </h3>
 
-      <div class="user-links">
-        <a><span>2</span> Posts</a>
-        <a (click)="openModal(1)"
-          ><span>{{ userActivity?.follower }}</span> Followers</a
-        >
-        <a (click)="openModal(0)"
-          ><span>{{ userActivity?.following }}</span> Following</a
-        >
-      </div>
-      <br />
-      <div class="user-bio">
-        <p>{{ userProfile.bioIntro }}</p>
+          <!-- user-user interaction -->
+          <div *ngIf="loginUserId === userProfile?.id">
+            <button type="button" class="btn" (click)="openEditModal()">
+              Edit Profile
+            </button>
+          </div>
+
+          <div *ngIf="loginUserId !== userProfile?.id">
+            <button type="button" class="btn" (click)="handelFollowOrRemove()">
+              {{ isFollowing || isSendingFollowRequest ? "Remove" : "Follow" }}
+            </button>
+          </div>
+
+          <div
+            *ngIf="loginUserId !== userProfile?.id && isReceivingFollowRequest"
+          >
+            <button
+              type="button"
+              class="btn"
+              (click)="handelAcceptOrRejectRequest(0)"
+            >
+              Accept Request
+            </button>
+            <button
+              type="button"
+              class="btn"
+              (click)="handelAcceptOrRejectRequest(1)"
+            >
+              Reject Request
+            </button>
+          </div>
+        </div>
+
+        <div class="user-links">
+          <a><span>2</span> Posts</a>
+          <a (click)="openModal(1)"
+            ><span>{{ userActivity?.follower }}</span> Followers</a
+          >
+          <a (click)="openModal(0)"
+            ><span>{{ userActivity?.following }}</span> Following</a
+          >
+        </div>
+        <br />
+        <div class="user-bio">
+          <p>{{ userProfile.bioIntro }}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<br />
+  <br />
 
-<section id="profile-content">
-  <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Post">
-      <div class="user-page-wrapper">
-        <div class="user-page-inner">
-          <div id="imgblock1" class="image-block">
-            <div class="block">
-              <img
-                class="image"
-                src="https://images.unsplash.com/photo-1559056986-f834be7896e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
-                alt=""
-              />
+  <section id="profile-content">
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab label="Post">
+        <div class="user-page-wrapper">
+          <div class="user-page-inner">
+            <div id="imgblock1" class="image-block">
+              <div class="block">
+                <img
+                  class="image"
+                  src="https://images.unsplash.com/photo-1559056986-f834be7896e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
+                  alt=""
+                />
+              </div>
+              <div id="imgblockbc1" class="block-background"></div>
             </div>
-            <div id="imgblockbc1" class="block-background"></div>
-          </div>
-          <div id="img1" class="image-wrapper" *ngFor="let item of posts">
-            <div
-              id="iov1"
-              class="img-overlay-wrapper"
-              (click)="onPostClick(item)"
-            >
-              <div class="img-btns text-center">
-                <p class="p-caption" [innerHTML]="item.caption"><br /></p>
+            <div id="img1" class="image-wrapper" *ngFor="let item of posts">
+              <div
+                id="iov1"
+                class="img-overlay-wrapper"
+                (click)="onPostClick(item)"
+              >
+                <div class="img-btns text-center">
+                  <p class="p-caption" [innerHTML]="item.caption"><br /></p>
 
-                <div
-                  class="d-flex justify-content-around text-center border-top border-bottom mb-4 "
-                >
-                  <div>
-                    {{ item.likeCount
-                    }}<i class="fa fa-thumbs-o-up ml-2" aria-hidden="true"></i>
-                  </div>
-                  <div>
-                    {{ item.commentCount
-                    }}<i class="fa fa-commenting-o ml-2" aria-hidden="true"></i>
+                  <div
+                    class="d-flex justify-content-around text-center border-top border-bottom mb-4"
+                  >
+                    <div>
+                      {{ item.likeCount
+                      }}<i
+                        class="fa fa-thumbs-o-up ml-2"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+                    <div>
+                      {{ item.commentCount
+                      }}<i
+                        class="fa fa-commenting-o ml-2"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
                   </div>
                 </div>
+                <div class="img-overlay"></div>
               </div>
-              <div class="img-overlay"></div>
+              <img class="image" src="{{ getCardImage(item) }}" alt="" />
             </div>
-            <img class="image" src="{{ getCardImage(item) }}" alt="" />
           </div>
         </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Trip Plan">
-      <div class="user-page-wrapper">
-        <div class="user-page-inner">
-          <div id="imgblock1" class="image-block">
-            <div class="block">
-              <img
-                class="image"
-                src="https://images.unsplash.com/photo-1559056986-f834be7896e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
-                alt=""
-              />
-            </div>
-            <div id="imgblockbc1" class="block-background"></div>
-          </div>
-          <div id="img1" class="image-wrapper" *ngFor="let item of tripPlans">
-            <div
-              id="iov1"
-              class="img-overlay-wrapper"
-              (click)="onTripPlanClick(item)"
-            >
-              <div class="img-btns text-center">
-                <p class="p-caption">{{ item.title }} <br /></p>
-                <p class="p-caption" [innerHTML]="item.note"></p>
+      </mat-tab>
+      <mat-tab label="Trip Plan">
+        <div class="user-page-wrapper">
+          <div class="user-page-inner">
+            <div id="imgblock1" class="image-block">
+              <div class="block">
+                <img
+                  class="image"
+                  src="https://images.unsplash.com/photo-1559056986-f834be7896e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
+                  alt=""
+                />
               </div>
-              <div class="img-overlay"></div>
+              <div id="imgblockbc1" class="block-background"></div>
             </div>
-            <img class="image" src="{{ getCardImage(item) }}" alt="" />
+            <div id="img1" class="image-wrapper" *ngFor="let item of tripPlans">
+              <div
+                id="iov1"
+                class="img-overlay-wrapper"
+                (click)="onTripPlanClick(item)"
+              >
+                <div class="img-btns text-center">
+                  <p class="p-caption">{{ item.title }} <br /></p>
+                  <p class="p-caption" [innerHTML]="item.note"></p>
+                </div>
+                <div class="img-overlay"></div>
+              </div>
+              <img class="image" src="{{ getCardImage(item) }}" alt="" />
+            </div>
           </div>
         </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</section>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+</block-ui>
+
 <!-- 
 <div class="user-page-wrapper">
   <div class="user-page-inner">

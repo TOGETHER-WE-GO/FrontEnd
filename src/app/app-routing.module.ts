@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
       import('./protected-zone/protected-zone.module').then(
         (m) => m.ProtectedZoneModule
       ),
+    canActivate: [AuthGuard],
     data: {
       functionCode: 'DASHBOARD',
     },

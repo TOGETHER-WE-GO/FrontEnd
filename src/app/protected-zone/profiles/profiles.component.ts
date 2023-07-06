@@ -5,6 +5,7 @@ import {
   PostService,
   SignalRService,
   TokenStorageService,
+  TransmitService,
   UserService,
 } from '../../shared/services';
 import { FollowRequest, User, UserActivity, TripPlan, Token } from '../../shared/models';
@@ -19,6 +20,7 @@ import {
   RejectFollowRequestEvent,
 } from 'src/app/shared/_helpers/constant';
 import { TripPlanDetailComponent } from '../trip-plan/trip-plan-detail/trip-plan-detail.component';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-profiles',
@@ -43,20 +45,29 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   private userId: string;
   options: string[] = ['One', 'Two', 'Three'];
   gridColumns = 4;
-
+  @BlockUI() blockUI: NgBlockUI;
   constructor(
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private postService: PostService,
     private tokenStorageService: TokenStorageService,
-    private signalRService: SignalRService
+    private signalRService: SignalRService,
+    private transmitService: TransmitService
   ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.transmitService.selectedTransmit$.subscribe((value) => {
+      if (value != null && value.data != null && value.type == 'profile-update') {
+        if (value.data == true) this.blockUI.start();
+        else if (value.data == false) this.blockUI.stop();
+      }
+    });
+
+
     this.loginUser = this.tokenStorageService.getUserTokenInfo();
     this.loginUserId = this.loginUser?.nameid;
     this.userId = this.activatedRoute.snapshot.paramMap.get('id');

@@ -267,7 +267,7 @@ i {
 }
 
 .collapsed {
-  width: 60px;
+  width: 85px;
   // box-shadow: 1px 1px 1px #afaeae;
   span {
     display: none;
@@ -275,6 +275,10 @@ i {
 
   .notification-count-unread {
     transform: translate(-150%, -50%);
+  }
+
+  .profile{
+    visibility: hidden;
   }
 }
 

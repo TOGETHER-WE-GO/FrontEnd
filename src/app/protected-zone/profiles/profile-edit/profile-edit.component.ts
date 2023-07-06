@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { TokenStorageService, UserService } from 'src/app/shared/services';
+import { TokenStorageService, TransmitService, UserService } from 'src/app/shared/services';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/shared/models/users/user.model';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -28,7 +28,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private tokenService: TokenStorageService,
     private fb: FormBuilder,
-    private bsModalRef: BsModalRef
+    private bsModalRef: BsModalRef,
+    private transmitService: TransmitService,
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +59,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.userService
           .updateUserProfile(this.userId, formValue)
-          .subscribe((response) => {
+          .subscribe((response: User) => {
             this.userService.isChangeProfile$.next(true);
+            this.tokenService.updateUserInfo('', response.userName);
             this.bsModalRef.hide();
           })
       );
@@ -67,6 +69,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   }
 
   onFileSelected(event: any): void {
+    this.transmitService.setValue({type: 'profile-update', data: true });
     const file: File = event.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
@@ -76,8 +79,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         (response) => {
           this.userProfile.avatar = response.avatar;
           this.tokenService.updateUserInfo(response.avatar, '');
+          this.transmitService.setValue({type: 'profile-update', data: false });
         },
         (error) => {
+          this.transmitService.setValue({type: 'profile-update', data: false });
           console.error('Error uploading image:', error);
         }
       )

@@ -202,7 +202,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.transmitService.setValue({data: true});
+    this.transmitService.setValue({type: 'trip-create', data: true});
     const tripPlan: TripPlanCreate = {
       title: this.formGroup1.get('title').value,
       note: this.formGroup1.get('caption').value,
@@ -237,13 +237,13 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
             this.uiNotificationService.showError('Create TripPlan Failed !');
           }
           setTimeout(() => {
-            this.transmitService.setValue({data: false});
+            this.transmitService.setValue({type: 'trip-create', data: false});
           }, 1000);
         },
         (error) => {
           this.uiNotificationService.showError(error.error.title);
           setTimeout(() => {
-            this.transmitService.setValue({data: false});
+            this.transmitService.setValue({type: 'trip-create', data: false});
           }, 1000);
         }
       )
@@ -255,7 +255,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
-    this.transmitService.setValue({data: true});
+    this.transmitService.setValue({type: 'trip-create', data: true});
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
@@ -267,11 +267,11 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
               displayImage: response,
             });
 
-            this.transmitService.setValue({data: false});
+            this.transmitService.setValue({type: 'trip-create', data: false});
             this.uiNotificationService.showSuccess('Upload Image Success !');
           },
           (error) => {
-            this.transmitService.setValue({data: false});
+            this.transmitService.setValue({type: 'trip-create', data: false});
             this.uiNotificationService.showError('Upload Image Fail !');
           }
         )

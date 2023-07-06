@@ -70,7 +70,7 @@
             </div>
             <!-- Media -->
             <div
-              class="bg-image hover-overlay ripple rounded-0 m-auto"
+              class="bg-image hover-overlay ripple rounded-0 ml-2 mr-2"
               data-mdb-ripple-color="light"
             >
               <img src="{{ item.displayImage.imageUrl }}" class="img-display" />
@@ -103,7 +103,7 @@
                 </div>
                 <div>
                   <a href="" class="text-muted">
-                    {{ item.comments.length }} comments
+                    {{ getTotalComments(item) }} comments
                   </a>
                 </div>
               </div>

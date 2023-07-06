@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { authInterceptorProviders } from './shared/interceptors/auth.interceptor';
 import { UINotificationService } from './shared/services';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { UINotificationService } from './shared/services';
     NgxPaginationModule,
     BrowserAnimationsModule
   ],
-  providers: [authInterceptorProviders, UINotificationService],
+  providers: [authInterceptorProviders, UINotificationService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

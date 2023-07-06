@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root',
   })
 export class TransmitService {
-  private transmit$ = new BehaviorSubject<any>({data: Object});
+  private transmit$ = new BehaviorSubject<any>({type: '', data: Object});
   selectedTransmit$ = this.transmit$.asObservable();
 
   setValue(value: any) {

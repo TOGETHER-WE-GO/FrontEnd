@@ -25,8 +25,14 @@
           </mat-card>
         </ng-template>
       </owl-carousel-o> -->
-  <div class="place-thumbnnail" *ngFor="let item of suggestedPlace">
-    <img src="{{ item.images[0] }}" class="mr-3 img-thumbnail" style="width:140px" />
-    {{ item.name }}
+  <div class="place-thumbnnail" *ngFor="let item of suggestedPlace.slice(0, 7)">
+    <div class="d-flex">
+      <img
+        src="{{ item.images[0] }}"
+        class="mr-2 img-thumbnail"
+        style="width: 140px"
+      />
+      <span class="mt-3">{{ item.name }}</span>
+    </div>
   </div>
 </div>

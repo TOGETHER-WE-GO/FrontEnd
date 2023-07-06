@@ -12,7 +12,7 @@ $topnav-background-color: #ffff;
 
 :host {
   position: fixed;
-  top: 170px;
+  top: 160px;
   width: 22.5%;
   padding-right: 30px;
 }
@@ -24,6 +24,7 @@ $topnav-background-color: #ffff;
   height: fit-content;
   left: 0;
   margin-left: 0px;
+  height: 82vh;
 }
 
 .place-thumbnnail {

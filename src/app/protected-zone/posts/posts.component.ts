@@ -208,7 +208,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.transmitService.setValue({ data: true });
+    this.transmitService.setValue({type: 'post-create', data: true });
     const post: PostCreate = {
       caption: this.formGroup1.get('caption').value,
       userId: this.userInfo.nameid,
@@ -240,13 +240,13 @@ export class PostsComponent implements OnInit, OnDestroy {
           } else  {
             this.uiNotificationService.showError('Create Post Fail !');
           }
-          this.transmitService.setValue({ data: false });
+          this.transmitService.setValue({type: 'post-create', data: false });
          
         },
         (error) => {
           this.uiNotificationService.showError('Create Post Fail !');
 
-          this.transmitService.setValue({ data: false });
+          this.transmitService.setValue({type: 'post-create', data: false });
         }
       )
     );
@@ -311,7 +311,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
-    this.transmitService.setValue({ data: true });
+    this.transmitService.setValue({type: 'post-create', data: true });
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
@@ -322,12 +322,12 @@ export class PostsComponent implements OnInit, OnDestroy {
             this.formGroup1.patchValue({
               displayImage: response,
             });
-            this.transmitService.setValue({ data: false });
+            this.transmitService.setValue({type: 'post-create', data: false });
             this.uiNotificationService.showSuccess('Upload Image Success !');
           },
           (error) => {
             console.error('Upload error:', error);
-            this.transmitService.setValue({ data: false });
+            this.transmitService.setValue({type: 'post-create', data: false });
             this.uiNotificationService.showError('Upload Image Fail !');
           }
         )

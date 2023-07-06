@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.transmitService.selectedTransmit$.subscribe((value) => {
-      if (value != null && value.data != null) {
+      if (value != null && value.data != null && value.type == 'post-create' || value.type == 'trip-create') {
         if (value.data == true) this.blockUI.start();
         else if (value.data == false) this.blockUI.stop();
       }
@@ -88,6 +88,16 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.posts = response;
         })
     );
+  }
+
+  getTotalComments(item: Post)
+  {
+    var total = 0;
+    item.comments.forEach(element => {
+      total += element.replies.length;
+      total += 1;
+    });
+    return total;
   }
 
   checkLikeStatus(likes: Likes[]) {

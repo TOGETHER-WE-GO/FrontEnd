@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../shared/services';
+import { AuthService, PlaceService } from '../shared/services';
+import { PlaceFeatureType } from '../shared/models';
 
 @Component({
   selector: 'app-register',
@@ -11,12 +12,20 @@ import { AuthService } from '../shared/services';
 export class RegisterComponent implements OnInit, OnDestroy {
   form: any = {};
   blockedPanel = false;
-
+  locations: PlaceFeatureType[] = [];
   private subscription: Subscription[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private placeService: PlaceService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription.push(
+      this.placeService
+        .getPlaceLocation()
+        .subscribe((response: PlaceFeatureType[]) => {
+          this.locations = response;
+        })
+    );
+  }
 
   ngOnDestroy(): void {
     this.subscription.forEach((element) => {

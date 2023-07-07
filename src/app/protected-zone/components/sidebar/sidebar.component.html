@@ -24,7 +24,7 @@
         *ngIf="item.children.length > 0"
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
-        <span style="font-size: 19px;">{{ item.name }}</span>
+        <span style="font-size: 19px">{{ item.name }}</span>
         <span
           class="notification-count-unread"
           *ngIf="item.name == 'Notification'"
@@ -37,7 +37,7 @@
         class="list-group-item"
       >
         <i class="fa {{ item.icon }}"></i>&nbsp;
-        <span style="font-size: 19px;">{{ item.name }}</span>
+        <span style="font-size: 19px">{{ item.name }}</span>
         <span
           class="notification-count-unread"
           *ngIf="item.name == 'Notification' && unReadNotification != 0"
@@ -58,7 +58,7 @@
               [routerLinkActive]="['router-link-active']"
             >
               <i class="fa {{ subItem.icon }}"></i>&nbsp;
-              <span style="font-size:19px">{{ subItem.name }}</span>
+              <span style="font-size: 19px">{{ subItem.name }}</span>
             </a>
           </li>
         </ul>
@@ -68,7 +68,7 @@
 
   <div class="nested-menu">
     <div class="list-group-item" (click)="onLoggedout()">
-      <i class="fa fa-sign-out"></i>&nbsp;     
+      <i class="fa fa-sign-out"></i>&nbsp;
       <span> Logout</span>
     </div>
   </div>
@@ -91,7 +91,7 @@
     'visible-transition': isClickNoti
   }"
   class="sidebar"
-  style="z-index: 2 !important; height: 100%; width: 400px; padding-left: 80px"
+  style="z-index: 2 !important; height: 100%; width: 400px; padding-left: 100px"
 >
   <p class="text-center h4 fw-bold app-name" style="margin-top: 10%">
     Notification
@@ -102,7 +102,14 @@
     *ngFor="let item of userNotifications"
     (click)="checkRead(item)"
   >
-    <img class="noti-avatar" src="{{ item.fromAvatar }}" />&nbsp;
+    <a
+      href="javascript:void(0)"
+      routerLink="/profiles/{{ item.fromUserId }}"
+      [routerLinkActive]="['router-link-active']"
+    >
+      <img class="noti-avatar" src="{{ item.fromAvatar }}" />
+    </a>
+    &nbsp;
     <span [innerHTML]="formatNotificationContent(item)"></span>
     <span class="notification-read" *ngIf="!item.isRead"></span>
     <p class="notification-time">

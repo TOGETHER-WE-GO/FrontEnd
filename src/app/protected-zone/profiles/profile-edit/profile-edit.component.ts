@@ -79,6 +79,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         (response) => {
           this.userProfile.avatar = response.avatar;
           this.tokenService.updateUserInfo(response.avatar, '');
+          this.userService.isChangeProfile$.next(true);
           this.transmitService.setValue({type: 'profile-update', data: false });
         },
         (error) => {

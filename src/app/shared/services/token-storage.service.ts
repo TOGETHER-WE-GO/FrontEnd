@@ -4,6 +4,7 @@ import { Token } from '../models/users/token.model';
 import {
   TOKEN_KEY,
   USER_AVATAR,
+  USER_CITY,
   USER_KEY,
   USER_NAME,
 } from '../_helpers/constant';
@@ -36,6 +37,15 @@ export class TokenStorageService {
   public saveUser(user: any): void {
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  public saveCityInfo(city: string): void{
+    window.localStorage.removeItem(USER_CITY);
+    window.localStorage.setItem(USER_CITY, city);
+  }
+
+  public getCityInfo(): string{
+    return localStorage.getItem(USER_CITY);
   }
 
   public getUser(): any {

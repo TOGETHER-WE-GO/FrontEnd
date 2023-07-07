@@ -107,7 +107,7 @@ export class ProfilesComponent implements OnInit, OnDestroy {
   fetchUserPosts() {
     this.subscription.add(
       this.postService
-        .getUserPosts(this.userId)
+        .getUserPosts(this.userId, this.loginUserId)
         .subscribe((response: Post[]) => {
           this.posts = response;
         })

@@ -22,6 +22,7 @@ import { LikeCreate } from 'src/app/shared/models/posts/like-create.model';
 export class HomeComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   userInfo: Token;
+  city: string;
   posts: Post[];
   public bsModalRef: BsModalRef;
   @BlockUI() blockUI: NgBlockUI;
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.userInfo = this.tokenService.getUserTokenInfo();
+    this.city = this.tokenService.getCityInfo();
     this.fetchData();
   }
 

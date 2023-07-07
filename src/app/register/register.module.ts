@@ -9,6 +9,7 @@ import { PanelModule } from 'primeng/panel';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     PanelModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class RegisterModule { }

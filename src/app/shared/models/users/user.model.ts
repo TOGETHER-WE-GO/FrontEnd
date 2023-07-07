@@ -10,5 +10,6 @@ export class User {
     bioIntro: string;
     follower: number;
     following: number;
+    city: string;
     post: number;
 }

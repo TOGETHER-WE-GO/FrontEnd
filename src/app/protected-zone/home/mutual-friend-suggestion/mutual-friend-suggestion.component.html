@@ -1,7 +1,7 @@
 <div class="container">
   <h5 class="pt-2 mb-0">People you may know</h5>
 
-  <div *ngFor="let suggest of followMutuals">
+  <div *ngFor="let suggest of followMutuals.slice(0,5)">
     <a
       href="javascript:void(0)"
       routerLink="/profiles/{{ suggest.userId }}"
@@ -18,7 +18,7 @@
         />
         <div class="flex-grow-1 ml-3">
           {{ suggest.userName }}
-          <div class="small">
+          <div class="small" *ngIf="suggest.countFollowsBy > 0">
             <span
               style="
                 width: 50%;

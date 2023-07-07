@@ -13,7 +13,7 @@ export class ExploreFriendComponent implements OnInit, OnDestroy {
   form: any = {};
   searchKey = '';
   public pageIndex = 1;
-  public pageSize = 9;
+  public pageSize = 8;
   public totalRecords: number;
   users: User[];
   blockedPanel = false;

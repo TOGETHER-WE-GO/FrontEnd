@@ -15,6 +15,7 @@ import {
   SignalRService,
   TokenStorageService,
   UINotificationService,
+  UserService,
 } from 'src/app/shared/services';
 import { PostsComponent } from '../../posts/posts.component';
 import { TripPlanFormComponent } from '../../trip-plan/trip-plan-form/trip-plan-form.component';
@@ -47,8 +48,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private tokenStorageService: TokenStorageService,
     private notificationService: NotificationService,
     private signalRService: SignalRService,
+    private userService: UserService,
     private modalService: BsModalService,
-    private uiNotificationService:UINotificationService
+    private uiNotificationService: UINotificationService
   ) {
     this.loadMenu();
     this.router.events.subscribe((val) => {
@@ -144,6 +146,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.getUserNotification();
 
+    this.userService.isChangeProfile$.subscribe((data) => {
+      if (data) this.loginUser = this.tokenStorageService.getUserTokenInfo();
+    });
+
     this.signalRService.notification$.subscribe((event) => {
       if (event.type === 'OnEvent' && event.data) {
         this.userNotifications.unshift(event.data);
@@ -186,49 +192,47 @@ export class SidebarComponent implements OnInit, OnDestroy {
     dom.classList.toggle('rtl');
   }
 
-  onMenuClick(item: MenuTab)
-  {
-    if(item.name == 'Notification')
-    {
+  onMenuClick(item: MenuTab) {
+    if (item.name == 'Notification') {
       this.isClickNoti = !this.isClickNoti;
       this.collapsed = true;
-    }else if(item.name == 'Post')
-    {
+    } else if (item.name == 'Post') {
       this.bsModalRef = this.modalService.show(PostsComponent, {
         class: 'modal-dialog modal-lg',
         backdrop: 'static',
-        initialState: {width: '500px', height: '300px' },
+        initialState: { width: '500px', height: '300px' },
       });
-    }
-    else if(item.name == 'Trip Plan')
-    {
+    } else if (item.name == 'Trip Plan') {
       this.bsModalRef = this.modalService.show(TripPlanFormComponent, {
         class: 'modal-dialog modal-lg',
         backdrop: 'static',
-        initialState: {width: '500px', height: '300px' },
+        initialState: { width: '500px', height: '300px' },
       });
-    }
-    else{
+    } else {
       this.router.navigate([`${item.url}`]);
     }
   }
 
   onLoggedout() {
-    this.uiNotificationService.showConfirmation("Are you sure you want to logout",
-      () =>{
+    this.uiNotificationService.showConfirmation(
+      'Are you sure you want to logout',
+      () => {
         localStorage.removeItem('auth-token');
         this.router.navigate(['/login']);
-      });
-    
+      }
+    );
   }
 
   checkRead(item: Notifications) {
-    if(!item.isRead)
-      this.subscription.add(this.notificationService.markReadNotification(item.id).subscribe((response: boolean) =>{
-        if(response)
-          item.isRead = true; 
-          this.unReadNotification = this.unReadNotification - 1;
-      }))
+    if (!item.isRead)
+      this.subscription.add(
+        this.notificationService
+          .markReadNotification(item.id)
+          .subscribe((response: boolean) => {
+            if (response) item.isRead = true;
+            this.unReadNotification = this.unReadNotification - 1;
+          })
+      );
   }
 
   formatNotificationContent(item: Notifications): string {

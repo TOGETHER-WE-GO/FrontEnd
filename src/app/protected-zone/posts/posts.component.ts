@@ -145,6 +145,7 @@ export class PostsComponent implements OnInit, OnDestroy {
       startDate: Date,
       endDate: Date,
       thumbnails: [],
+      places: [],
     });
 
     this.phoneForms.push(phone);
@@ -226,7 +227,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         startDate: element.startDate,
         endDate: element.endDate,
         images: element.thumbnails,
-        places: [],
+        places: element.places,
       };
       post.itineraries.push(itinerary);
     });

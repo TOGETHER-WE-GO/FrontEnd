@@ -48,6 +48,23 @@ export class UserService extends BaseService {
       );
   }
 
+  getUserCity(userId: string)
+  {
+    return this.http
+      .get<User>(
+        `${environment.exploreurl}/api/users/${userId}/city`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: User) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   getUserProfile(userId: string) {
     return this.http
       .get<User>(

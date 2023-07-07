@@ -110,10 +110,12 @@ export class PostService extends BaseService {
       );
   }
 
-  getUserPosts(userId: string) {
+  getUserPosts(userId: string, fromUserId: string) {
+    let params = new HttpParams().set('fromUserId', fromUserId);
     return this.http
       .get<Post[]>(`${environment.postUrl}/api/posts/users/${userId}`, {
         headers: this._sharedHeaders,
+        params: params
       })
       .pipe(
         map((response: Post[]) => {

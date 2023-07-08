@@ -1,12 +1,21 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PlaceOverall } from 'src/app/shared/models';
-import { RecommendationService, TokenStorageService } from 'src/app/shared/services';
+import {
+  RecommendationService,
+  TokenStorageService,
+} from 'src/app/shared/services';
 
 @Component({
   selector: 'app-recommendbar',
   templateUrl: './recommendbar.component.html',
-  styleUrls: ['./recommendbar.component.scss']
+  styleUrls: ['./recommendbar.component.scss'],
 })
 export class RecommendbarComponent implements OnInit, OnDestroy {
   customOptions: any = {
@@ -34,23 +43,38 @@ export class RecommendbarComponent implements OnInit, OnDestroy {
     nav: true,
   };
 
+  @Input() reloadEvent: boolean;
+
   private subscription = new Subscription();
   loginUserId: string;
   suggestedPlace: PlaceOverall[];
 
-  constructor(private recommendationService: RecommendationService, private tokenStorageService: TokenStorageService) { 
-
-  }
+  constructor(
+    private recommendationService: RecommendationService,
+    private tokenStorageService: TokenStorageService
+  ) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
+
   ngOnInit(): void {
     this.loginUserId = this.tokenStorageService.getUserTokenInfo()?.nameid;
-    this.subscription.add(this.recommendationService.recommendPlacesForUser(this.loginUserId).subscribe((response: PlaceOverall[])=>{
-      this.suggestedPlace = response;
-    }))
+    this.fetchData();
+  }
+
+  ngOnChanges() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.subscription.add(
+      this.recommendationService
+        .recommendPlacesForUser(this.loginUserId)
+        .subscribe((response: PlaceOverall[]) => {
+          this.suggestedPlace = response;
+        })
+    );
   }
 
   getCardImage(place: PlaceOverall) {
@@ -67,5 +91,4 @@ export class RecommendbarComponent implements OnInit, OnDestroy {
     });
     return isPresent;
   }
-
 }

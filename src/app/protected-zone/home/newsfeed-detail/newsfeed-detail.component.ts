@@ -85,7 +85,7 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
   fetchData() {
     this.subscription.add(
       this.postService
-        .getPostDetail(this.postId)
+        .getPostDetail(this.postId, this.loginUser.nameid)
         .subscribe((response: Post) => {
           this.post = response;
         })
@@ -151,7 +151,7 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
         this.postService
           .createReply(this.postId, comment.id, ReplyCreate)
           .subscribe((response: Reply) => {
-            this.comments[index].replies.unshift(response);
+            this.comments[index].replies.push(response);
             this.replyAction[index] = false;
           })
       );

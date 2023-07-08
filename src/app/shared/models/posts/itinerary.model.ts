@@ -1,3 +1,4 @@
+import { PlaceSearch } from '../places/place-search.model';
 import {Image} from './image.model'
 export interface Itinerary{
     id: string;
@@ -6,4 +7,5 @@ export interface Itinerary{
     startDate: Date;
     endDate: Date;
     images: Image[];
+    places: PlaceSearch[];
 }

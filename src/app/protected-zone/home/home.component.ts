@@ -25,8 +25,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   city: string;
   posts: Post[];
   public bsModalRef: BsModalRef;
+  reloadEvent: boolean = false;
   @BlockUI() blockUI: NgBlockUI;
-  
+
   constructor(
     private tokenService: TokenStorageService,
     private postService: PostService,
@@ -39,17 +40,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.transmitService.selectedTransmit$.subscribe((value) => {
-      if (value != null && value.data != null && value.type == 'post-create' || value.type == 'trip-create') {
+      if (
+        (value != null && value.data != null && value.type == 'post-create') ||
+        value.type == 'trip-create'
+      ) {
         if (value.data == true) this.blockUI.start();
         else if (value.data == false) this.blockUI.stop();
       }
+    });
+
+    this.modalService.onHide.subscribe((e) => {
+      this.reloadEvent = !this.reloadEvent;
     });
 
     this.userInfo = this.tokenService.getUserTokenInfo();
     this.city = this.tokenService.getCityInfo();
     this.fetchData();
   }
-
 
   // Method to handle the scroll event
   @HostListener('window:scroll', ['$event'])
@@ -62,10 +69,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   isScrolledToBottom(): boolean {
-    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const windowHeight =
+      'innerHeight' in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
     const body = document.body;
     const html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
     const windowBottom = windowHeight + window.pageYOffset;
 
     return windowBottom >= docHeight;
@@ -92,10 +108,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  getTotalComments(item: Post)
-  {
+  getTotalComments(item: Post) {
     var total = 0;
-    item.comments.forEach(element => {
+    item.comments.forEach((element) => {
       total += element.replies.length;
       total += 1;
     });
@@ -132,7 +147,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     if (userLike !== undefined) {
-      const likeIndex = likes.findIndex(x => x.id == userLike.id);
+      const likeIndex = likes.findIndex((x) => x.id == userLike.id);
       this.subscription.add(
         this.postService
           .deleteLike(postId, userLike.id)

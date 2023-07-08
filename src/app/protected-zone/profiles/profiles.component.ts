@@ -18,6 +18,7 @@ import {
   AcceptFollowRequestEvent,
   FollowRequestEvent,
   RejectFollowRequestEvent,
+  RemoveFollowRequestEvent,
 } from 'src/app/shared/_helpers/constant';
 import { TripPlanDetailComponent } from '../trip-plan/trip-plan-detail/trip-plan-detail.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -30,6 +31,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 export class ProfilesComponent implements OnInit, OnDestroy {
   public userProfile: User;
   public userActivity: UserActivity;
+  public postCount: number;
+  public tripPlanCount: number;
   public posts: Post[];
   public tripPlans: TripPlan[];
   public loginUserId: string;
@@ -99,6 +102,9 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           this.isFollowing = false;
         } else if (event.data.title == AcceptFollowRequestEvent) {
           this.isFollowing = true;
+        }else if(event.data.title == RemoveFollowRequestEvent)
+        {
+          this.isReceivingFollowRequest = false;
         }
       }
     });
@@ -112,6 +118,14 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           this.posts = response;
         })
     );
+
+    this.subscription.add(this.postService.countUserPosts(this.userId).subscribe((response: number) =>{
+      this.postCount = response;
+    }))
+
+    this.subscription.add(this.postService.countUserTripPlans(this.userId).subscribe((response: number) =>{
+      this.tripPlanCount = response;
+    }))
   }
 
   fetchUserTripPlans() {
@@ -215,12 +229,13 @@ export class ProfilesComponent implements OnInit, OnDestroy {
           .acceptFollowRequest(followRequest)
           .subscribe((response: boolean) => {
             this.fetchProfileData();
+            this.isFollowing = true;
           })
       );
     } else {
       this.subscription.add(
         this.userService
-          .removeFollowRequest(this.userId, this.loginUserId)
+          .rejectFollowRequest(this.userId, this.loginUserId)
           .subscribe((response: boolean) => {
             this.fetchProfileData();
           })

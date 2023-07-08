@@ -86,7 +86,7 @@ export class TripPlanComponent implements OnInit, OnDestroy {
 
   onTripPlanClick(item: TripPlan) {
     this.bsModalRef = this.modalService.show(TripPlanDetailComponent, {
-      class: 'modal-xl',
+      class: 'modal-lg',
       backdrop: 'static',
       initialState: {
         tripPlanId: item.id,

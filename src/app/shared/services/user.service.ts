@@ -263,9 +263,15 @@ export class UserService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  removeFollowRequest(sourceId: string, targetId: string): Observable<any> {
+  rejectFollowRequest(sourceId: string, targetId: string): Observable<any> {
     return this.http
       .delete(`${environment.exploreurl}/api/users/${sourceId}/follow-requests/${targetId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  removeFollowRequest(sourceId: string, targetId: string): Observable<any> {
+    return this.http
+      .delete(`${environment.exploreurl}/api/users/${sourceId}/follow-requests-remove/${targetId}`)
       .pipe(catchError(this.handleError));
   }
 }

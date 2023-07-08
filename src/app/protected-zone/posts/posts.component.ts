@@ -164,10 +164,11 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.thumbnailInput.nativeElement.click();
   }
 
-  onThumbnailSelected(event: any): void {
+  onThumbnailSelected(event: any, index: number): void {
     const file: File = event.target.files[0];
 
     if (file) {
+      this.transmitService.setValue({ type: 'post-create', data: true });
       this.subscription.add(
         this.postService.uploadImage(file).subscribe(
           (response) => {
@@ -182,8 +183,11 @@ export class PostsComponent implements OnInit, OnDestroy {
               this.phoneForms.at(this.selectedFormIndex).patchValue({
                 thumbnails: [response],
               });
+
+            this.transmitService.setValue({ type: 'post-create', data: false });
           },
           (error) => {
+            this.transmitService.setValue({ type: 'post-create', data: false });
             console.error('Upload error:', error);
           }
         )
@@ -209,7 +213,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.transmitService.setValue({type: 'post-create', data: true });
+    this.transmitService.setValue({ type: 'post-create', data: true });
     const post: PostCreate = {
       caption: this.formGroup1.get('caption').value,
       userId: this.userInfo.nameid,
@@ -236,18 +240,19 @@ export class PostsComponent implements OnInit, OnDestroy {
       this.postService.createPost(post).subscribe(
         (response: any) => {
           if (response == true) {
-            this.uiNotificationService.showSuccess('Create Post Success !');
+            this.uiNotificationService.showSuccess(
+              'Create Post Successfully !'
+            );
             this.bsModalRef.hide();
-          } else  {
-            this.uiNotificationService.showError('Create Post Fail !');
+          } else {
+            this.uiNotificationService.showError('Create Post Failed !');
           }
-          this.transmitService.setValue({type: 'post-create', data: false });
-         
+          this.transmitService.setValue({ type: 'post-create', data: false });
         },
         (error) => {
-          this.uiNotificationService.showError('Create Post Fail !');
+          this.uiNotificationService.showError('Create Post Failed !');
 
-          this.transmitService.setValue({type: 'post-create', data: false });
+          this.transmitService.setValue({ type: 'post-create', data: false });
         }
       )
     );
@@ -257,14 +262,11 @@ export class PostsComponent implements OnInit, OnDestroy {
     if (this.selectedPlaces[index]) {
       if (!this.selectedPlaces[index].includes(item)) {
         this.selectedPlaces[index].push(item);
-        this.phoneForms
-          .at(this.selectedFormIndex)
-          .get('places')
-          .value.push(item);
+        this.phoneForms.at(index).get('places').value.push(item);
       }
     } else {
       this.selectedPlaces[index] = [item];
-      this.phoneForms.at(this.selectedFormIndex).patchValue({
+      this.phoneForms.at(index).patchValue({
         places: [item],
       });
     }
@@ -312,7 +314,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   onSaveDisplayImage() {
-    this.transmitService.setValue({type: 'post-create', data: true });
+    this.transmitService.setValue({ type: 'post-create', data: true });
     const file = base64ToFile(this.croppedImage) as File;
 
     if (file) {
@@ -323,13 +325,15 @@ export class PostsComponent implements OnInit, OnDestroy {
             this.formGroup1.patchValue({
               displayImage: response,
             });
-            this.transmitService.setValue({type: 'post-create', data: false });
-            this.uiNotificationService.showSuccess('Upload Image Success !');
+            this.transmitService.setValue({ type: 'post-create', data: false });
+            this.uiNotificationService.showSuccess(
+              'Upload Image Successfully !'
+            );
           },
           (error) => {
             console.error('Upload error:', error);
-            this.transmitService.setValue({type: 'post-create', data: false });
-            this.uiNotificationService.showError('Upload Image Fail !');
+            this.transmitService.setValue({ type: 'post-create', data: false });
+            this.uiNotificationService.showError('Upload Image Failed !');
           }
         )
       );

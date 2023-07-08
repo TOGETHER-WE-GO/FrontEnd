@@ -97,10 +97,12 @@ export class PostService extends BaseService {
     );
   }
 
-  getPostDetail(postId: string) {
+  getPostDetail(postId: string, userViewId: string) {
+    let params = new HttpParams().set('userViewId', userViewId);
     return this.http
       .get<Post>(`${environment.postUrl}/api/posts/${postId}`, {
         headers: this._sharedHeaders,
+        params: params
       })
       .pipe(
         map((response: Post) => {
@@ -119,6 +121,32 @@ export class PostService extends BaseService {
       })
       .pipe(
         map((response: Post[]) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  countUserPosts(userId: string) {
+    return this.http
+      .get<number>(`${environment.postUrl}/api/posts/users/${userId}/count`, {
+        headers: this._sharedHeaders,
+      })
+      .pipe(
+        map((response: number) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  countUserTripPlans(userId: string) {
+    return this.http
+      .get<number>(`${environment.postUrl}/api/tripplans/users/${userId}/count`, {
+        headers: this._sharedHeaders,
+      })
+      .pipe(
+        map((response: number) => {
           return response;
         }),
         catchError(this.handleError)

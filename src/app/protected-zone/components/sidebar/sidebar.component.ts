@@ -19,6 +19,7 @@ import {
 } from 'src/app/shared/services';
 import { PostsComponent } from '../../posts/posts.component';
 import { TripPlanFormComponent } from '../../trip-plan/trip-plan-form/trip-plan-form.component';
+import { RemoveFollowRequestEvent } from 'src/app/shared/_helpers/constant';
 // import {  } from 'src/app/shared/services/token-storage.service';
 // import { UserService } from 'src/app/shared/services/user.service';
 
@@ -35,7 +36,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   loginUser: any;
   isClickNoti: boolean = false;
   unReadNotification: number = 0;
-  userNotifications: Notifications[];
+  userNotifications: Notifications[] = [];
   public menuTabs!: MenuTab[];
   public bsModalRef: BsModalRef;
 
@@ -152,9 +153,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.signalRService.notification$.subscribe((event) => {
       if (event.type === 'OnEvent' && event.data) {
-        this.userNotifications.unshift(event.data);
-        this.unReadNotification = this.unReadNotification + 1;
-        // this.signalRService.notification$.next({type: '', data: null})
+        if (event.data.title !== RemoveFollowRequestEvent) {
+          this.userNotifications.unshift(event.data);
+          this.unReadNotification = this.unReadNotification + 1;
+        }
       }
     });
   }

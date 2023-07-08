@@ -7,3 +7,4 @@ export const USER_CITY = 'user-city';
 export const FollowRequestEvent = 'FollowRequest';
 export const AcceptFollowRequestEvent = 'AcceptFollowRequest';
 export const RejectFollowRequestEvent = 'RejectFollowRequest';
+export const RemoveFollowRequestEvent = 'RemoveFollowRequest';

@@ -26,7 +26,7 @@
 .media {
   margin-top: 20px;
   img {
-    width:45px;
+    width: 45px;
     height: 45px;
   }
 }
@@ -62,7 +62,7 @@ a {
   z-index: 10;
 }
 
-.img-thumnal{
+.img-thumnal {
   padding: 5px;
   width: 180px !important;
   height: 150px;
@@ -70,11 +70,25 @@ a {
 }
 
 owl-carousel-o {
-  ::ng-deep{
-   .owl-stage{
-     .owl-item{
-       width: 183px !important;
-     }
-   }
+  ::ng-deep {
+    .owl-stage {
+      .owl-item {
+        width: 183px !important;
+      }
+    }
   }
- }
+
+  .place-thumbnnail {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    background-color: #ede7e7;
+
+    img {
+      border-radius: 5%;
+      width: 80px;
+      height: 100%;
+    }
+  }
+}

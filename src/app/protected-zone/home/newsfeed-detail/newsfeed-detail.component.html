@@ -20,7 +20,7 @@
         <!-- Featured image -->
         <div
           class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4 d-flex justify-content-center"
-          style="height: 50vh;"
+          style="height: 50vh"
           data-mdb-ripple-color="light"
         >
           <img src="{{ post.displayImage?.imageUrl }}" class="img-fluid" />
@@ -44,8 +44,7 @@
 
         <!-- Article title and description -->
         <a class="text-dark">
-          <p [innerHTML]="post.caption">
-          </p>
+          <p [innerHTML]="post.caption"></p>
         </a>
 
         <hr />
@@ -88,7 +87,22 @@
               </div>
 
               <owl-carousel-o [options]="customOptions">
-                <ng-template carouselSlide *ngFor="let item of item.images" style="width:100px">
+                <ng-template carouselSlide *ngFor="let place of item.places">
+                  <div class="place-thumbnnail">
+                    <img src="{{ place.images[0] }}" class="mr-3" />
+                    {{ place.name }}
+                  </div>
+                </ng-template>
+              </owl-carousel-o>
+
+              <br>
+
+              <owl-carousel-o [options]="customOptions">
+                <ng-template
+                  carouselSlide
+                  *ngFor="let item of item.images"
+                  style="width: 100px"
+                >
                   <img class="img-thumnal" src="{{ item.imageUrl }}" />
                 </ng-template>
               </owl-carousel-o>
@@ -96,7 +110,7 @@
           </div>
         </div>
       </section>
-      <hr>
+      <hr />
       <!-- write comment -->
       <section id="comment">
         <div class="d-flex mb-3 card-write-comment">
@@ -153,16 +167,62 @@
 
                     <div class="col-4">
                       <div class="pull-right reply">
-                        <a href="javascript:void(0);" (click)="onReplyClick(i)" class="mr-4"
+                        <a
+                          href="javascript:void(0);"
+                          (click)="onReplyClick(i)"
+                          class="mr-4"
                           ><span><i class="fa fa-reply"></i> reply</span></a
                         >
-                        <a href="javascript:void(0);" (click)="onRemoveCommentClick(i, comment)"
+                        <a *ngIf="loginUser.nameid == comment.userId"
+                          href="javascript:void(0);"
+                          (click)="onRemoveCommentClick(i, comment)"
                           ><span><i class="fa fa-trash"></i> remove </span></a
                         >
                       </div>
                     </div>
                     <div class="col-12 d-flex text-muted d-block">
                       {{ comment.message }}
+                    </div>
+                  </div>
+
+                  <div
+                    class="media mt-4"
+                    *ngFor="let reply of comment.replies; let irep = index"
+                  >
+                    <a class="pr-3" href="javascript:void(0);"
+                      ><img
+                        class="rounded-circle"
+                        alt="Bootstrap Media Another Preview"
+                        src="{{ reply.userAvatar }}"
+                    /></a>
+                    <div class="media-body">
+                      <div class="row bg-light">
+                        <div class="col-12 d-flex">
+                          <a
+                            (click)="onUserNameClick(reply.userId)"
+                            class="text-dark mb-0"
+                            style="cursor: pointer"
+                          >
+                            <strong>{{ reply.userName }}</strong>
+                          </a>
+
+                          <span
+                            >-
+                            {{
+                              reply.createdAt | date : "short" : "local"
+                            }}</span
+                          >
+                          <a *ngIf="loginUser.nameid == reply.userId"
+                            href="javascript:void(0);"
+                            (click)="onRemoveReplyClick(irep, reply, comment)"
+                            class="ml-3"
+                            ><span> remove </span></a
+                          >
+                        </div>
+                        <div class="col-12 d-flex text-muted d-block">
+                          {{ reply.message }}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -192,53 +252,15 @@
                           >Save</a
                         >
 
-                        <a href="javascript:void(0);" class="form-label" (click)="onCancel(i)"
+                        <a
+                          href="javascript:void(0);"
+                          class="form-label"
+                          (click)="onCancel(i)"
                           >Cancel</a
                         >
                       </div>
                     </div>
                   </section>
-
-                  <div
-                    class="media mt-4"
-                    *ngFor="let reply of comment.replies; let irep = index"
-                  >
-                    <a class="pr-3" href="javascript:void(0);"
-                      ><img
-                        class="rounded-circle"
-                        alt="Bootstrap Media Another Preview"
-                        src="{{ reply.userAvatar }}"
-                    /></a>
-                    <div class="media-body">
-                      <div class="row bg-light">
-                        <div class="col-12 d-flex">
-                          <a
-                            (click)="onUserNameClick(reply.userId)"
-                            class="text-dark mb-0"
-                            style="cursor: pointer"
-                          >
-                            <strong>{{ comment.userName }}</strong>
-                          </a>
-
-                          <span
-                            >-
-                            {{
-                              reply.createdAt | date : "short" : "local"
-                            }}</span
-                          >
-                          <a
-                            href="javascript:void(0);"
-                            (click)="onRemoveReplyClick(irep, reply, comment)"
-                            class="ml-3"
-                            ><span> remove </span></a
-                          >
-                        </div>
-                        <div class="col-12 d-flex text-muted d-block">
-                          {{ reply.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

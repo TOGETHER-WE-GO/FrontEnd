@@ -1,7 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserFollow } from 'src/app/shared/models';
-import { UserService, TokenStorageService } from '../../../shared/services';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import {
+  UserService,
+  TokenStorageService,
+  UINotificationService,
+} from '../../../shared/services';
 @Component({
   selector: 'app-follows',
   templateUrl: './profile-follows.component.html',
@@ -14,7 +19,11 @@ export class ProfileFollowsComponent implements OnInit, OnDestroy {
   public isFollower: number;
   private subscription = new Subscription();
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private bsModalRef: BsModalRef,
+    private uiNotificationService: UINotificationService
+  ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -43,7 +52,19 @@ export class ProfileFollowsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handelRemove() {
-    
+  handelRemove(targetUserId: string) {
+    this.subscription.add(
+      this.userService.removeFollow(this.loginedUserId, targetUserId).subscribe(
+        (response: boolean) => {
+          if (response) {
+            this.uiNotificationService.showSuccess('Remove Successfully');
+            this.bsModalRef.hide();
+          } else this.uiNotificationService.showSuccess('Remove Failed');
+        },
+        (error) => {
+          this.uiNotificationService.showSuccess('Remove Failed');
+        }
+      )
+    );
   }
 }

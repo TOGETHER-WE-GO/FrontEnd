@@ -224,7 +224,7 @@
                   ></i>
                 </ng-template>
                 <input
-                  (change)="onThumbnailSelected($event)"
+                  (change)="onThumbnailSelected($event, i)"
                   type="file"
                   #thumbnailInput
                   formControlName="thumbnailInput"

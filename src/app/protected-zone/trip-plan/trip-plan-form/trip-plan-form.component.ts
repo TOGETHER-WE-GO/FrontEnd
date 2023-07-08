@@ -231,7 +231,7 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
       this.postService.createTripPlan(tripPlan).subscribe(
         (response: any) => {
           if (response) {
-            this.uiNotificationService.showSuccess('Create TripPlan Success !');
+            this.uiNotificationService.showSuccess('Create TripPlan Successfully !');
             this.bsModalRef.hide();
           } else {
             this.uiNotificationService.showError('Create TripPlan Failed !');
@@ -268,11 +268,11 @@ export class TripPlanFormComponent implements OnInit, OnDestroy {
             });
 
             this.transmitService.setValue({type: 'trip-create', data: false});
-            this.uiNotificationService.showSuccess('Upload Image Success !');
+            this.uiNotificationService.showSuccess('Upload Image Successfully !');
           },
           (error) => {
             this.transmitService.setValue({type: 'trip-create', data: false});
-            this.uiNotificationService.showError('Upload Image Fail !');
+            this.uiNotificationService.showError('Upload Image Failed !');
           }
         )
       );

@@ -165,14 +165,21 @@
                 formControlName="title"
                 placeholder="Title"
               />
-
+<!-- 
               <textarea
                 formControlName="description"
                 class="form-control mt-3"
                 placeholder="Write your description here..."
                 #textAreaComment
                 rows="4"
-              ></textarea>
+              ></textarea> -->
+
+              <ckeditor
+                class="mt-3"
+                [editor]="editor"
+                formControlName="description"
+                rows="7"
+              ></ckeditor>
 
               <input
                 type="text"

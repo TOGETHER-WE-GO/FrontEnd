@@ -43,9 +43,13 @@ export class ProtectedZoneComponent implements OnInit, OnDestroy {
 
     // this.signalrService.registerUserConnectedHandler();
     // this.signalrService.registerUserDisconnectedHandler();
-
+    if(!this.signalrService.hubConnection)
+    {
+      this.signalrService.establishConnection();
+    }
+    
     if (
-      this.signalrService.hubConnection.state === HubConnectionState.Connected
+      this.signalrService.hubConnection && this.signalrService.hubConnection.state === HubConnectionState.Connected
     ) {
       // SignalR connection is already established, no need to reconnect
       return;

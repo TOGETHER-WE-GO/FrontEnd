@@ -92,3 +92,7 @@ owl-carousel-o {
     }
   }
 }
+
+:host ::ng-deep .mat-ripple-element {
+  position: absolute;
+}

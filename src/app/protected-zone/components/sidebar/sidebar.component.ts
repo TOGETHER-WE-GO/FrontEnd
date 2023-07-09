@@ -219,6 +219,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.uiNotificationService.showConfirmation(
       'Are you sure you want to logout',
       () => {
+        this.signalRService.stopConnection();
         localStorage.removeItem('auth-token');
         this.router.navigate(['/login']);
       }

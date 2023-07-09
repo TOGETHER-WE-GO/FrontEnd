@@ -172,6 +172,15 @@ export class PostsComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.postService.uploadImage(file).subscribe(
           (response) => {
+            if (response.imageUrl == null) {
+              this.transmitService.setValue({
+                type: 'post-create',
+                data: false,
+              });
+              this.uiNotificationService.showError('Upload Image Failed !');
+              return;
+            }
+
             if (
               this.phoneForms.at(this.selectedFormIndex).get('thumbnails').value
             )
@@ -184,29 +193,32 @@ export class PostsComponent implements OnInit, OnDestroy {
                 thumbnails: [response],
               });
 
+            // Read the file as a data URL
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            // Once the file is read, set the image URL
+            reader.onload = () => {
+              let items = this.thumbnails[this.selectedFormIndex];
+              if (items) {
+                items.push(reader.result as string);
+                this.thumbnails[this.selectedFormIndex] = items;
+              } else {
+                this.thumbnails[this.selectedFormIndex] = [
+                  reader.result as string,
+                ];
+              }
+            };
+            
             this.transmitService.setValue({ type: 'post-create', data: false });
+            this.uiNotificationService.showSuccess('Upload Successfully !');
           },
           (error) => {
             this.transmitService.setValue({ type: 'post-create', data: false });
-            console.error('Upload error:', error);
+            this.uiNotificationService.showError('Upload Image Failed !');
           }
         )
       );
-
-      // Read the file as a data URL
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      // Once the file is read, set the image URL
-      reader.onload = () => {
-        let items = this.thumbnails[this.selectedFormIndex];
-        if (items) {
-          items.push(reader.result as string);
-          this.thumbnails[this.selectedFormIndex] = items;
-        } else {
-          this.thumbnails[this.selectedFormIndex] = [reader.result as string];
-        }
-      };
     }
 
     // Perform any desired actions with the selected file, such as uploading to a server.

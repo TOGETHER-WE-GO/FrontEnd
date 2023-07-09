@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Notifications, UserFollow } from '../models';
 import { TokenStorageService } from './token-storage.service';
 import { environment } from '../../../environments/environment';
+import { HubConnectionState } from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +20,17 @@ export class SignalRService {
   constructor(private tokenService: TokenStorageService) {
     const connectionId = localStorage.getItem('signalrConnectionId');
 
+    this.establishConnection();
+  }
+
+  public establishConnection() {
+    if (this.hubConnection) return;
+
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(
-        `${environment.notificationUrl}/hub?access_token=${tokenService.getToken()}`
+        `${
+          environment.notificationUrl
+        }/hub?access_token=${this.tokenService.getToken()}`
       )
       .withAutomaticReconnect()
       .build();
@@ -53,6 +62,24 @@ export class SignalRService {
           observer.error(err);
         });
     });
+  }
+
+  public stopConnection() {
+    if (
+      this.hubConnection &&
+      this.hubConnection.state === HubConnectionState.Connected
+    ) {
+      this.hubConnection
+        .stop()
+        .then(() => {
+          console.log('SignalR connection closed successfully.');
+          this.hubConnection = null;
+          this.followingsObservable.next({ type: 'Disconnect', data: null });
+        })
+        .catch((error) => {
+          console.error('Error closing SignalR connection:', error);
+        });
+    }
   }
 
   //   public registerUserConnectedHandler(handler: (connectionId: string) => void): void {
@@ -109,7 +136,7 @@ export class SignalRService {
 
   public onReceiveMessage = () => {
     this.hubConnection.on('OnReceiveMessage', (message) => {
-      this.message$.next({type: 'OnReceiveMessage', data: message});
+      this.message$.next({ type: 'OnReceiveMessage', data: message });
     });
   };
 

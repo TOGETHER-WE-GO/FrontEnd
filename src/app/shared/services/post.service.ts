@@ -35,6 +35,22 @@ export class PostService extends BaseService {
       .post<string>(`${environment.postUrl}/api/posts`, data);
   }
 
+  deletePost(postId: string) {
+    return this.http
+      .delete<boolean>(
+        `${environment.postUrl}/api/posts/remove/${postId}`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: boolean) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   searchTripPlan(city: string, startDate: Date, endDate: Date) {
     let params = new HttpParams().set('city', city).set('startDate', startDate.toString()).set('endDate', endDate.toString());
 
@@ -80,11 +96,24 @@ export class PostService extends BaseService {
 
   createTripPlan(data: TripPlanCreate) {
     return this.http
-      .post(`${environment.postUrl}/api/tripplans`, data, {
-        reportProgress: true,
-        observe: 'events',
-      })
+      .post(`${environment.postUrl}/api/tripplans`, data)
       .pipe(catchError(this.handleError));
+  }
+
+  deleteTripPan(tripPlanId: string) {
+    return this.http
+      .delete<boolean>(
+        `${environment.postUrl}/api/tripplans/remove/${tripPlanId}`,
+        {
+          headers: this._sharedHeaders,
+        }
+      )
+      .pipe(
+        map((response: boolean) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   uploadImage(file: Blob) {

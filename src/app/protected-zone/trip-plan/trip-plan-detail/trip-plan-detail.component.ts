@@ -19,6 +19,7 @@ import {
   TokenStorageService,
   ChatGroupService,
   PostService,
+  UINotificationService,
 } from '../../../shared/services';
 @Component({
   selector: 'app-trip-plan-detail',
@@ -69,6 +70,7 @@ export class TripPlanDetailComponent implements OnInit {
     private tokenService: TokenStorageService,
     private chatGroupService: ChatGroupService,
     private postService: PostService,
+    private uiNotificationService: UINotificationService,
     public bsModalRef: BsModalRef
   ) {}
 
@@ -185,5 +187,21 @@ export class TripPlanDetailComponent implements OnInit {
 
   isPanelActive(id: number) {
     return this.activePanel === id;
+  }
+
+  delete(tripPlanId: string)
+  {
+    this.subscription.add(this.postService.deleteTripPan(tripPlanId).subscribe((response: boolean) =>{
+      if(response)
+      {
+        this.uiNotificationService.showSuccess('Delete TripPlan Successfully !');
+        this.bsModalRef.hide();
+      }
+      else
+        this.uiNotificationService.showError('Delete TripPlan Failed !');
+    },
+    (error) => {
+      this.uiNotificationService.showError('Delete TripPlan Failed !');
+    }))
   }
 }

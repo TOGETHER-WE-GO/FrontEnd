@@ -16,7 +16,7 @@ import {
   Token,
 } from 'src/app/shared/models';
 import { Post } from 'src/app/shared/models/posts/post.model';
-import { PostService, TokenStorageService } from 'src/app/shared/services';
+import { PostService, TokenStorageService, UINotificationService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-newsfeed-detail',
@@ -64,7 +64,8 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
     public router: Router,
     private tokenService: TokenStorageService,
     private postService: PostService,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    private uiNotificationService: UINotificationService
   ) {}
 
   ngOnInit(): void {
@@ -175,5 +176,24 @@ export class NewsfeedDetailComponent implements OnInit, OnDestroy {
 
   onCancel(index: number) {
     this.replyAction[index] = false;
+  }
+
+  delete(postId: string) {
+    this.subscription.add(
+      this.postService.deletePost(postId).subscribe(
+        (response: boolean) => {
+          if (response) {
+            this.uiNotificationService.showSuccess(
+              'Delete TripPlan Successfully !'
+            );
+            this.bsModalRef.hide();
+          } else
+            this.uiNotificationService.showError('Delete TripPlan Failed !');
+        },
+        (error) => {
+          this.uiNotificationService.showError('Delete TripPlan Failed !');
+        }
+      )
+    );
   }
 }

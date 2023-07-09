@@ -36,7 +36,7 @@
 
         <!-- Article title and description -->
         <a href="javascript:void(0);">
-          <h5>This is title of the news</h5>
+          <h5>{{ tripPlanDetail.title }}</h5>
         </a>
         <p [innerHtml]="tripPlanDetail.note"></p>
 
@@ -115,7 +115,14 @@
           <div class="px-4 d-none d-md-block">
             <div class="d-flex align-items-center">
               <div class="flex-grow-1 mt-3 mb-3">
-                <button type="button" class="btn btn-outline-danger" (click)="onLeaveChat()"><i class="fa fa-arrow-circle-left mr-2" aria-hidden="true"></i>Leave Chat</button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  (click)="onLeaveChat()"
+                >
+                  <i class="fa fa-arrow-circle-left mr-2" aria-hidden="true"></i
+                  >Leave Chat
+                </button>
               </div>
             </div>
           </div>
@@ -143,7 +150,7 @@
               </div>
             </div>
           </a>
-          
+
           <div *ngFor="let member of chatGroup?.members">
             <a
               href="javascript:void(0)"
@@ -271,5 +278,17 @@
         </div>
       </div>
     </div>
-  </mat-tab></mat-tab-group
->
+  </mat-tab>
+  <mat-tab disabled *ngIf="user.nameid == tripPlanDetail.userId">
+    <ng-template mat-tab-label>
+      <a
+        href="javascript:void(0);"
+        style="font-weight: bolder"
+        mat-icon-button
+        (click)="delete(tripPlanDetail.id)"
+      >
+        Delete
+      </a>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -7,6 +7,7 @@ import {
 } from 'src/app/shared/services';
 import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { Subscription } from 'rxjs';
+import { RemoveFollowRequestEvent } from 'src/app/shared/_helpers/constant';
 
 @Component({
   selector: 'app-activeuser',
@@ -63,7 +64,9 @@ export class ActiveuserComponent implements OnInit, OnDestroy {
     );
 
     this.signalRService.followingsObservable.subscribe((event) => {
-      if (event.type === 'OnLogin' || event.type === 'OnLogout') {
+      if (event.type == 'Disconnect' && event.data == null) {
+        this.followings = [];
+      } else if (event.type === 'OnLogin' || event.type === 'OnLogout') {
         if (event.type === 'OnLogin') this.followings.push(event.data);
         else {
           const indexOfObject = this.followings.findIndex((object) => {
@@ -74,8 +77,15 @@ export class ActiveuserComponent implements OnInit, OnDestroy {
             this.followings.splice(indexOfObject, 1);
           }
         }
-        this.signalRService.followingsObservable.next({type: '', data: null})
-      }
+      } 
+      // else if (event.type === 'OnEvent') {
+      //   if (event.data.title == RemoveFollowRequestEvent) {
+      //     const index = this.followings.indexOf(event.data.fromUserId, 0);
+      //     if (index > -1) {
+      //       this.followings.splice(index, 1);
+      //     }
+      //   }
+      // }
     });
   }
 

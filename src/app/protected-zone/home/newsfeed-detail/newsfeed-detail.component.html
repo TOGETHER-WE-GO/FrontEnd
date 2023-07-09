@@ -12,261 +12,295 @@
 >
   <span aria-hidden="true">&times;</span>
 </button>
-
-<section id="blog" class="section-100">
-  <div class="container">
-    <div class="col-md-12">
-      <div>
-        <!-- Featured image -->
-        <div
-          class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4 d-flex justify-content-center"
-          style="height: 50vh"
-          data-mdb-ripple-color="light"
-        >
-          <img src="{{ post.displayImage?.imageUrl }}" class="img-fluid" />
-          <a href="#!">
-            <div
-              class="mask"
-              style="background-color: rgba(251, 251, 251, 0.15)"
-            ></div>
-          </a>
-        </div>
-
-        <!-- Article data -->
-        <div class="row mb-3">
-          <div class="col-6">
-            <a href="" class="text-info">
-              <i class="fas fa-plane"></i>
-              Travels
-            </a>
-          </div>
-        </div>
-
-        <!-- Article title and description -->
-        <a class="text-dark">
-          <p [innerHTML]="post.caption"></p>
-        </a>
-
-        <hr />
-      </div>
-
-      <!-- itinerary -->
-      <section id="itinerary">
-        <div class="accordion" id="accordionStayOpen">
-          <div
-            class="accordion-item"
-            *ngFor="let item of post.itineraries; let i = index"
-          >
-            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-              <button
-                #acbtn
-                (click)="togglePanel(i)"
-                class="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#alwaysOpenOne"
-              >
-                {{ item.title }}
-                <br />
-                {{ item.startDate | date : "mediumDate" : "local" }} -
-                {{ item.endDate | date : "mediumDate" : "local" }}
-              </button>
-            </h2>
-            <div
-              #content
-              [style.max-height.px]="
-                isPanelActive(i) ? content.scrollHeight : 0
-              "
-              id="alwaysOpenOne"
-              class="accordion-collapse animation"
-            >
-              <div class="accordion-body">
-                <p>
-                  {{ item.description }}
-                </p>
-              </div>
-
-              <owl-carousel-o [options]="customOptions">
-                <ng-template carouselSlide *ngFor="let place of item.places">
-                  <div class="place-thumbnnail">
-                    <img src="{{ place.images[0] }}" class="mr-3" />
-                    {{ place.name }}
-                  </div>
-                </ng-template>
-              </owl-carousel-o>
-
-              <br>
-
-              <owl-carousel-o [options]="customOptions">
-                <ng-template
-                  carouselSlide
-                  *ngFor="let item of item.images"
-                  style="width: 100px"
-                >
-                  <img class="img-thumnal" src="{{ item.imageUrl }}" />
-                </ng-template>
-              </owl-carousel-o>
-            </div>
-          </div>
-        </div>
-      </section>
-      <hr />
-      <!-- write comment -->
-      <section id="comment">
-        <div class="d-flex mb-3 card-write-comment">
-          <a href="">
-            <img
-              src="{{ loginUser.avatar }}"
-              class="border rounded-circle me-2"
-              alt="Avatar"
-              style="height: 45px"
-            />
-          </a>
-          <div class="form-outline w-100">
-            <textarea class="form-control" #textAreaComment rows="2"></textarea>
-            <a
-              href="javascript:void(0);"
-              class="form-label"
-              for="textAreaExample"
-              (click)="onWriteComment()"
-              >Write a comment</a
-            >
-          </div>
-        </div>
-
-        <!-- comments -->
-
+<mat-tab-group>
+  <mat-tab label="Post Content">
+    <section id="blog" class="section-100">
+      <div class="container">
         <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-12">
+          <div>
+            <!-- Featured image -->
+            <div
+              class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4 d-flex justify-content-center"
+              style="height: 50vh"
+              data-mdb-ripple-color="light"
+            >
+              <img src="{{ post.displayImage?.imageUrl }}" class="img-fluid" />
+              <a href="#!">
+                <div
+                  class="mask"
+                  style="background-color: rgba(251, 251, 251, 0.15)"
+                ></div>
+              </a>
+            </div>
+
+            <!-- Article data -->
+            <div class="row mb-3">
+              <div class="col-6">
+                <a href="" class="text-info">
+                  <i class="fas fa-plane"></i>
+                  Travels
+                </a>
+              </div>
+            </div>
+
+            <!-- Article title and description -->
+            <a class="text-dark">
+              <p [innerHTML]="post.caption"></p>
+            </a>
+
+            <hr />
+          </div>
+
+          <!-- itinerary -->
+          <section id="itinerary">
+            <div class="accordion" id="accordionStayOpen">
               <div
-                class="media"
-                *ngFor="let comment of comments; let i = index"
+                class="accordion-item"
+                *ngFor="let item of post.itineraries; let i = index"
               >
-                <img
-                  class="mr-3 rounded-circle"
-                  alt="Bootstrap Media Preview"
-                  src="{{ comment.userAvatar }}"
-                />
-                <div class="media-body">
-                  <div class="row bg-light">
-                    <div class="col-8 d-flex">
-                      <a
-                        (click)="onUserNameClick(comment.userId)"
-                        class="text-dark mb-0"
-                        style="cursor: pointer"
-                      >
-                        <strong>{{ comment.userName }}</strong>
-                      </a>
-
-                      <span
-                        >-
-                        {{ comment.createdAt | date : "short" : "local" }}</span
-                      >
-                    </div>
-
-                    <div class="col-4">
-                      <div class="pull-right reply">
-                        <a
-                          href="javascript:void(0);"
-                          (click)="onReplyClick(i)"
-                          class="mr-4"
-                          ><span><i class="fa fa-reply"></i> reply</span></a
-                        >
-                        <a *ngIf="loginUser.nameid == comment.userId"
-                          href="javascript:void(0);"
-                          (click)="onRemoveCommentClick(i, comment)"
-                          ><span><i class="fa fa-trash"></i> remove </span></a
-                        >
-                      </div>
-                    </div>
-                    <div class="col-12 d-flex text-muted d-block">
-                      {{ comment.message }}
-                    </div>
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button
+                    #acbtn
+                    (click)="togglePanel(i)"
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#alwaysOpenOne"
+                  >
+                    {{ item.title }}
+                    <br />
+                    {{ item.startDate | date : "mediumDate" : "local" }} -
+                    {{ item.endDate | date : "mediumDate" : "local" }}
+                  </button>
+                </h2>
+                <div
+                  #content
+                  [style.max-height.px]="
+                    isPanelActive(i) ? content.scrollHeight : 0
+                  "
+                  id="alwaysOpenOne"
+                  class="accordion-collapse animation"
+                >
+                  <div class="accordion-body">
+                    <p [innerHTML]="item.description"></p>
                   </div>
 
+                  <owl-carousel-o [options]="customOptions">
+                    <ng-template
+                      carouselSlide
+                      *ngFor="let place of item.places"
+                    >
+                      <div class="place-thumbnnail">
+                        <a
+                          href="javascript:void(0)"
+                          routerLink="/contents/explores-detail/{{ place.id }}"
+                          [routerLinkActive]="['router-link-active']"
+                        >
+                          <img src="{{ place.images[0] }}" class="mr-3" />
+                        </a>
+                        {{ place.name }}
+                      </div>
+                    </ng-template>
+                  </owl-carousel-o>
+
+                  <br />
+
+                  <owl-carousel-o [options]="customOptions">
+                    <ng-template
+                      carouselSlide
+                      *ngFor="let item of item.images"
+                      style="width: 100px"
+                    >
+                      <img class="img-thumnal" src="{{ item.imageUrl }}" />
+                    </ng-template>
+                  </owl-carousel-o>
+                </div>
+              </div>
+            </div>
+          </section>
+          <hr />
+          <!-- write comment -->
+          <section id="comment">
+            <div class="d-flex mb-3 card-write-comment">
+              <a href="">
+                <img
+                  src="{{ loginUser.avatar }}"
+                  class="border rounded-circle me-2"
+                  alt="Avatar"
+                  style="height: 45px"
+                />
+              </a>
+              <div class="form-outline w-100">
+                <textarea
+                  class="form-control"
+                  #textAreaComment
+                  rows="2"
+                ></textarea>
+                <a
+                  href="javascript:void(0);"
+                  class="form-label"
+                  for="textAreaExample"
+                  (click)="onWriteComment()"
+                  >Write a comment</a
+                >
+              </div>
+            </div>
+
+            <!-- comments -->
+
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
                   <div
-                    class="media mt-4"
-                    *ngFor="let reply of comment.replies; let irep = index"
+                    class="media"
+                    *ngFor="let comment of comments; let i = index"
                   >
-                    <a class="pr-3" href="javascript:void(0);"
-                      ><img
-                        class="rounded-circle"
-                        alt="Bootstrap Media Another Preview"
-                        src="{{ reply.userAvatar }}"
-                    /></a>
+                    <img
+                      class="mr-3 rounded-circle"
+                      alt="Bootstrap Media Preview"
+                      src="{{ comment.userAvatar }}"
+                    />
                     <div class="media-body">
                       <div class="row bg-light">
-                        <div class="col-12 d-flex">
+                        <div class="col-8 d-flex">
                           <a
-                            (click)="onUserNameClick(reply.userId)"
+                            (click)="onUserNameClick(comment.userId)"
                             class="text-dark mb-0"
                             style="cursor: pointer"
                           >
-                            <strong>{{ reply.userName }}</strong>
+                            <strong>{{ comment.userName }}</strong>
                           </a>
 
                           <span
                             >-
                             {{
-                              reply.createdAt | date : "short" : "local"
+                              comment.createdAt | date : "short" : "local"
                             }}</span
                           >
-                          <a *ngIf="loginUser.nameid == reply.userId"
-                            href="javascript:void(0);"
-                            (click)="onRemoveReplyClick(irep, reply, comment)"
-                            class="ml-3"
-                            ><span> remove </span></a
-                          >
+                        </div>
+
+                        <div class="col-4">
+                          <div class="pull-right reply">
+                            <a
+                              href="javascript:void(0);"
+                              (click)="onReplyClick(i)"
+                              class="mr-4"
+                              ><span><i class="fa fa-reply"></i> reply</span></a
+                            >
+                            <a
+                              *ngIf="loginUser.nameid == comment.userId"
+                              href="javascript:void(0);"
+                              (click)="onRemoveCommentClick(i, comment)"
+                              ><span
+                                ><i class="fa fa-trash"></i> remove
+                              </span></a
+                            >
+                          </div>
                         </div>
                         <div class="col-12 d-flex text-muted d-block">
-                          {{ reply.message }}
+                          {{ comment.message }}
                         </div>
                       </div>
+
+                      <div
+                        class="media mt-4"
+                        *ngFor="let reply of comment.replies; let irep = index"
+                      >
+                        <a class="pr-3" href="javascript:void(0);"
+                          ><img
+                            class="rounded-circle"
+                            alt="Bootstrap Media Another Preview"
+                            src="{{ reply.userAvatar }}"
+                        /></a>
+                        <div class="media-body">
+                          <div class="row bg-light">
+                            <div class="col-12 d-flex">
+                              <a
+                                (click)="onUserNameClick(reply.userId)"
+                                class="text-dark mb-0"
+                                style="cursor: pointer"
+                              >
+                                <strong>{{ reply.userName }}</strong>
+                              </a>
+
+                              <span
+                                >-
+                                {{
+                                  reply.createdAt | date : "short" : "local"
+                                }}</span
+                              >
+                              <a
+                                *ngIf="loginUser.nameid == reply.userId"
+                                href="javascript:void(0);"
+                                (click)="
+                                  onRemoveReplyClick(irep, reply, comment)
+                                "
+                                class="ml-3"
+                                ><span> remove </span></a
+                              >
+                            </div>
+                            <div class="col-12 d-flex text-muted d-block">
+                              {{ reply.message }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- write reply section -->
+
+                      <section id="write-reply">
+                        <div
+                          class="d-flex mb-3 mt-3 card-write-comment"
+                          *ngIf="replyAction[i] == true"
+                        >
+                          <a class="pr-3" href="javascript:void(0);"
+                            ><img
+                              class="rounded-circle"
+                              alt="Bootstrap Media Another Preview"
+                              src="{{ loginUser.avatar }}"
+                          /></a>
+                          <div class="form-outline w-100">
+                            <textarea
+                              class="form-control"
+                              [(ngModel)]="replyInputs[i]"
+                              rows="2"
+                            ></textarea>
+                            <a
+                              href="javascript:void(0);"
+                              class="form-label mr-2"
+                              (click)="onSaveReply(i, comment)"
+                              >Save</a
+                            >
+
+                            <a
+                              href="javascript:void(0);"
+                              class="form-label"
+                              (click)="onCancel(i)"
+                              >Cancel</a
+                            >
+                          </div>
+                        </div>
+                      </section>
                     </div>
                   </div>
-
-                  <!-- write reply section -->
-
-                  <section id="write-reply">
-                    <div
-                      class="d-flex mb-3 mt-3 card-write-comment"
-                      *ngIf="replyAction[i] == true"
-                    >
-                      <a class="pr-3" href="javascript:void(0);"
-                        ><img
-                          class="rounded-circle"
-                          alt="Bootstrap Media Another Preview"
-                          src="{{ loginUser.avatar }}"
-                      /></a>
-                      <div class="form-outline w-100">
-                        <textarea
-                          class="form-control"
-                          [(ngModel)]="replyInputs[i]"
-                          rows="2"
-                        ></textarea>
-                        <a
-                          href="javascript:void(0);"
-                          class="form-label mr-2"
-                          (click)="onSaveReply(i, comment)"
-                          >Save</a
-                        >
-
-                        <a
-                          href="javascript:void(0);"
-                          class="form-label"
-                          (click)="onCancel(i)"
-                          >Cancel</a
-                        >
-                      </div>
-                    </div>
-                  </section>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
-    </div>
-  </div>
-</section>
+      </div>
+    </section>
+  </mat-tab>
+  <mat-tab disabled *ngIf="post.userId == loginUser.nameid">
+    <ng-template mat-tab-label>
+      <a
+        href="javascript:void(0);"
+        style="font-weight: bolder"
+        mat-icon-button
+        (click)="delete(postId)"
+      >
+        Delete
+      </a>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

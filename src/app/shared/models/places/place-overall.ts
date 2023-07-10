@@ -11,7 +11,7 @@ export interface PlaceOverall{
     travelTypes: PlaceFeatureType[] | null,
     avgRating: number,
     avgView: number,
-    avgTag: number,
+    avgRefer: number,
     location:string,
     distance: number
 }

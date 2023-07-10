@@ -60,8 +60,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.userService
           .updateUserProfile(this.userId, formValue)
           .subscribe((response: User) => {
-            this.userService.isChangeProfile$.next(true);
             this.tokenService.updateUserInfo('', response.userName);
+            this.userService.isChangeProfile$.next(true);
             this.bsModalRef.hide();
           })
       );

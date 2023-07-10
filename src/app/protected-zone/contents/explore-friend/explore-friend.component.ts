@@ -55,7 +55,11 @@ export class ExploreFriendComponent implements OnInit, OnDestroy {
     );
   }
 
-  pageChanged(event: any) {}
+  pageChanged(event: any) {
+    this.pageIndex = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchData();
+  }
 
   navigateToProfile(userId: string) {
     this.router.navigate([`/profiles/${userId}`]);
